@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Private planning docs (local only)
+docs-private/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
