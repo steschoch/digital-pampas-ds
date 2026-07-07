@@ -1,0 +1,58 @@
+/* ── PageHeader ───────────────────────────────────────────────────
+   Layer 3 — uses semantic tokens directly (pure layout, no themable knobs). */
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--dp-space-200);
+  flex-wrap: wrap;
+  margin-bottom: var(--dp-space-300);
+}
+
+.titles {
+  min-width: 0;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--dp-space-100);
+  font-family: var(--dp-sem-font-code);
+  font-size: var(--dp-font-size-50);
+  letter-spacing: var(--dp-sem-tracking-caps);
+  text-transform: uppercase;
+  color: var(--dp-color-on-surface-variant);
+  margin-bottom: var(--dp-space-75);
+}
+
+.title {
+  font-family: var(--dp-sem-font-display);
+  font-weight: var(--dp-font-weight-semibold);
+  font-size: var(--dp-font-size-500);
+  line-height: var(--dp-sem-leading-display);
+  color: var(--dp-color-on-surface);
+  margin: 0;
+}
+
+.subtitle {
+  color: var(--dp-color-on-surface-variant);
+  margin-top: var(--dp-space-75);
+}
+
+.sync {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dp-space-75);
+  font-family: var(--dp-sem-font-code);
+  font-size: var(--dp-font-size-62);
+  color: var(--dp-color-on-surface-variant);
+  white-space: nowrap;
+}
+
+.syncDot {
+  width: var(--dp-space-37);
+  height: var(--dp-space-37);
+  border-radius: var(--dp-sem-radius-circle);
+  background: var(--dp-color-success);
+}

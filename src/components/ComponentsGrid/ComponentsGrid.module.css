@@ -1,0 +1,157 @@
+/* ─── Local tokens ───────────────────────────────────────────────── */
+.grid {
+  --cg-surface:       var(--dp-color-surface);
+  --cg-canvas:        var(--dp-color-surface-container-low);
+  --cg-border:        var(--dp-color-outline-variant);
+  --cg-text:          var(--dp-color-on-surface);
+  --cg-muted:         var(--dp-color-on-surface-variant);
+  --cg-primary:       var(--dp-color-primary);
+  --cg-secondary:     var(--dp-color-secondary);
+  --cg-tertiary:      var(--dp-color-tertiary);
+  --cg-radius:        var(--dp-sem-radius-card);
+  --cg-radius-sm:     var(--dp-sem-radius-card-sm);
+  --cg-motion:        var(--dp-sem-motion-interactive);
+}
+
+/* ─── Grid ───────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* ─── Card ───────────────────────────────────────────────────────── */
+.card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--cg-border);
+  border-radius: var(--cg-radius);
+  overflow: hidden;
+  text-decoration: none;
+  background: var(--cg-surface);
+  transition:
+    border-color var(--cg-motion),
+    box-shadow   var(--cg-motion),
+    transform    var(--cg-motion);
+}
+
+.card:hover {
+  border-color: var(--cg-primary);
+  box-shadow: 0 0 0 1px var(--cg-primary),
+              0 8px 24px color-mix(in srgb, var(--cg-primary) 12%, transparent);
+  transform: translateY(-2px);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--cg-primary);
+  outline-offset: 2px;
+  border-color: var(--cg-primary);
+}
+
+/* ─── Preview area ───────────────────────────────────────────────── */
+.previewWrap {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+  background: var(--cg-canvas);
+}
+
+/* Scale the content down — centered horizontally */
+.previewScale {
+  transform: scale(0.5);
+  transform-origin: top center;
+  width: 200%;
+  margin-left: -50%;
+  padding: 20px;
+  pointer-events: none;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+}
+
+/* Gradient fade — hides the bottom edge of clipped content */
+.previewFade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 40%,
+    color-mix(in srgb, var(--cg-canvas) 85%, transparent) 75%,
+    var(--cg-canvas) 100%
+  );
+}
+
+/* ─── Info area ──────────────────────────────────────────────────── */
+.info {
+  padding: 16px;
+  border-top: 1px solid var(--cg-border);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+/* ─── Category badge ─────────────────────────────────────────────── */
+.cat {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-family: var(--dp-sem-font-code);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.catAtomic {
+  background: color-mix(in srgb, var(--cg-primary) 12%, transparent);
+  color: var(--cg-primary);
+}
+
+.catLayout {
+  background: color-mix(in srgb, var(--cg-secondary) 12%, transparent);
+  color: var(--cg-secondary);
+}
+
+.catPattern {
+  background: color-mix(in srgb, var(--cg-tertiary) 12%, transparent);
+  color: var(--cg-tertiary);
+}
+
+/* ─── Name ───────────────────────────────────────────────────────── */
+.name {
+  margin: 0;
+  font-family: var(--dp-sem-font-display);
+  font-size: var(--dp-font-size-112);
+  font-weight: 700;
+  color: var(--cg-text);
+  line-height: 1.2;
+}
+
+/* ─── Description ────────────────────────────────────────────────── */
+.desc {
+  margin: 0;
+  font-family: var(--dp-sem-font-body);
+  font-size: var(--dp-font-size-56);
+  color: var(--cg-muted);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,48 @@
+/* AnimatedSection — scroll-triggered entrance using DS motion tokens. */
+
+.animated {
+  /* All animations share the page transition curve (600ms ease-out). */
+  transition:
+    opacity var(--dp-transition-page),
+    transform var(--dp-transition-page);
+  will-change: opacity, transform;
+}
+
+/* ── Starting states (before .visible) ──────────────────────── */
+
+/* --dp-space-200 = 24px (the 24px step in the DS spacing scale). */
+.fade-up {
+  opacity: 0;
+  transform: translateY(var(--dp-space-200));
+}
+
+.fade-in {
+  opacity: 0;
+}
+
+.slide-left {
+  opacity: 0;
+  transform: translateX(calc(-1 * var(--dp-space-200)));
+}
+
+.slide-right {
+  opacity: 0;
+  transform: translateX(var(--dp-space-200));
+}
+
+/* ── Visible (final) state ──────────────────────────────────── */
+
+.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Reduced motion — show immediately, no transition ───────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .animated {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}

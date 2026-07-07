@@ -1,0 +1,162 @@
+/* ── WhatWeDontDo ──────────────────────────────────────────────────
+   Layer 3 — component tokens point to the semantic tokens in globals.css.
+   Consume only var(--wwdd-*) below; variants/states just reassign tokens. */
+
+.section {
+  --wwdd-bg:                var(--dp-color-surface);
+  --wwdd-eyebrow:           var(--dp-color-on-surface-variant);
+  --wwdd-heading:           var(--dp-color-on-surface);
+  --wwdd-card-bg:           var(--dp-color-surface-container-low);
+  --wwdd-card-border:       var(--dp-color-outline-variant);
+  --wwdd-card-border-hover: var(--dp-color-outline);
+  --wwdd-num:               var(--dp-color-on-surface-variant);
+  --wwdd-title:             var(--dp-color-secondary);
+  --wwdd-body:              var(--dp-color-on-surface-variant);
+  --wwdd-radius:            var(--dp-sem-radius-card);
+  --wwdd-shadow:            var(--dp-sem-shadow-card);
+  --wwdd-shadow-hover:      var(--dp-sem-shadow-card-hover);
+  --wwdd-motion:            var(--dp-sem-motion-component);
+
+  background-color: var(--wwdd-bg);
+  padding-block: var(--dp-space-800);
+}
+
+.container {
+  max-width: var(--dp-grid-max-width);
+  margin-inline: auto;
+  padding-inline: 120px;
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+
+.eyebrow {
+  margin: 0 0 var(--dp-space-75);
+  font-family: var(--dp-sem-font-code);
+  font-size: var(--dp-font-size-50);
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--wwdd-eyebrow);
+}
+
+.h2 {
+  margin: 0 0 var(--dp-space-500);
+  font-family: var(--dp-sem-font-display);
+  font-size: var(--dp-font-size-400);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--wwdd-heading);
+}
+
+/* ── 2×2 Grid ────────────────────────────────────────────── */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--dp-space-150);
+  align-items: stretch;
+}
+
+.cardWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Card ────────────────────────────────────────────────── */
+
+.card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--dp-space-300);
+  background-color: var(--wwdd-card-bg);
+  border: var(--dp-sem-stroke-border) solid var(--wwdd-card-border);
+  border-radius: var(--wwdd-radius);
+  box-shadow: var(--wwdd-shadow);
+  transition:
+    transform    var(--wwdd-motion),
+    box-shadow   var(--wwdd-motion),
+    border-color var(--wwdd-motion);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--wwdd-shadow-hover);
+  border-color: var(--wwdd-card-border-hover);
+}
+
+/* ── Card internals ──────────────────────────────────────── */
+
+.num {
+  display: block;
+  margin-bottom: var(--dp-space-100);
+  font-family: var(--dp-sem-font-code);
+  font-size: var(--dp-font-size-56);
+  font-weight: 500;
+  color: var(--wwdd-num);
+  opacity: 0.5;
+  user-select: none;
+}
+
+.cardTitle {
+  margin: 0 0 var(--dp-space-75);
+  font-family: var(--dp-sem-font-display);
+  font-size: var(--dp-font-size-137);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--wwdd-title);
+}
+
+.cardBody {
+  margin: 0;
+  font-family: var(--dp-sem-font-body);
+  font-size: var(--dp-font-size-62);
+  line-height: 1.65;
+  color: var(--wwdd-body);
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .container {
+    padding-inline: var(--dp-space-500);
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding-block: var(--dp-space-600);
+  }
+
+  .container {
+    padding-inline: var(--dp-space-200);
+  }
+
+  .h2 {
+    font-size: var(--dp-font-size-300);
+    margin-bottom: var(--dp-space-300);
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--dp-space-100);
+  }
+
+  .card {
+    padding: var(--dp-space-200);
+  }
+}
+
+/* ── Reduced motion ──────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+
+  .card:hover {
+    transform: none;
+    box-shadow: var(--wwdd-shadow);
+  }
+}

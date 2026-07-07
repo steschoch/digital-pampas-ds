@@ -1,0 +1,62 @@
+/* ── Tabs ─────────────────────────────────────────────────────────
+   Layer 3 — component tokens → semantic tokens in globals.css. */
+
+.tablist {
+  --tabs-fg:        var(--dp-color-on-surface-variant);
+  --tabs-fg-active: var(--dp-color-on-surface);
+  --tabs-accent:    var(--dp-color-primary);
+  --tabs-border:    var(--dp-color-outline-variant);
+  --tabs-count-bg:  var(--dp-color-surface-container);
+
+  display: flex;
+  gap: var(--dp-space-100);
+  border-bottom: var(--dp-sem-stroke-border) solid var(--tabs-border);
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dp-space-50);
+  padding: var(--dp-space-75) var(--dp-space-50);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  cursor: pointer;
+  color: var(--tabs-fg);
+  font-family: var(--dp-sem-font-body);
+  font-size: var(--dp-font-size-62);
+  font-weight: var(--dp-font-weight-medium);
+  transition:
+    color var(--dp-sem-motion-interactive),
+    border-color var(--dp-sem-motion-interactive);
+}
+
+.tab:hover {
+  color: var(--tabs-fg-active);
+}
+
+.tabActive {
+  color: var(--tabs-accent);
+  border-bottom-color: var(--tabs-accent);
+}
+
+.tab:focus-visible {
+  outline: var(--dp-sem-stroke-focus) solid var(--dp-color-primary);
+  outline-offset: var(--dp-focus-offset);
+  border-radius: var(--dp-sem-radius-chip);
+}
+
+.count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 18px;
+  padding: 0 var(--dp-space-50);
+  border-radius: var(--dp-sem-radius-pill);
+  background: var(--tabs-count-bg);
+  font-family: var(--dp-sem-font-code);
+  font-size: var(--dp-font-size-25);
+  font-weight: var(--dp-font-weight-semibold);
+}

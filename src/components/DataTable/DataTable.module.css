@@ -1,0 +1,91 @@
+/* ── DataTable ────────────────────────────────────────────────────
+   Layer 3 — component tokens → semantic tokens in globals.css. */
+
+.wrap {
+  --dt-border:  var(--dp-color-outline-variant);
+  --dt-head:    var(--dp-color-on-surface-variant);
+  --dt-fg:      var(--dp-color-on-surface);
+  --dt-hover:   color-mix(in srgb, var(--dp-color-on-surface) 5%, transparent);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--dp-space-50);
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--dp-sem-font-body);
+}
+
+.th {
+  padding: var(--dp-space-75) var(--dp-space-100);
+  text-align: left;
+  border-bottom: var(--dp-sem-stroke-border) solid var(--dt-border);
+  font-family: var(--dp-sem-font-code);
+  font-size: var(--dp-font-size-25);
+  font-weight: var(--dp-font-weight-semibold);
+  letter-spacing: var(--dp-sem-tracking-caps);
+  text-transform: uppercase;
+  color: var(--dt-head);
+  white-space: nowrap;
+}
+
+.sortBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dp-space-50);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+
+.sortIcon { opacity: 0.6; }
+
+.td {
+  padding: var(--dp-space-100);
+  border-bottom: var(--dp-sem-stroke-divider) solid var(--dt-border);
+  font-size: var(--dp-font-size-56);
+  color: var(--dt-fg);
+}
+
+.rowClickable { cursor: pointer; transition: background-color var(--dp-sem-motion-interactive); }
+.rowClickable:hover { background: var(--dt-hover); }
+.rowClickable:focus-visible {
+  outline: var(--dp-sem-stroke-focus) solid var(--dp-color-primary);
+  outline-offset: -2px;
+}
+
+/* Mobile: stack rows into cards */
+@media (max-width: 640px) {
+  .table, .table tbody, .table tr, .table td { display: block; width: 100%; }
+  .table thead { display: none; }
+  .table tr {
+    margin-bottom: var(--dp-space-100);
+    border: var(--dp-sem-stroke-border) solid var(--dt-border);
+    border-radius: var(--dp-sem-radius-card-sm);
+    padding: var(--dp-space-75);
+  }
+  .td {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--dp-space-100);
+    border-bottom: none;
+    text-align: right !important;
+  }
+  .td::before {
+    content: attr(data-label);
+    font-family: var(--dp-sem-font-code);
+    font-size: var(--dp-font-size-25);
+    text-transform: uppercase;
+    letter-spacing: var(--dp-sem-tracking-caps);
+    color: var(--dt-head);
+    text-align: left;
+  }
+}

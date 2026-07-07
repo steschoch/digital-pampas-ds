@@ -1,0 +1,68 @@
+/* Badge — Layer 3 tokens declared and consumed here */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--dp-space-25);
+  padding: var(--dp-space-25) var(--dp-space-75);
+  border-radius: var(--dp-sem-radius-chip);
+  font-family: var(--dp-sem-font-label);
+  font-size: var(--dp-font-size-50);
+  font-weight: var(--dp-font-weight-semibold);
+  letter-spacing: var(--dp-sem-tracking-caps);
+  line-height: var(--dp-sem-leading-ui);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ── Variants — auto dark-aware (container tokens change with theme) ── */
+.primary {
+  background-color: var(--dp-color-primary-container);
+  color: var(--dp-color-on-primary-container);
+}
+.secondary {
+  background-color: var(--dp-color-secondary-container);
+  color: var(--dp-color-on-secondary-container);
+}
+.tertiary {
+  background-color: var(--dp-color-tertiary-container);
+  color: var(--dp-color-on-tertiary-container);
+}
+.error {
+  background-color: var(--dp-color-error-container);
+  color: var(--dp-color-on-error-container);
+}
+.neutral {
+  background-color: var(--dp-color-surface-container-high);
+  color: var(--dp-color-on-surface-variant);
+}
+
+/* ── Variants — need explicit dark mode overrides ── */
+.coral {
+  background-color: var(--dp-color-support-coral-container);
+  color: var(--dp-color-on-support-coral-container);
+}
+/* Success/Warning use the SEMANTIC status roles — they flip dark/light on their own. */
+.success {
+  background-color: var(--dp-color-success-container);
+  color: var(--dp-color-on-success-container);
+}
+.warning {
+  background-color: var(--dp-color-warning-container);
+  color: var(--dp-color-on-warning-container);
+}
+
+/* Dark mode override for coral (primitive color, doesn't auto-flip) */
+:root[data-color-scheme="dark"] .coral {
+  background-color: var(--dp-color-coral-900);
+  color: var(--dp-color-coral-100);
+}
+
+/* System dark mode fallback for coral (when data-color-scheme is not set explicitly) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-color-scheme="light"]) .coral {
+    background-color: var(--dp-color-coral-900);
+    color: var(--dp-color-coral-100);
+  }
+}

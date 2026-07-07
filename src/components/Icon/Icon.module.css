@@ -1,0 +1,4 @@
+.icon {
+  color: var(--dp-sem-icon-color);
+  flex-shrink: 0;
+}

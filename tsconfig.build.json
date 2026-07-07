@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "incremental": false,
+    "composite": false,
+    "tsBuildInfoFile": null
+  },
+  "include": ["src/index.ts", "src/components"],
+  "exclude": ["src/components/ComponentViewer", "src/components/ComponentsGrid"]
+}

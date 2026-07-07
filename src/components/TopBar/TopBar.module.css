@@ -1,0 +1,53 @@
+/* ── TopBar ───────────────────────────────────────────────────────
+   Layer 3 — component tokens → semantic tokens in globals.css. */
+
+.topbar {
+  --tb-bg:     var(--dp-color-surface);
+  --tb-border: var(--dp-color-outline-variant);
+  --tb-fg:     var(--dp-color-on-surface-variant);
+
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--dp-space-150);
+  height: var(--dp-nav-height);
+  padding-inline: var(--dp-space-200);
+  background: var(--tb-bg);
+  border-bottom: var(--dp-sem-stroke-border) solid var(--tb-border);
+  transition: box-shadow var(--dp-sem-motion-interactive);
+}
+
+.scrolled { box-shadow: var(--dp-sem-shadow-nav); }
+
+.left, .right {
+  display: flex;
+  align-items: center;
+  gap: var(--dp-space-100);
+  min-width: 0;
+}
+
+.menuBtn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--dp-sem-radius-button);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--tb-fg);
+}
+
+.menuBtn:hover { color: var(--dp-color-on-surface); }
+.menuBtn:focus-visible {
+  outline: var(--dp-sem-stroke-focus) solid var(--dp-color-primary);
+  outline-offset: var(--dp-focus-offset);
+}
+
+@media (max-width: 1024px) {
+  .menuBtn { display: inline-flex; }
+}

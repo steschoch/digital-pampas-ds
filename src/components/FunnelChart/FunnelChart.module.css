@@ -1,0 +1,58 @@
+/* ── FunnelChart ──────────────────────────────────────────────────
+   Layer 3 — component tokens → semantic tokens in globals.css. */
+
+.wrap {
+  --fn-track: var(--dp-color-surface-container);
+  display: flex;
+  flex-direction: column;
+  gap: var(--dp-space-150);
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dp-space-50);
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--dp-space-100);
+}
+
+.label {
+  font-family: var(--dp-sem-font-body);
+  font-size: var(--dp-font-size-56);
+  color: var(--dp-color-on-surface);
+}
+
+.value {
+  font-family: var(--dp-sem-font-code);
+  font-size: var(--dp-font-size-56);
+  color: var(--dp-color-on-surface);
+}
+
+.track {
+  height: 20px;
+  background: var(--fn-track);
+  border-radius: var(--dp-sem-radius-chip);
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  border-radius: var(--dp-sem-radius-chip);
+  transition: width var(--dp-sem-motion-layout);
+}
+
+.conv {
+  font-family: var(--dp-sem-font-code);
+  font-size: var(--dp-font-size-37);
+  color: var(--dp-color-on-surface-variant);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar { transition: none; }
+}

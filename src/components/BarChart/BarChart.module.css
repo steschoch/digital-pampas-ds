@@ -1,0 +1,80 @@
+/* ── BarChart ─────────────────────────────────────────────────────
+   Layer 3 — component tokens → semantic tokens in globals.css. */
+
+.wrap {
+  --bc-track: var(--dp-color-surface-container);
+  --bc-label: var(--dp-color-on-surface-variant);
+  --bc-value: var(--dp-color-on-surface);
+  display: flex;
+  width: 100%;
+}
+
+/* Vertical: columns growing from the bottom */
+.vertical {
+  align-items: stretch;
+  gap: var(--dp-space-150);
+}
+.vertical .item {
+  flex: 1;
+  display: grid;
+  grid-template-rows: 1fr auto auto;
+  align-items: end;
+  gap: var(--dp-space-50);
+  text-align: center;
+  min-width: 0;
+}
+.vertical .track {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+}
+.vertical .bar {
+  width: 60%;
+  max-width: 48px;
+  border-radius: var(--dp-sem-radius-chip) var(--dp-sem-radius-chip) 0 0;
+  transition: height var(--dp-sem-motion-layout);
+}
+
+/* Horizontal: rows growing from the left */
+.horizontal {
+  flex-direction: column;
+  gap: var(--dp-space-100);
+}
+.horizontal .item {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  align-items: center;
+  gap: var(--dp-space-100);
+}
+.horizontal .track {
+  height: 12px;
+  background: var(--bc-track);
+  border-radius: var(--dp-sem-radius-pill);
+  overflow: hidden;
+}
+.horizontal .bar {
+  height: 100%;
+  border-radius: var(--dp-sem-radius-pill);
+  transition: width var(--dp-sem-motion-layout);
+}
+.horizontal .label { text-align: left; }
+
+.label {
+  font-family: var(--dp-sem-font-body);
+  font-size: var(--dp-font-size-37);
+  color: var(--bc-label);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.value {
+  font-family: var(--dp-sem-font-code);
+  font-size: var(--dp-font-size-37);
+  color: var(--bc-value);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar { transition: none; }
+}

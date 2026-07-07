@@ -1,0 +1,33 @@
+/* ── LineChart ────────────────────────────────────────────────────
+   Layer 3 — component tokens → semantic tokens in globals.css. */
+
+.wrap {
+  --lc-grid:  var(--dp-color-outline-variant);
+  --lc-label: var(--dp-color-on-surface-variant);
+  display: block;
+  width: 100%;
+}
+
+.grid {
+  stroke: var(--lc-grid);
+  stroke-width: 1;
+  opacity: 0.5;
+}
+
+.axisLabel {
+  fill: var(--lc-label);
+  font-family: var(--dp-sem-font-code);
+  font-size: 11px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

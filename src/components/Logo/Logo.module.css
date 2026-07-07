@@ -1,0 +1,21 @@
+/* ── Logo ─────────────────────────────────────────────────────────
+   Theme-reactive: white asset in dark mode, black asset in light mode. */
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+}
+
+.img {
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Default (dark mode) → white logo. Light mode → black logo. */
+.white { display: block; }
+.black { display: none; }
+
+:global([data-color-scheme="light"]) .white { display: none; }
+:global([data-color-scheme="light"]) .black { display: block; }

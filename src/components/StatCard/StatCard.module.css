@@ -1,0 +1,58 @@
+/* ── StatCard ─────────────────────────────────────────────────────
+   Layer 3 — component tokens → semantic tokens in globals.css. */
+
+.card {
+  --sc-bg:     var(--dp-color-surface-container-low);
+  --sc-border: var(--dp-color-outline-variant);
+  --sc-label:  var(--dp-color-on-surface-variant);
+  --sc-value:  var(--dp-color-on-surface);
+  --sc-good:   var(--dp-color-success);
+  --sc-bad:    var(--dp-color-error);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--dp-space-75);
+  padding: var(--dp-space-200);
+  background: var(--sc-bg);
+  border: var(--dp-sem-stroke-border) solid var(--sc-border);
+  border-radius: var(--dp-sem-radius-card);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--dp-space-100);
+}
+
+.label {
+  font-family: var(--dp-sem-font-body);
+  font-size: var(--dp-font-size-56);
+  color: var(--sc-label);
+}
+
+.value {
+  font-family: var(--dp-sem-font-display);
+  font-size: var(--dp-font-size-250);
+  font-weight: var(--dp-font-weight-bold);
+  letter-spacing: var(--dp-sem-tracking-display);
+  color: var(--sc-value);
+  line-height: 1.1;
+}
+
+.delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-family: var(--dp-sem-font-code);
+  font-size: var(--dp-font-size-37);
+  font-weight: var(--dp-font-weight-medium);
+  width: fit-content;
+}
+
+.deltaGood { color: var(--sc-good); }
+.deltaBad  { color: var(--sc-bad); }
+
+.slot {
+  margin-top: var(--dp-space-50);
+}

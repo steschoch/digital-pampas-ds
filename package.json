@@ -1,0 +1,59 @@
+{
+  "name": "@steschoch/digital-pampas-ds",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Digital Pampas Design System — tokens and React components. Single source of truth.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/steschoch/digital-pampas-ds.git"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./globals.css": "./dist/globals.css"
+  },
+  "files": ["dist"],
+  "sideEffects": ["**/*.css"],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && npm run build:types && npm run build:assets",
+    "build:types": "tsc -p tsconfig.build.json",
+    "build:assets": "cp src/globals/globals.css dist/globals.css && cp -R public/fonts dist/fonts && cp -R public/logos dist/logos",
+    "build:showroom": "vite build --config vite.config.showroom.ts",
+    "typecheck": "tsc -b",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18",
+    "lucide-react": ">=0.4"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.12.3",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^10.3.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.6.0",
+    "lucide-react": "^1.18.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.59.2",
+    "vite": "^8.0.12"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}

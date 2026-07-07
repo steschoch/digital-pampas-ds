@@ -1,0 +1,49 @@
+/* ── EmptyState ───────────────────────────────────────────────────
+   Layer 3 — component tokens → semantic tokens in globals.css. */
+
+.empty {
+  --es-fg:      var(--dp-color-on-surface);
+  --es-muted:   var(--dp-color-on-surface-variant);
+  --es-icon-bg: color-mix(in srgb, var(--dp-color-primary) 10%, transparent);
+  --es-icon-fg: var(--dp-color-primary);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--dp-space-100);
+  padding: var(--dp-space-500) var(--dp-space-300);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: var(--dp-space-50);
+  border-radius: var(--dp-sem-radius-circle);
+  background: var(--es-icon-bg);
+  color: var(--es-icon-fg);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--dp-sem-font-display);
+  font-size: var(--dp-font-size-112);
+  font-weight: var(--dp-font-weight-semibold);
+  color: var(--es-fg);
+}
+
+.description {
+  margin: 0;
+  max-width: 44ch;
+  font-family: var(--dp-sem-font-body);
+  font-size: var(--dp-font-size-62);
+  line-height: var(--dp-sem-leading-body);
+  color: var(--es-muted);
+}
+
+.action {
+  margin-top: var(--dp-space-150);
+}

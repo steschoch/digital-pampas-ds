@@ -1,0 +1,49 @@
+/* ── Gauge ────────────────────────────────────────────────────────
+   Layer 3 — component tokens → semantic tokens in globals.css. */
+
+.wrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chart {
+  position: relative;
+}
+
+.value {
+  transition: stroke-dasharray var(--dp-sem-motion-layout);
+}
+
+.center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.num {
+  font-family: var(--dp-sem-font-display);
+  font-size: var(--dp-font-size-250);
+  font-weight: var(--dp-font-weight-bold);
+  line-height: 1;
+}
+
+/* Label sits BELOW the chart (outside the arc) so it's always legible. */
+.label {
+  margin-top: var(--dp-space-75);
+  max-width: 100%;
+  text-align: center;
+  font-family: var(--dp-sem-font-code);
+  font-size: var(--dp-font-size-25);
+  text-transform: uppercase;
+  letter-spacing: var(--dp-sem-tracking-caps);
+  color: var(--dp-color-on-surface-variant);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .value { transition: none; }
+}

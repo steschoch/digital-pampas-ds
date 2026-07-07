@@ -1,0 +1,57 @@
+/* Card — Layer 3 tokens declared and consumed here */
+
+.card {
+  /* Layer 3 — scoped tokens; variants reassign, base rule consumes */
+  --card-bg:     var(--dp-color-surface-container-low);
+  --card-fg:     var(--dp-color-on-surface);
+  --card-border: var(--dp-color-outline-variant);
+  --card-shadow: none;
+
+  background-color: var(--card-bg);
+  color: var(--card-fg);
+  border: var(--dp-sem-stroke-border) solid var(--card-border);
+  border-radius: var(--dp-sem-radius-card);
+  padding: var(--dp-space-150) var(--dp-space-300);
+  box-shadow: var(--card-shadow);
+  transition:
+    background-color var(--dp-sem-motion-component),
+    border-color     var(--dp-sem-motion-component),
+    box-shadow       var(--dp-sem-motion-component),
+    transform        var(--dp-sem-motion-component);
+}
+
+/* ── Variants ──────────────────────────────────────────── */
+.outlined {
+  --card-bg:     transparent;
+  --card-border: var(--dp-color-outline);
+}
+
+.elevated {
+  --card-border: transparent;
+  --card-shadow: var(--dp-sem-shadow-card);
+}
+
+/* ── Interactive (when onClick is provided) ────────────── */
+.interactive { cursor: pointer; }
+
+.interactive:hover {
+  --card-bg:     var(--dp-color-surface-container);
+  --card-border: var(--dp-color-outline);
+  --card-shadow: var(--dp-sem-shadow-card-hover);
+  transform: translateY(-2px);
+}
+
+.interactive:active {
+  transform: translateY(0);
+}
+
+.interactive:focus-visible {
+  outline: var(--dp-sem-stroke-focus) solid var(--dp-color-primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card { transition: none; }
+  .interactive:hover,
+  .interactive:active { transform: none; }
+}

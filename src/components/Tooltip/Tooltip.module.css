@@ -1,0 +1,45 @@
+/* ── Tooltip ──────────────────────────────────────────────────────
+   Layer 3 — component tokens → semantic tokens in globals.css.
+   Shown on hover and focus-within (keyboard accessible). */
+
+.wrap {
+  --tip-bg:     var(--dp-color-surface-container-highest);
+  --tip-fg:     var(--dp-color-on-surface);
+  --tip-border: var(--dp-color-outline-variant);
+
+  position: relative;
+  display: inline-flex;
+}
+
+.tip {
+  position: absolute;
+  z-index: 60;
+  padding: var(--dp-space-50) var(--dp-space-75);
+  background: var(--tip-bg);
+  color: var(--tip-fg);
+  border: var(--dp-sem-stroke-border) solid var(--tip-border);
+  border-radius: var(--dp-sem-radius-chip);
+  box-shadow: var(--dp-sem-shadow-tooltip);
+  font-family: var(--dp-sem-font-body);
+  font-size: var(--dp-font-size-37);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dp-sem-motion-interactive), visibility var(--dp-sem-motion-interactive);
+}
+
+.wrap:hover .tip,
+.wrap:focus-within .tip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.top    { bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); }
+.bottom { top: calc(100% + 6px); left: 50%; transform: translateX(-50%); }
+.left   { right: calc(100% + 6px); top: 50%; transform: translateY(-50%); }
+.right  { left: calc(100% + 6px); top: 50%; transform: translateY(-50%); }
+
+@media (prefers-reduced-motion: reduce) {
+  .tip { transition: none; }
+}

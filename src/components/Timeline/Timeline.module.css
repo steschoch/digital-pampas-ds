@@ -1,0 +1,114 @@
+/* ── Timeline ─────────────────────────────────────────────────────
+   Layer 3 — component tokens → semantic tokens in globals.css. */
+
+.timeline {
+  --tl-line:     var(--dp-color-outline-variant);
+  --tl-done:     var(--dp-color-primary);
+  --tl-active:   var(--dp-color-primary);
+  --tl-upcoming: var(--dp-color-outline);
+  --tl-delayed:  var(--dp-color-warning);
+  --tl-fg:       var(--dp-color-on-surface);
+  --tl-muted:    var(--dp-color-on-surface-variant);
+  --tl-node:     28px;
+
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Minimal: nodes-only strip (tight cards). Smaller nodes, no labels rendered. */
+.minimal { --tl-node: 20px; }
+
+.phase { position: relative; }
+
+/* ── Node ── */
+.node {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tl-node);
+  height: var(--tl-node);
+  border-radius: var(--dp-sem-radius-circle);
+  font-family: var(--dp-sem-font-code);
+  font-size: var(--dp-font-size-37);
+  font-weight: var(--dp-font-weight-bold);
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.node_done { background: var(--tl-done); color: var(--dp-color-on-primary); }
+.node_active {
+  background: color-mix(in srgb, var(--tl-active) 15%, transparent);
+  border: 2px solid var(--tl-active);
+  color: var(--tl-active);
+  animation: tl-pulse 1.8s ease-in-out infinite;
+}
+.node_upcoming { background: none; border: 2px dotted var(--tl-upcoming); }
+.node_delayed { background: var(--tl-delayed); color: var(--dp-color-on-surface); }
+
+@keyframes tl-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--tl-active) 40%, transparent); }
+  50%      { box-shadow: 0 0 0 6px color-mix(in srgb, var(--tl-active) 0%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .node_active { animation: none; }
+}
+
+/* ── Status text ── */
+.label {
+  font-family: var(--dp-sem-font-display);
+  font-weight: var(--dp-font-weight-semibold);
+  font-size: var(--dp-font-size-62);
+  color: var(--tl-fg);
+}
+.status {
+  font-family: var(--dp-sem-font-code);
+  font-size: var(--dp-font-size-25);
+  text-transform: uppercase;
+  letter-spacing: var(--dp-sem-tracking-caps);
+}
+.statusText_done { color: var(--tl-done); }
+.statusText_active { color: var(--tl-active); }
+.statusText_upcoming { color: var(--tl-muted); }
+.statusText_delayed { color: var(--tl-delayed); }
+
+/* ── Horizontal ── */
+.horizontal { display: flex; }
+.horizontal .phase { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--dp-space-75); }
+.horizontal .label { overflow-wrap: anywhere; }
+.horizontal .track { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; }
+.horizontal .connector {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: var(--tl-line);
+  transform: translateY(-50%);
+}
+.horizontal .connectorDone { background: var(--tl-done); }
+.horizontal .content { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+
+/* ── Vertical ── */
+.vertical { display: flex; flex-direction: column; }
+.vertical .phase { display: grid; grid-template-columns: var(--tl-node) 1fr; gap: var(--dp-space-150); padding-bottom: var(--dp-space-300); }
+.vertical .track { position: relative; display: flex; justify-content: center; }
+.vertical .connector {
+  position: absolute;
+  top: var(--tl-node);
+  left: 50%;
+  width: 2px;
+  height: calc(100% + var(--dp-space-300) - var(--tl-node));
+  background: var(--tl-line);
+  transform: translateX(-50%);
+}
+.vertical .connectorDone { background: var(--tl-done); }
+.vertical .content { display: flex; flex-direction: column; gap: var(--dp-space-50); padding-top: 3px; }
+
+/* ── Detailed ── */
+.detail { display: flex; flex-direction: column; gap: var(--dp-space-75); margin-top: var(--dp-space-75); }
+.description { margin: 0; font-family: var(--dp-sem-font-body); font-size: var(--dp-font-size-56); line-height: var(--dp-sem-leading-body); color: var(--tl-muted); }
+.dates { display: flex; flex-direction: column; gap: 2px; }
+.dateRow { font-family: var(--dp-sem-font-code); font-size: var(--dp-font-size-37); color: var(--tl-muted); }
+.deliverables { margin: 0; padding-left: var(--dp-space-150); display: flex; flex-direction: column; gap: 2px; }
+.deliverables li { font-family: var(--dp-sem-font-body); font-size: var(--dp-font-size-56); color: var(--tl-fg); list-style: disc; }

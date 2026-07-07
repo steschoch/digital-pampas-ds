@@ -1,0 +1,910 @@
+/* ============================================================
+   Digital Pampas DS — globals.css
+   Layer 1: Primitives  (sections 1–11)
+   Layer 2: Semantic Roles  (sections 12–24)
+   Rule: no var() in Layer 1 · Layer 2 → Layer 1 only
+   ============================================================ */
+
+/* --- 1. Reset & base ---------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--dp-color-surface);
+  color:            var(--dp-color-on-surface);
+  font-family:      var(--dp-sem-font-body);
+  font-size:        var(--dp-font-size-100);
+  line-height:      var(--dp-sem-leading-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color var(--dp-sem-motion-layout),
+    color            var(--dp-sem-motion-layout);
+}
+
+img,
+video  { max-width: 100%; display: block; }
+button { cursor: pointer; border: none; background: none; font: inherit; }
+a      { color: inherit; text-decoration: none; }
+
+/* --- 2. Font faces ------------------------------------------ */
+
+/* Space Grotesk — display / heading (Google Fonts, loaded in index.html) */
+
+/* Figtree — body / UI (local) */
+@font-face {
+  font-family: 'Figtree';
+  src: url('/fonts/FigtreeLight.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Figtree';
+  src: url('/fonts/FigtreeRegular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Figtree';
+  src: url('/fonts/FigtreeMedium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Figtree';
+  src: url('/fonts/FigtreeSemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Figtree';
+  src: url('/fonts/FigtreeBold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Figtree';
+  src: url('/fonts/FigtreeExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Figtree';
+  src: url('/fonts/FigtreeBlack.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --- 3. Primitive Colors ------------------------------------ */
+
+:root {
+
+  /* Neutrals — white & black */
+  --dp-color-neutral-white: #ffffff;
+  --dp-color-neutral-black: #000000;
+
+  /* Space Grey — cool blue-grey neutral scale */
+  --dp-color-space-grey-50:  #f6f7fb;
+  --dp-color-space-grey-100: #eceef5;
+  --dp-color-space-grey-200: #d5d9e8;
+  --dp-color-space-grey-300: #b8bfd6;
+  --dp-color-space-grey-400: #94a0be;
+  --dp-color-space-grey-500: #6c7da0;
+  --dp-color-space-grey-600: #4d5e85;
+  --dp-color-space-grey-700: #35436a;
+  --dp-color-space-grey-800: #202d4f;
+  --dp-color-space-grey-900: #111b35;
+  --dp-color-space-grey-950: #080e1e;
+
+  /* Alpha — dark overlays */
+  --dp-color-alpha-dark-05:  rgba(0, 0, 0, 0.05);
+  --dp-color-alpha-dark-10:  rgba(0, 0, 0, 0.10);
+  --dp-color-alpha-dark-20:  rgba(0, 0, 0, 0.20);
+  --dp-color-alpha-dark-40:  rgba(0, 0, 0, 0.40);
+  --dp-color-alpha-dark-50:  rgba(0, 0, 0, 0.50);
+  --dp-color-alpha-dark-60:  rgba(0, 0, 0, 0.60);
+  --dp-color-alpha-dark-80:  rgba(0, 0, 0, 0.80);
+  --dp-color-alpha-dark-90:  rgba(0, 0, 0, 0.90);
+
+  /* Alpha — light overlays */
+  --dp-color-alpha-light-05:  rgba(255, 255, 255, 0.05);
+  --dp-color-alpha-light-10:  rgba(255, 255, 255, 0.10);
+  --dp-color-alpha-light-20:  rgba(255, 255, 255, 0.20);
+  --dp-color-alpha-light-40:  rgba(255, 255, 255, 0.40);
+  --dp-color-alpha-light-50:  rgba(255, 255, 255, 0.50);
+  --dp-color-alpha-light-60:  rgba(255, 255, 255, 0.60);
+  --dp-color-alpha-light-80:  rgba(255, 255, 255, 0.80);
+  --dp-color-alpha-light-90:  rgba(255, 255, 255, 0.90);
+
+  /* Status — Info */
+  --dp-color-status-info-50:  #eaf3ff;
+  --dp-color-status-info-100: #c3dafc;
+  --dp-color-status-info-200: #8ab9f9;
+  --dp-color-status-info-500: #2e8bfc;
+  --dp-color-status-info-900: #091c32;
+
+  /* Status — Error */
+  --dp-color-status-error-50:  #ffeaed;
+  --dp-color-status-error-100: #ffb3bc;
+  --dp-color-status-error-200: #ff8093;
+  --dp-color-status-error-500: #fc2e49;
+  --dp-color-status-error-900: #32090f;
+
+  /* Status — Success */
+  --dp-color-status-success-50:  #eafff1;
+  --dp-color-status-success-100: #b3f5cc;
+  --dp-color-status-success-200: #66eba0;
+  --dp-color-status-success-500: #2efc73;
+  --dp-color-status-success-900: #093217;
+
+  /* Status — Warning */
+  --dp-color-status-warning-50:  #fff7ea;
+  --dp-color-status-warning-100: #ffe0b3;
+  --dp-color-status-warning-200: #ffc166;
+  --dp-color-status-warning-500: #fcad2e;
+  --dp-color-status-warning-900: #322309;
+
+  /* Brand — Electric Cyan (Primary) */
+  --dp-color-electric-cyan-50:  #e6f9fe;
+  --dp-color-electric-cyan-100: #c0f0fb;
+  --dp-color-electric-cyan-200: #87e4f8;
+  --dp-color-electric-cyan-300: #4dd6f6;
+  --dp-color-electric-cyan-400: #26cbf5;
+  --dp-color-electric-cyan-500: #12c3f4;
+  --dp-color-electric-cyan-600: #0fa6d0;
+  --dp-color-electric-cyan-700: #0b86a8;
+  --dp-color-electric-cyan-800: #075f78;
+  --dp-color-electric-cyan-900: #043a4a;
+  --dp-color-electric-cyan-950: #021e27;
+
+  /* Brand — Deep Indigo (Secondary) */
+  --dp-color-deep-indigo-50:  #f2effb;
+  --dp-color-deep-indigo-100: #ddd5f4;
+  --dp-color-deep-indigo-200: #bbaae9;
+  --dp-color-deep-indigo-300: #9880de;
+  --dp-color-deep-indigo-400: #7455d3;
+  --dp-color-deep-indigo-500: #2f205f;
+  --dp-color-deep-indigo-600: #271a50;
+  --dp-color-deep-indigo-700: #1e1440;
+  --dp-color-deep-indigo-800: #150d2f;
+  --dp-color-deep-indigo-900: #0c081e;
+  --dp-color-deep-indigo-950: #060410;
+
+  /* Brand — Plum (Tertiary) */
+  --dp-color-plum-50:  #f8edf9;
+  --dp-color-plum-100: #edcdf0;
+  --dp-color-plum-200: #db9be1;
+  --dp-color-plum-300: #c869d1;
+  --dp-color-plum-400: #b63fc2;
+  --dp-color-plum-500: #682972;
+  --dp-color-plum-600: #57225f;
+  --dp-color-plum-700: #451b4c;
+  --dp-color-plum-800: #321439;
+  --dp-color-plum-900: #200d25;
+  --dp-color-plum-950: #110613;
+
+  /* Brand — Coral (Support) */
+  --dp-color-coral-50:  #fef1f0;
+  --dp-color-coral-100: #fcd9d7;
+  --dp-color-coral-200: #f9b2af;
+  --dp-color-coral-300: #f08b88;
+  --dp-color-coral-400: #eb7874;
+  --dp-color-coral-500: #e6615c;
+  --dp-color-coral-600: #d04d48;
+  --dp-color-coral-700: #a83b37;
+  --dp-color-coral-800: #7a2926;
+  --dp-color-coral-900: #4c1a18;
+  --dp-color-coral-950: #280d0c;
+
+  /* Brand — Sky Blue (Support) */
+  --dp-color-sky-blue-50:  #f0f8fd;
+  --dp-color-sky-blue-100: #daf0f9;
+  --dp-color-sky-blue-200: #aedeed;
+  --dp-color-sky-blue-300: #82cde1;
+  --dp-color-sky-blue-400: #56bcd5;
+  --dp-color-sky-blue-500: #2aabc9;
+  --dp-color-sky-blue-600: #2291ab;
+  --dp-color-sky-blue-700: #1a728b;
+  --dp-color-sky-blue-800: #12526a;
+  --dp-color-sky-blue-900: #0b3244;
+  --dp-color-sky-blue-950: #051a24;
+
+  /* --- 4. Primitive Typography ------------------------------ */
+
+  /* Font families */
+  --dp-font-family-heading: 'Space Grotesk', 'Figtree', -apple-system, sans-serif;
+  --dp-font-family-body:    'Figtree', -apple-system, sans-serif;
+  --dp-font-family-label:   'Figtree', -apple-system, sans-serif;
+  --dp-font-family-caption: 'Figtree', -apple-system, sans-serif;
+  --dp-font-family-code:    'JetBrains Mono', 'Courier New', monospace;
+
+  /* Type scale — micro/fine-grain (design-specific px values) */
+  --dp-font-size-25: 10px;  /*  10px — micro badges, live indicators */
+  --dp-font-size-37: 11px;  /*  11px — code meta labels, captions */
+  --dp-font-size-56: 13px;  /*  13px — caption, microcopy, attribution */
+  --dp-font-size-62: 15px;  /*  15px — body-sm (card items, inputs) */
+  --dp-font-size-87: 17px;  /*  17px — quote body, decorative */
+  --dp-font-size-112: 18px; /*  18px — body-lg (section lead, form head) */
+  --dp-font-size-137: 22px; /*  22px — stat/metric strip value */
+  --dp-font-size-225: 52px; /*  52px — numeral-lg (proof big numbers) */
+  --dp-font-size-237: 60px; /*  60px — hero/display H1 */
+  /* Type scale — rem steps */
+  --dp-font-size-50:  0.75rem;   /*  12px */
+  --dp-font-size-75:  0.875rem;  /*  14px */
+  --dp-font-size-100: 1rem;      /*  16px */
+  --dp-font-size-150: 1.25rem;   /*  20px */
+  --dp-font-size-200: 1.5rem;    /*  24px */
+  --dp-font-size-250: 1.75rem;   /*  28px */
+  --dp-font-size-300: 2rem;      /*  32px */
+  --dp-font-size-400: 2.5rem;    /*  40px */
+  --dp-font-size-500: 3rem;      /*  48px */
+  --dp-font-size-600: 4rem;      /*  64px */
+  --dp-font-size-700: 5rem;      /*  80px */
+  --dp-font-size-800: 6rem;      /*  96px */
+
+  /* Font weights */
+  --dp-font-weight-light:     300;
+  --dp-font-weight-regular:   400;
+  --dp-font-weight-medium:    500;
+  --dp-font-weight-semibold:  600;
+  --dp-font-weight-bold:      700;
+  --dp-font-weight-extrabold: 800;
+  --dp-font-weight-black:     900;
+
+  /* Line heights */
+  --dp-leading-tight:  1.1;
+  --dp-leading-snug:   1.3;
+  --dp-leading-normal: 1.6;
+  --dp-leading-loose:  1.8;
+
+  /* Letter spacing */
+  --dp-tracking-tight:   -0.03em;
+  --dp-tracking-normal:   0;
+  --dp-tracking-wide:     0.05em;
+  --dp-tracking-wider:    0.10em;
+  --dp-tracking-widest:   0.15em;
+
+  /* --- 5. Primitive Spacing --------------------------------- */
+
+  --dp-space-0:   0;
+  --dp-space-25:  0.25rem;   /*   4px */
+  --dp-space-50:  0.5rem;    /*   8px */
+  --dp-space-75:  0.75rem;   /*  12px */
+  --dp-space-100: 1rem;      /*  16px */
+  --dp-space-150: 1.25rem;   /*  20px */
+  --dp-space-200: 1.5rem;    /*  24px */
+  --dp-space-300: 2rem;      /*  32px */
+  --dp-space-400: 2.5rem;    /*  40px */
+  --dp-space-500: 3rem;      /*  48px */
+  --dp-space-550: 3.5rem;    /*  56px */
+  --dp-space-600: 4rem;      /*  64px */
+  --dp-space-650: 4.5rem;    /*  72px */
+  --dp-space-700: 5rem;      /*  80px */
+  --dp-space-800: 6rem;      /*  96px */
+  --dp-space-850: 7rem;      /* 112px */
+  --dp-space-900: 7.5rem;    /* 120px */
+  --dp-space-950: 10rem;     /* 160px */
+
+  /* Half-steps — fine-grained density for component internals.
+     Added in the DS↔site token unification (Fase 1). Ordered within the scale.
+     (2px is intentionally omitted — site 0-5/2px micro-gaps snap to space-25/4px.) */
+  --dp-space-37:  0.375rem;  /*   6px */
+  --dp-space-62:  0.625rem;  /*  10px */
+  --dp-space-87:  0.875rem;  /*  14px */
+  --dp-space-250: 1.75rem;   /*  28px */
+  --dp-space-350: 2.25rem;   /*  36px */
+  --dp-space-525: 3.25rem;   /*  52px */
+
+  /* --- 6. Primitive Border Radius --------------------------- */
+
+  --dp-radius-0:    0;
+  --dp-radius-25:   4px;
+  --dp-radius-50:   8px;
+  --dp-radius-75:   12px;
+  --dp-radius-100:  16px;
+  --dp-radius-150:  20px;
+  --dp-radius-200:  24px;
+  --dp-radius-pill: 9999px;
+
+  /* --- 7. Primitive Stroke ---------------------------------- */
+
+  --dp-stroke-hairline: 0.5px;
+  --dp-stroke-default:  1px;
+  --dp-stroke-accent:   1.5px;  /* ghost button / emphasis border */
+  --dp-stroke-strong:   2px;
+  --dp-stroke-thick:    3px;    /* left-accent / emphasis divider */
+
+  /* --- 8. Primitive Shadow ---------------------------------- */
+
+  --dp-shadow-none:  none;
+  --dp-shadow-xs:    0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --dp-shadow-sm:    0 1px 3px 0 rgba(0, 0, 0, 0.10),
+                     0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --dp-shadow-md:    0 4px  6px -1px rgba(0, 0, 0, 0.10),
+                     0 2px  4px -1px rgba(0, 0, 0, 0.06);
+  --dp-shadow-lg:    0 10px 15px -3px rgba(0, 0, 0, 0.10),
+                     0 4px  6px -2px rgba(0, 0, 0, 0.05);
+  --dp-shadow-xl:    0 20px 25px -5px  rgba(0, 0, 0, 0.10),
+                     0 10px 10px -5px  rgba(0, 0, 0, 0.04);
+  --dp-shadow-2xl:   0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --dp-shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+
+  /* --- 9. Primitive Motion ---------------------------------- */
+
+  /* Durations */
+  --dp-duration-fast: 150ms;
+  --dp-duration-base: 250ms;
+  --dp-duration-slow: 400ms;
+  --dp-duration-page: 600ms;
+
+  /* Easing curves */
+  --dp-easing-default: ease;
+  --dp-easing-page:    cubic-bezier(0.16, 1, 0.3, 1);
+  /* Spring: the 1.56 in the 2nd value creates the overshoot — the element
+     passes slightly beyond its target and settles back, giving a sense of
+     physical "weight". Use sparingly: only on elements that "arrive" on
+     screen (cards, modals, tooltips). Never on hover/focus or layout shifts. */
+  --dp-easing-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Shorthand transitions */
+  --dp-transition-fast: var(--dp-duration-fast) var(--dp-easing-default);
+  --dp-transition-base: var(--dp-duration-base) var(--dp-easing-default);
+  --dp-transition-slow: var(--dp-duration-slow) var(--dp-easing-default);
+  --dp-transition-page: var(--dp-duration-page) var(--dp-easing-page);
+  /* = 400ms cubic-bezier(0.34, 1.56, 0.64, 1) — entrance for cards/modals/tooltips */
+  --dp-transition-spring: var(--dp-duration-slow) var(--dp-easing-spring);
+
+  /* --- 10. Layout constants --------------------------------- */
+
+  --dp-grid-cols:      12;
+  --dp-grid-gutter:    1.5rem;
+  --dp-grid-margin:    2rem;
+  --dp-grid-max-width: 1440px;
+  --dp-nav-height:     4.5rem;   /* 72px — fixed navigation bar height */
+  --dp-focus-offset:   3px;      /* focus-ring outline offset */
+
+  /* Breakpoints — reference only, use literal values in @media queries:
+     sm: 576px | md: 768px | lg: 1024px | xl: 1280px | 2xl: 1536px   */
+}
+
+/* --- 11. Keyframes ------------------------------------------ */
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-on-scroll { opacity: 0; }
+.animate-on-scroll.is-visible {
+  animation: fadeInUp var(--dp-duration-slow) var(--dp-easing-default) forwards;
+}
+
+/* ============================================================
+   LAYER 2 — SEMANTIC ROLES
+   All values must point to Layer 1 primitives via var().
+   No literal hex, px, or rgba() values below this line.
+   ============================================================ */
+
+/* --- 12. Color Roles — Light (default) ---------------------- */
+
+:root,
+:root[data-color-scheme="light"] {
+
+  /* Error */
+  --dp-color-error:              var(--dp-color-status-error-500);
+  --dp-color-on-error:           var(--dp-color-neutral-white);
+  --dp-color-error-container:    var(--dp-color-status-error-50);
+  --dp-color-on-error-container: var(--dp-color-status-error-900);
+
+  /* Success */
+  --dp-color-success:              var(--dp-color-status-success-500);
+  --dp-color-on-success:           var(--dp-color-neutral-white);
+  --dp-color-success-container:    var(--dp-color-status-success-50);
+  --dp-color-on-success-container: var(--dp-color-status-success-900);
+
+  /* Warning */
+  --dp-color-warning:              var(--dp-color-status-warning-500);
+  --dp-color-on-warning:           var(--dp-color-neutral-white);
+  --dp-color-warning-container:    var(--dp-color-status-warning-50);
+  --dp-color-on-warning-container: var(--dp-color-status-warning-900);
+
+  /* Info */
+  --dp-color-info:              var(--dp-color-status-info-500);
+  --dp-color-on-info:           var(--dp-color-neutral-white);
+  --dp-color-info-container:    var(--dp-color-status-info-50);
+  --dp-color-on-info-container: var(--dp-color-status-info-900);
+
+  /* Surface */
+  --dp-color-surface:                   var(--dp-color-space-grey-50);
+  --dp-color-on-surface:                var(--dp-color-space-grey-900);
+  --dp-color-surface-variant:           var(--dp-color-space-grey-100);
+  --dp-color-on-surface-variant:        var(--dp-color-space-grey-600);
+  --dp-color-surface-dim:               var(--dp-color-space-grey-200);
+  --dp-color-surface-bright:            var(--dp-color-neutral-white);
+  --dp-color-surface-container-lowest:  var(--dp-color-neutral-white);
+  --dp-color-surface-container-low:     var(--dp-color-space-grey-50);
+  --dp-color-surface-container:         var(--dp-color-space-grey-100);
+  --dp-color-surface-container-high:    var(--dp-color-space-grey-200);
+  --dp-color-surface-container-highest: var(--dp-color-space-grey-300);
+  /* Surface tinted — brand palette options */
+  --dp-color-surface-sky:               var(--dp-color-sky-blue-200);
+  --dp-color-on-surface-sky:            var(--dp-color-space-grey-900);
+  --dp-color-surface-coral:             var(--dp-color-coral-200);
+  --dp-color-on-surface-coral:          var(--dp-color-space-grey-900);
+  --dp-color-surface-cyan-deep:         var(--dp-color-electric-cyan-900);
+  --dp-color-on-surface-cyan-deep:      var(--dp-color-neutral-white);
+  /* Surface grey — neutral tinted panels (subtle → soft → muted) */
+  --dp-color-surface-grey-muted:        var(--dp-color-space-grey-400);
+  --dp-color-on-surface-grey-muted:     var(--dp-color-space-grey-950);
+  --dp-color-surface-grey-soft:         var(--dp-color-space-grey-300);
+  --dp-color-on-surface-grey-soft:      var(--dp-color-space-grey-950);
+  --dp-color-surface-grey-subtle:       var(--dp-color-space-grey-200);
+  --dp-color-on-surface-grey-subtle:    var(--dp-color-space-grey-950);
+  /* Surface inverse — dark panels within a light page */
+  --dp-color-surface-inverse:           var(--dp-color-space-grey-950);
+  --dp-color-on-surface-inverse:        var(--dp-color-space-grey-100);
+  --dp-color-surface-inverse-sub:       var(--dp-color-space-grey-900);
+  --dp-color-surface-inverse-mid:       var(--dp-color-space-grey-800);
+  --dp-color-outline-inverse:           var(--dp-color-space-grey-600);   /* border on inverse panels */
+  --dp-color-primary-on-dark:           var(--dp-color-electric-cyan-400); /* cyan link/accent on dark panels */
+
+  /* Accent roles — metric/case highlights (light mode) */
+  --dp-color-sky-blue:                  var(--dp-color-sky-blue-700);
+  --dp-color-plum:                      var(--dp-color-plum-500);
+  --dp-color-plum-text:                 var(--dp-color-plum-500);
+
+  /* Brand logos — light mode uses the BLACK assets. Consumers serve /logos/*. */
+  --dp-logo-full:                       url('/logos/dp-logo-black.png');
+  --dp-logo-wordmark:                   url('/logos/dp-wordmark-black.png');
+  --dp-logo-icon:                       url('/logos/dp-icon-black.png');
+
+  /* Phase accent colours — readable on light / grey backgrounds */
+  --dp-color-phase-cyan:         var(--dp-color-electric-cyan-700);   /* #0b86a8 */
+  --dp-color-phase-sky:          var(--dp-color-sky-blue-700);        /* #1a728b */
+  --dp-color-phase-violet:       var(--dp-color-deep-indigo-300);     /* #9880de — lavanda igual ao dark mode */
+  --dp-color-phase-plum:         var(--dp-color-plum-500);            /* #682972 */
+  --dp-color-phase-plum-light:   var(--dp-color-plum-400);            /* #b63fc2 */
+  --dp-color-phase-coral:        var(--dp-color-coral-500);           /* #e6615c */
+
+  /* Outline */
+  --dp-color-outline:         var(--dp-color-space-grey-400);
+  --dp-color-outline-variant: var(--dp-color-space-grey-200);
+
+  /* Inverse */
+  --dp-color-inverse-surface:    var(--dp-color-space-grey-950);
+  --dp-color-inverse-on-surface: var(--dp-color-space-grey-100);
+
+  /* Scrim */
+  --dp-color-scrim: var(--dp-color-alpha-dark-50);
+
+  /* Text aliases */
+  --dp-color-text-primary:    var(--dp-color-on-surface);
+  --dp-color-text-secondary:  var(--dp-color-on-surface-variant);
+  --dp-color-text-disabled:   var(--dp-color-space-grey-400);
+  --dp-color-text-on-primary: var(--dp-color-on-primary);
+  --dp-color-text-inverse:    var(--dp-color-inverse-on-surface);
+}
+
+/* Primary / Secondary / Tertiary — theme-independent (light base) */
+:root {
+
+  /* Primary — Electric Cyan 700 (light mode: darker weight for WCAG contrast) */
+  --dp-color-primary:              var(--dp-color-electric-cyan-700);
+  --dp-color-primary-strong:       var(--dp-color-electric-cyan-800); /* primary as TEXT on light surfaces — AA 4.5:1 */
+  --dp-color-on-primary:           var(--dp-color-neutral-white);
+  --dp-color-primary-container:    var(--dp-color-electric-cyan-100);
+  --dp-color-on-primary-container: var(--dp-color-electric-cyan-900);
+  --dp-color-inverse-primary:      var(--dp-color-electric-cyan-300);
+  --dp-color-primary-hover:        var(--dp-color-electric-cyan-800);
+  --dp-color-primary-active:       var(--dp-color-electric-cyan-900);
+
+  /* Secondary — Coral */
+  --dp-color-secondary:              var(--dp-color-coral-500);
+  --dp-color-on-secondary:           var(--dp-color-neutral-white);
+  --dp-color-secondary-container:    var(--dp-color-coral-100);
+  --dp-color-on-secondary-container: var(--dp-color-coral-900);
+
+  /* Tertiary — Deep Indigo */
+  --dp-color-tertiary:              var(--dp-color-deep-indigo-500);
+  --dp-color-on-tertiary:           var(--dp-color-neutral-white);
+  --dp-color-tertiary-container:    var(--dp-color-deep-indigo-100);
+  --dp-color-on-tertiary-container: var(--dp-color-deep-indigo-900);
+}
+
+/* --- 13. Color Roles — Dark --------------------------------- */
+
+:root[data-color-scheme="dark"] {
+
+  /* Error — dark */
+  --dp-color-error:              var(--dp-color-status-error-200);
+  --dp-color-on-error:           var(--dp-color-status-error-900);
+  --dp-color-error-container:    var(--dp-color-status-error-900);
+  --dp-color-on-error-container: var(--dp-color-status-error-100);
+
+  /* Success — dark */
+  --dp-color-success:              var(--dp-color-status-success-200);
+  --dp-color-on-success:           var(--dp-color-status-success-900);
+  --dp-color-success-container:    var(--dp-color-status-success-900);
+  --dp-color-on-success-container: var(--dp-color-status-success-100);
+
+  /* Warning — dark */
+  --dp-color-warning:              var(--dp-color-status-warning-200);
+  --dp-color-on-warning:           var(--dp-color-status-warning-900);
+  --dp-color-warning-container:    var(--dp-color-status-warning-900);
+  --dp-color-on-warning-container: var(--dp-color-status-warning-100);
+
+  /* Info — dark */
+  --dp-color-info:              var(--dp-color-status-info-200);
+  --dp-color-on-info:           var(--dp-color-status-info-900);
+  --dp-color-info-container:    var(--dp-color-status-info-900);
+  --dp-color-on-info-container: var(--dp-color-status-info-100);
+
+  /* Surface — dark */
+  --dp-color-surface:                   var(--dp-color-space-grey-950);
+  --dp-color-on-surface:                var(--dp-color-space-grey-100);
+  --dp-color-surface-variant:           var(--dp-color-space-grey-800);
+  --dp-color-on-surface-variant:        var(--dp-color-space-grey-400);
+  --dp-color-surface-dim:               var(--dp-color-space-grey-900);
+  --dp-color-surface-bright:            var(--dp-color-space-grey-800);
+  --dp-color-surface-container-lowest:  var(--dp-color-space-grey-950);
+  --dp-color-surface-container-low:     var(--dp-color-space-grey-900);
+  --dp-color-surface-container:         var(--dp-color-space-grey-800);
+  --dp-color-surface-container-high:    var(--dp-color-space-grey-700);
+  --dp-color-surface-container-highest: var(--dp-color-space-grey-600);
+  /* Surface cyan-deep — dark mode: use existing dark cyan surface */
+  --dp-color-surface-cyan-deep:         var(--dp-color-surface-cyan);
+  --dp-color-on-surface-cyan-deep:      var(--dp-color-on-surface);
+  /* Surface grey — dark mode fallback */
+  --dp-color-surface-grey-muted:        var(--dp-color-surface-container-high);
+  --dp-color-on-surface-grey-muted:     var(--dp-color-on-surface);
+  --dp-color-surface-grey-soft:         var(--dp-color-surface-container);
+  --dp-color-on-surface-grey-soft:      var(--dp-color-on-surface);
+  --dp-color-surface-grey-subtle:       var(--dp-color-surface-container-low);
+  --dp-color-on-surface-grey-subtle:    var(--dp-color-on-surface);
+  /* Surface inverse — dark mode: seamless with regular surface */
+  --dp-color-surface-inverse:           var(--dp-color-surface);
+  --dp-color-on-surface-inverse:        var(--dp-color-on-surface);
+  --dp-color-surface-inverse-sub:       var(--dp-color-surface-container-low);
+  --dp-color-surface-inverse-mid:       var(--dp-color-surface-container-low);
+  --dp-color-outline-inverse:           var(--dp-color-outline);
+  --dp-color-primary-on-dark:           var(--dp-color-primary);
+
+  /* Accent roles — metric/case highlights (dark mode) */
+  --dp-color-sky-blue:                  var(--dp-color-sky-blue-500);
+  --dp-color-plum:                      var(--dp-color-plum-500);
+  --dp-color-plum-text:                 var(--dp-color-plum-300);
+
+  /* Brand logos — dark mode uses the WHITE assets. Consumers serve /logos/*. */
+  --dp-logo-full:                       url('/logos/dp-logo-white.png');
+  --dp-logo-wordmark:                   url('/logos/dp-wordmark-white.png');
+  --dp-logo-icon:                       url('/logos/dp-icon-white.png');
+
+  /* Phase accent colours — vibrant on dark backgrounds */
+  --dp-color-phase-cyan:         var(--dp-color-electric-cyan-400);   /* #26cbf5 */
+  --dp-color-phase-sky:          var(--dp-color-sky-blue-500);        /* #2aabc9 */
+  --dp-color-phase-violet:       var(--dp-color-deep-indigo-400);     /* #7455d3 */
+  --dp-color-phase-plum:         var(--dp-color-plum-500);            /* #682972 */
+  --dp-color-phase-plum-light:   var(--dp-color-plum-300);            /* #c869d1 */
+  --dp-color-phase-coral:        var(--dp-color-coral-400);           /* #eb7874 */
+
+  /* Outline — dark */
+  --dp-color-outline:         var(--dp-color-space-grey-600);
+  --dp-color-outline-variant: var(--dp-color-space-grey-800);
+
+  /* Inverse — dark */
+  --dp-color-inverse-surface:    var(--dp-color-space-grey-100);
+  --dp-color-inverse-on-surface: var(--dp-color-space-grey-950);
+
+  /* Scrim */
+  --dp-color-scrim: var(--dp-color-alpha-dark-50);
+
+  /* Primary — dark (lighter cyan for dark backgrounds) */
+  --dp-color-primary:              var(--dp-color-electric-cyan-400);
+  --dp-color-primary-strong:       var(--dp-color-electric-cyan-400); /* on dark surfaces the bright cyan already passes AA */
+  --dp-color-on-primary:           var(--dp-color-space-grey-950);
+  --dp-color-primary-container:    var(--dp-color-electric-cyan-800);
+  --dp-color-on-primary-container: var(--dp-color-electric-cyan-100);
+  --dp-color-inverse-primary:      var(--dp-color-electric-cyan-600);
+  --dp-color-primary-hover:        var(--dp-color-electric-cyan-300);
+  --dp-color-primary-active:       var(--dp-color-electric-cyan-200);
+
+  /* Secondary — dark */
+  --dp-color-secondary:              var(--dp-color-coral-400);
+  --dp-color-on-secondary:           var(--dp-color-space-grey-950);
+  --dp-color-secondary-container:    var(--dp-color-coral-800);
+  --dp-color-on-secondary-container: var(--dp-color-coral-100);
+
+  /* Tertiary — dark */
+  --dp-color-tertiary:              var(--dp-color-deep-indigo-300);
+  --dp-color-on-tertiary:           var(--dp-color-deep-indigo-950);
+  --dp-color-tertiary-container:    var(--dp-color-deep-indigo-800);
+  --dp-color-on-tertiary-container: var(--dp-color-deep-indigo-100);
+}
+
+/* --- 14. Support Colors ------------------------------------- */
+
+:root {
+
+  /* Coral */
+  --dp-color-support-coral:                var(--dp-color-coral-500);
+  --dp-color-on-support-coral:             var(--dp-color-neutral-white);
+  --dp-color-support-coral-container:      var(--dp-color-coral-100);
+  --dp-color-on-support-coral-container:   var(--dp-color-coral-900);
+
+  /* Sky Blue */
+  --dp-color-support-sky-blue:                var(--dp-color-sky-blue-500);
+  --dp-color-on-support-sky-blue:             var(--dp-color-neutral-white);
+  --dp-color-support-sky-blue-container:      var(--dp-color-sky-blue-100);
+  --dp-color-on-support-sky-blue-container:   var(--dp-color-sky-blue-900);
+
+  /* Plum */
+  --dp-color-support-plum:                var(--dp-color-plum-500);
+  --dp-color-on-support-plum:             var(--dp-color-neutral-white);
+  --dp-color-support-plum-container:      var(--dp-color-plum-100);
+  --dp-color-on-support-plum-container:   var(--dp-color-plum-900);
+}
+
+/* --- 15. Tinted Surfaces ------------------------------------ */
+
+:root,
+:root[data-color-scheme="light"] {
+  --dp-color-surface-coral:    var(--dp-color-coral-50);
+  --dp-color-surface-sky-blue: var(--dp-color-sky-blue-50);
+  --dp-color-surface-cyan:     var(--dp-color-electric-cyan-50);
+  --dp-color-surface-plum:     var(--dp-color-plum-50);
+}
+
+:root[data-color-scheme="dark"] {
+  --dp-color-surface-coral:    var(--dp-color-coral-950);
+  --dp-color-surface-sky-blue: var(--dp-color-sky-blue-950);
+  --dp-color-surface-cyan:     var(--dp-color-electric-cyan-950);
+  --dp-color-surface-plum:     var(--dp-color-plum-950);
+}
+
+/* --- 16. Action Tokens (Layer 2 — semantic bridge) ---------- */
+
+:root {
+
+  /* Action Primary */
+  --dp-color-action-primary-default:    var(--dp-color-primary);
+  --dp-color-action-primary-hover:      var(--dp-color-primary-hover);
+  --dp-color-action-primary-focus:      var(--dp-color-primary-hover);
+  --dp-color-action-primary-active:     var(--dp-color-primary-active);
+  --dp-color-action-primary-disabled:   var(--dp-color-alpha-dark-10);
+  --dp-color-action-primary-on-default: var(--dp-color-on-primary);
+  --dp-color-action-primary-on-hover:   var(--dp-color-on-primary);
+
+  /* Action Secondary */
+  --dp-color-action-secondary-default:    var(--dp-color-secondary);
+  --dp-color-action-secondary-hover:      var(--dp-color-secondary-container);
+  --dp-color-action-secondary-on-default: var(--dp-color-on-secondary);
+}
+
+/* --- 17. Semantic Spacing ----------------------------------- */
+
+:root {
+
+  /* Inset (padding shorthand: vertical horizontal) */
+  --dp-sem-space-inset-xs: var(--dp-space-25) var(--dp-space-75);
+  --dp-sem-space-inset-sm: var(--dp-space-75) var(--dp-space-150);
+  --dp-sem-space-inset-md: var(--dp-space-100) var(--dp-space-200);
+  --dp-sem-space-inset-lg: var(--dp-space-150) var(--dp-space-300);
+
+  /* Gap (between sibling elements) */
+  --dp-sem-space-gap-xs: var(--dp-space-50);
+  --dp-sem-space-gap-sm: var(--dp-space-100);
+  --dp-sem-space-gap-md: var(--dp-space-200);
+  --dp-sem-space-gap-lg: var(--dp-space-400);
+  --dp-sem-space-gap-xl: var(--dp-space-600);
+
+  /* Section (page-level vertical rhythm) */
+  --dp-sem-space-section-sm: var(--dp-space-400);
+  --dp-sem-space-section-md: var(--dp-space-600);
+  --dp-sem-space-section-lg: var(--dp-space-800);
+}
+
+/* --- 18. Semantic Border Radius ----------------------------- */
+
+:root {
+  --dp-sem-radius-chip:      var(--dp-radius-25);   /* 4px */
+  --dp-sem-radius-button:    var(--dp-radius-50);   /* 8px */
+  --dp-sem-radius-card-sm:   var(--dp-radius-75);   /* 12px */
+  --dp-sem-radius-card:      var(--dp-radius-100);  /* 16px */
+  --dp-sem-radius-card-lg:   var(--dp-radius-150);  /* 20px */
+  --dp-sem-radius-container: var(--dp-radius-200);  /* 24px */
+  --dp-sem-radius-pill:      var(--dp-radius-pill); /* 9999px */
+  --dp-sem-radius-circle:    50%;                   /* circular elements */
+}
+
+/* --- 19. Semantic Stroke ------------------------------------ */
+
+:root {
+  --dp-sem-stroke-divider:  var(--dp-stroke-hairline);
+  --dp-sem-stroke-border:   var(--dp-stroke-default);
+  --dp-sem-stroke-accent:   var(--dp-stroke-accent);
+  --dp-sem-stroke-focus:    var(--dp-stroke-strong);
+  --dp-sem-stroke-emphasis: var(--dp-stroke-thick);
+}
+
+/* --- 20. Semantic Motion ------------------------------------ */
+
+:root {
+  --dp-sem-motion-interactive: var(--dp-transition-fast);
+  --dp-sem-motion-component:   var(--dp-transition-base);
+  --dp-sem-motion-layout:      var(--dp-transition-slow);
+  --dp-sem-motion-page:        var(--dp-transition-page);
+}
+
+/* --- 21. Semantic Icons ------------------------------------- */
+
+:root {
+  --dp-sem-icon-size-xs: 12px;
+  --dp-sem-icon-size-sm: 16px;
+  --dp-sem-icon-size-md: 20px;
+  --dp-sem-icon-size-lg: 24px;
+  --dp-sem-icon-size-xl: 32px;
+  --dp-sem-icon-stroke:  2px;
+  --dp-sem-icon-color:       var(--dp-color-on-surface);
+  --dp-sem-icon-color-muted: var(--dp-color-on-surface-variant);
+}
+
+/* --- 22. Semantic Typography -------------------------------- */
+
+:root {
+  --dp-sem-font-display: var(--dp-font-family-heading);
+  --dp-sem-font-body:    var(--dp-font-family-body);
+  --dp-sem-font-label:   var(--dp-font-family-label);
+  --dp-sem-font-code:    var(--dp-font-family-code);
+
+  --dp-sem-leading-display: var(--dp-leading-tight);
+  --dp-sem-leading-ui:      var(--dp-leading-snug);
+  --dp-sem-leading-body:    var(--dp-leading-normal);
+  --dp-sem-leading-long:    var(--dp-leading-loose);
+
+  --dp-sem-tracking-display: var(--dp-tracking-tight);
+  --dp-sem-tracking-body:    var(--dp-tracking-normal);
+  --dp-sem-tracking-ui:      var(--dp-tracking-wide);
+  --dp-sem-tracking-caps:    var(--dp-tracking-widest);
+}
+
+/* --- 23. Semantic Shadow ------------------------------------ */
+
+:root,
+:root[data-color-scheme="light"] {
+  --dp-sem-shadow-none:       var(--dp-shadow-none);
+  --dp-sem-shadow-button:     var(--dp-shadow-xs);
+  --dp-sem-shadow-card:       var(--dp-shadow-sm);
+  --dp-sem-shadow-card-hover: var(--dp-shadow-md);
+  --dp-sem-shadow-tooltip:    var(--dp-shadow-md);
+  --dp-sem-shadow-dropdown:   var(--dp-shadow-lg);
+  --dp-sem-shadow-sidebar:    var(--dp-shadow-lg);
+  --dp-sem-shadow-modal:      var(--dp-shadow-xl);
+  /* Component-specific — light mode values */
+  --dp-sem-shadow-nav:        0 2px 12px 0 rgba(0, 0, 0, 0.08);
+  --dp-sem-shadow-header-bar: 0 4px 12px 0 rgba(0, 0, 0, 0.35);
+  --dp-sem-shadow-diagram:    0 16px 48px 0 color-mix(in srgb, var(--dp-color-primary) 18%, transparent);
+}
+
+:root[data-color-scheme="dark"] {
+  /* Component-specific — dark mode overrides */
+  --dp-sem-shadow-nav:        0 2px 16px 0 rgba(0, 0, 0, 0.40);
+  --dp-sem-shadow-header-bar: 0 4px 12px 0 rgba(0, 0, 0, 0.50);
+  --dp-sem-shadow-diagram:    var(--dp-shadow-none);
+  /* Darker shadows for dark mode — dark surfaces have less natural contrast */
+  --dp-sem-shadow-button:
+    0 1px 2px 0 rgba(0, 0, 0, 0.30);
+  --dp-sem-shadow-card:
+    0 1px 3px 0 rgba(0, 0, 0, 0.40),
+    0 1px 2px 0 rgba(0, 0, 0, 0.30);
+  --dp-sem-shadow-card-hover:
+    0 4px 6px -1px rgba(0, 0, 0, 0.50),
+    0 2px 4px -1px rgba(0, 0, 0, 0.35);
+  --dp-sem-shadow-tooltip:
+    0 4px 6px -1px rgba(0, 0, 0, 0.50),
+    0 2px 4px -1px rgba(0, 0, 0, 0.35);
+  --dp-sem-shadow-dropdown:
+    0 10px 15px -3px rgba(0, 0, 0, 0.55),
+    0 4px  6px -2px rgba(0, 0, 0, 0.40);
+  --dp-sem-shadow-sidebar:
+    4px 0 24px 0 rgba(0, 0, 0, 0.40);
+  --dp-sem-shadow-modal:
+    0 20px 25px  -5px rgba(0, 0, 0, 0.60),
+    0 10px 10px  -5px rgba(0, 0, 0, 0.35);
+}
+
+/* --- 24. Accessibility resets ------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration:        0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration:       0.01ms !important;
+  }
+  .animate-on-scroll.is-visible {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* --- 25. System dark mode fallback ------------------------- */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-color-scheme="light"]) {
+    /* Surface */
+    --dp-color-surface:                   var(--dp-color-space-grey-950);
+    --dp-color-on-surface:                var(--dp-color-space-grey-100);
+    --dp-color-surface-variant:           var(--dp-color-space-grey-800);
+    --dp-color-on-surface-variant:        var(--dp-color-space-grey-400);
+    --dp-color-surface-dim:               var(--dp-color-space-grey-900);
+    --dp-color-surface-bright:            var(--dp-color-space-grey-800);
+    --dp-color-surface-container-lowest:  var(--dp-color-space-grey-950);
+    --dp-color-surface-container-low:     var(--dp-color-space-grey-900);
+    --dp-color-surface-container:         var(--dp-color-space-grey-800);
+    --dp-color-surface-container-high:    var(--dp-color-space-grey-700);
+    --dp-color-surface-container-highest: var(--dp-color-space-grey-600);
+    /* Outline */
+    --dp-color-outline:         var(--dp-color-space-grey-600);
+    --dp-color-outline-variant: var(--dp-color-space-grey-800);
+    /* Primary */
+    --dp-color-primary:              var(--dp-color-electric-cyan-400);
+    --dp-color-primary-strong:       var(--dp-color-electric-cyan-400);
+    --dp-color-on-primary:           var(--dp-color-space-grey-950);
+    --dp-color-primary-container:    var(--dp-color-electric-cyan-800);
+    --dp-color-on-primary-container: var(--dp-color-electric-cyan-100);
+    --dp-color-primary-hover:        var(--dp-color-electric-cyan-300);
+    --dp-color-primary-active:       var(--dp-color-electric-cyan-200);
+    /* Secondary */
+    --dp-color-secondary:              var(--dp-color-coral-400);
+    --dp-color-on-secondary:           var(--dp-color-space-grey-950);
+    --dp-color-secondary-container:    var(--dp-color-coral-800);
+    --dp-color-on-secondary-container: var(--dp-color-coral-100);
+    /* Tinted surfaces */
+    --dp-color-surface-coral:    var(--dp-color-coral-950);
+    --dp-color-surface-sky-blue: var(--dp-color-sky-blue-950);
+    --dp-color-surface-cyan:     var(--dp-color-electric-cyan-950);
+    --dp-color-surface-plum:     var(--dp-color-plum-950);
+    /* Error */
+    --dp-color-error:              var(--dp-color-status-error-200);
+    --dp-color-on-error:           var(--dp-color-status-error-900);
+    --dp-color-error-container:    var(--dp-color-status-error-900);
+    --dp-color-on-error-container: var(--dp-color-status-error-100);
+
+    /* Success */
+    --dp-color-success:              var(--dp-color-status-success-200);
+    --dp-color-on-success:           var(--dp-color-status-success-900);
+    --dp-color-success-container:    var(--dp-color-status-success-900);
+    --dp-color-on-success-container: var(--dp-color-status-success-100);
+
+    /* Warning */
+    --dp-color-warning:              var(--dp-color-status-warning-200);
+    --dp-color-on-warning:           var(--dp-color-status-warning-900);
+    --dp-color-warning-container:    var(--dp-color-status-warning-900);
+    --dp-color-on-warning-container: var(--dp-color-status-warning-100);
+
+    /* Info */
+    --dp-color-info:              var(--dp-color-status-info-200);
+    --dp-color-on-info:           var(--dp-color-status-info-900);
+    --dp-color-info-container:    var(--dp-color-status-info-900);
+    --dp-color-on-info-container: var(--dp-color-status-info-100);
+  }
+}

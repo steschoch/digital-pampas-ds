@@ -1,0 +1,37 @@
+/* ── ThemeToggle ──────────────────────────────────────────────────
+   Layer 3 — component tokens → semantic tokens in globals.css. */
+
+.toggle {
+  --tt-size:    40px;
+  --tt-fg:      var(--dp-color-on-surface-variant);
+  --tt-fg-hover:var(--dp-color-on-surface);
+  --tt-bg-hover:color-mix(in srgb, var(--dp-color-on-surface) 8%, transparent);
+  --tt-border:  var(--dp-color-outline-variant);
+  --tt-radius:  var(--dp-sem-radius-button);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tt-size);
+  height: var(--tt-size);
+  color: var(--tt-fg);
+  background: none;
+  border: var(--dp-sem-stroke-border) solid var(--tt-border);
+  border-radius: var(--tt-radius);
+  cursor: pointer;
+  transition:
+    color var(--dp-sem-motion-interactive),
+    background-color var(--dp-sem-motion-interactive),
+    border-color var(--dp-sem-motion-interactive);
+}
+
+.toggle:hover {
+  color: var(--tt-fg-hover);
+  background-color: var(--tt-bg-hover);
+  border-color: var(--dp-color-outline);
+}
+
+.toggle:focus-visible {
+  outline: var(--dp-sem-stroke-focus) solid var(--dp-color-primary);
+  outline-offset: var(--dp-focus-offset);
+}

@@ -1,0 +1,97 @@
+/* Button — Layer 3 tokens declared and consumed here */
+
+.button {
+  /* Layer 3 — scoped tokens; variants reassign, base rule consumes */
+  --btn-bg:     transparent;
+  --btn-fg:     var(--dp-color-on-surface);
+  --btn-border: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--dp-sem-space-gap-xs);
+  padding: var(--dp-sem-space-inset-sm);
+  font-family: var(--dp-sem-font-label);
+  font-size: var(--dp-font-size-100);
+  font-weight: var(--dp-font-weight-semibold);
+  letter-spacing: var(--dp-sem-tracking-ui);
+  line-height: var(--dp-sem-leading-ui);
+  background-color: var(--btn-bg);
+  color: var(--btn-fg);
+  border-radius: var(--dp-sem-radius-button);
+  border: var(--dp-sem-stroke-border) solid var(--btn-border);
+  cursor: pointer;
+  user-select: none;
+  text-align: center;
+  white-space: nowrap;
+  transition:
+    background-color var(--dp-sem-motion-interactive),
+    border-color     var(--dp-sem-motion-interactive),
+    color            var(--dp-sem-motion-interactive),
+    transform        var(--dp-sem-motion-interactive);
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.button:focus-visible {
+  outline: var(--dp-sem-stroke-focus) solid var(--dp-color-primary);
+  outline-offset: 2px;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  --btn-bg:     var(--dp-color-surface-container);
+  --btn-fg:     var(--dp-color-text-disabled);
+  --btn-border: var(--dp-color-surface-container);
+}
+
+/* ── Sizes ─────────────────────────────────────────────── */
+.sm { padding: var(--dp-sem-space-inset-xs); font-size: var(--dp-font-size-75); }
+.md { padding: var(--dp-sem-space-inset-sm); font-size: var(--dp-font-size-100); }
+.lg { padding: var(--dp-sem-space-inset-md); font-size: var(--dp-font-size-150); }
+
+/* ── Pill ──────────────────────────────────────────────── */
+.pill { border-radius: var(--dp-sem-radius-pill); }
+
+/* ── Primary ───────────────────────────────────────────── */
+.primary {
+  --btn-bg:     var(--dp-color-action-primary-default);
+  --btn-fg:     var(--dp-color-action-primary-on-default);
+  --btn-border: var(--dp-color-action-primary-default);
+}
+.primary:hover:not(:disabled) {
+  --btn-bg:     var(--dp-color-action-primary-hover);
+  --btn-fg:     var(--dp-color-action-primary-on-hover);
+  --btn-border: var(--dp-color-action-primary-hover);
+}
+.primary:active:not(:disabled) {
+  --btn-bg: var(--dp-color-action-primary-active);
+}
+
+/* ── Secondary (outlined) ──────────────────────────────── */
+.secondary {
+  --btn-fg:     var(--dp-color-secondary);
+  --btn-border: var(--dp-color-outline);
+}
+.secondary:hover:not(:disabled) {
+  --btn-bg:     var(--dp-color-surface-container);
+  --btn-fg:     var(--dp-color-secondary);
+  --btn-border: var(--dp-color-secondary);
+}
+
+/* ── Ghost ─────────────────────────────────────────────── */
+.ghost {
+  --btn-fg:     var(--dp-color-on-surface);
+  --btn-border: transparent;
+}
+.ghost:hover:not(:disabled) {
+  --btn-bg: var(--dp-color-surface-container);
+  --btn-fg: var(--dp-color-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button { transition: none; }
+  .button:active:not(:disabled) { transform: none; }
+}

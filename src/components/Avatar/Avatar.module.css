@@ -1,0 +1,27 @@
+/* ── Avatar ───────────────────────────────────────────────────────
+   Layer 3 — component tokens → semantic tokens in globals.css. */
+
+.avatar {
+  --av-bg:     color-mix(in srgb, var(--dp-color-primary) 14%, transparent);
+  --av-fg:     var(--dp-color-primary);
+  --av-border: var(--dp-color-outline-variant);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--dp-sem-radius-circle);
+  background: var(--av-bg);
+  color: var(--av-fg);
+  border: var(--dp-sem-stroke-border) solid var(--av-border);
+  font-family: var(--dp-sem-font-display);
+  font-weight: var(--dp-font-weight-semibold);
+  line-height: 1;
+  user-select: none;
+  overflow: hidden;
+}
+
+.img {
+  object-fit: cover;
+  background: var(--dp-color-surface-container);
+}

@@ -1,0 +1,59 @@
+/* ── ChartPanel ───────────────────────────────────────────────────
+   Layer 3 — component tokens → semantic tokens in globals.css. */
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dp-space-200);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--dp-space-150);
+  flex-wrap: wrap;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--dp-sem-font-display);
+  font-size: var(--dp-font-size-112);
+  font-weight: var(--dp-font-weight-semibold);
+  color: var(--dp-color-on-surface);
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: var(--dp-space-200);
+  flex-wrap: wrap;
+}
+
+.legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: var(--dp-space-150);
+  flex-wrap: wrap;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dp-space-50);
+  font-family: var(--dp-sem-font-body);
+  font-size: var(--dp-font-size-37);
+  color: var(--dp-color-on-surface-variant);
+}
+
+.swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--dp-sem-radius-chip);
+}
+
+.body {
+  min-height: 0;
+}
