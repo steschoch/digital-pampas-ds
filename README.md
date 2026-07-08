@@ -47,7 +47,7 @@ has a dark and a light value — no color is hardcoded.
 
 ---
 
-## Components (43)
+## Components (35)
 
 All components live in `src/components/`, each in its own folder with a `README.md`.
 Every component:
@@ -187,7 +187,7 @@ ds-digital-pampas/
 │   │   │   ├── Button.tsx
 │   │   │   ├── Button.module.css
 │   │   │   └── README.md
-│   │   └── ... (43 components total)
+│   │   └── ... (35 components total)
 │   ├── index.ts               # public API (all exports)
 │   ├── App.tsx                # showroom entry
 │   └── main.tsx
