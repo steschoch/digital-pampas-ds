@@ -5,6 +5,7 @@ type CatalogDoc = { id: string } & Omit<ComponentViewerProps, 'id'>
 
 interface ComponentsGridProps {
   catalog: CatalogDoc[]
+  onSelect: (id: string) => void
 }
 
 const CAT_CLASS: Record<string, string> = {
@@ -13,11 +14,11 @@ const CAT_CLASS: Record<string, string> = {
   Pattern: 'catPattern',
 }
 
-export function ComponentsGrid({ catalog }: ComponentsGridProps) {
+export function ComponentsGrid({ catalog, onSelect }: ComponentsGridProps) {
   return (
     <div className={styles.grid}>
       {catalog.map(doc => (
-        <a key={doc.id} href={`#${doc.id}`} className={styles.card}>
+        <button key={doc.id} onClick={() => onSelect(doc.id)} className={styles.card}>
 
           {/* ── Preview area ─────────────────────────────── */}
           <div className={styles.previewWrap}>
@@ -36,7 +37,7 @@ export function ComponentsGrid({ catalog }: ComponentsGridProps) {
             <p className={styles.desc}>{doc.description}</p>
           </div>
 
-        </a>
+        </button>
       ))}
     </div>
   )

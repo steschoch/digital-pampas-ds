@@ -108,7 +108,10 @@ const NAV_GROUPS: NavGroup[] = [
   {
     id: 'application',
     label: 'Application',
-    items: PORTAL_CATALOG.map((d) => ({ id: d.id, label: d.name })),
+    items: [
+      { id: 'all-application', label: 'All Application' },
+      ...PORTAL_CATALOG.map((d) => ({ id: d.id, label: d.name })),
+    ],
   },
 ]
 
@@ -1324,7 +1327,7 @@ export default function App() {
               accessibility specs, and an AI prompt template for code generation.
             </p>
           </div>
-          <ComponentsGrid catalog={COMPONENT_CATALOG} />
+          <ComponentsGrid catalog={COMPONENT_CATALOG} onSelect={selectPage} />
         </Page>
 
         {/* Component showroom — one page per catalogued component */}
@@ -1501,7 +1504,20 @@ export default function App() {
           </p>
         </Page>
 
-        {/* Application / Portal components */}
+        {/* Application / Portal — overview grid */}
+        <Page id="all-application" active={activeId}>
+          <SectionHeader id="all-application" kicker="A0" title="All Application" />
+          <div className={styles.catalogIntro}>
+            <p className={styles.catalogKicker}>Application Components</p>
+            <p className={styles.catalogBody}>
+              {PORTAL_CATALOG.length} components built for the client portal — data visualization,
+              navigation, forms, and feedback patterns.
+            </p>
+          </div>
+          <ComponentsGrid catalog={PORTAL_CATALOG} onSelect={selectPage} />
+        </Page>
+
+        {/* Application / Portal components — individual pages */}
         {PORTAL_CATALOG.map((doc, i) => (
           <Page key={doc.id} id={doc.id} active={activeId}>
             <SectionHeader id={doc.id} kicker={`A${i + 1}`} title={doc.name} />

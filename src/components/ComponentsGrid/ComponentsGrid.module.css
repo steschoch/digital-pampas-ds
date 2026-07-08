@@ -29,6 +29,11 @@
   overflow: hidden;
   text-decoration: none;
   background: var(--cg-surface);
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
   transition:
     border-color var(--cg-motion),
     box-shadow   var(--cg-motion),
