@@ -42,6 +42,16 @@ export interface FooterSocial {
   Icon: ComponentType<{ size?: number }>
 }
 
+export interface FooterFounder {
+  name: string
+  role: string
+  location: string
+  linkedinHref: string
+  photoSrc: string
+  /** Alt text for the photo. Defaults to the founder's name. */
+  photoAlt?: string
+}
+
 export interface FooterProps {
   columns?: FooterColumn[]
   social?: FooterSocial[]
@@ -54,6 +64,8 @@ export interface FooterProps {
   newsletterHeading?: string
   /** Called with the submitted email. If omitted, a local success state is shown. */
   onNewsletterSubmit?: (email: string) => void
+  /** Optional founder/person card shown in the brand column. Omit to hide. */
+  founder?: FooterFounder
   id?: string
 }
 
@@ -148,6 +160,7 @@ export function Footer({
   legal = '© 2026 Digital Pampas · B2B outbound infrastructure',
   newsletterHeading = 'Sign up to our newsletter',
   onNewsletterSubmit,
+  founder,
   id = 'about',
 }: FooterProps) {
   return (
@@ -188,6 +201,30 @@ export function Footer({
                 ))}
               </div>
             </div>
+
+            {founder && (
+              <div className={styles.founder}>
+                <img
+                  src={founder.photoSrc}
+                  alt={founder.photoAlt ?? founder.name}
+                  className={styles.founderPhoto}
+                  width={72}
+                  height={72}
+                  loading="lazy"
+                />
+                <p className={styles.founderName}>{founder.name}</p>
+                <p className={styles.founderRole}>{founder.role}</p>
+                <p className={styles.founderLocation}>{founder.location}</p>
+                <a
+                  href={founder.linkedinHref}
+                  className={styles.founderLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Connect on LinkedIn&nbsp;→
+                </a>
+              </div>
+            )}
           </div>
 
           <nav className={styles.columns} aria-label="Footer navigation">

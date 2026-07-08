@@ -252,6 +252,66 @@
 }
 
 
+/* ─── Founder card ────────────────────────────────────────────────── */
+
+.founder {
+  margin-top: var(--dp-space-400);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.founderPhoto {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: var(--dp-sem-stroke-border) solid var(--dp-color-outline-variant);
+  margin-bottom: var(--dp-space-100);
+}
+
+.founderName {
+  margin: 0;
+  font-family: var(--dp-sem-font-body);
+  font-size: var(--dp-font-size-75);
+  font-weight: 600;
+  color: var(--dp-color-on-surface);
+}
+
+.founderRole {
+  margin: var(--dp-space-37) 0 0;
+  font-family: var(--dp-sem-font-body);
+  font-size: var(--dp-font-size-62);
+  color: var(--dp-color-on-surface-variant);
+}
+
+.founderLocation {
+  margin: var(--dp-space-37) 0 0;
+  font-family: var(--dp-sem-font-body);
+  font-size: var(--dp-font-size-50);
+  line-height: 1.5;
+  color: var(--dp-color-on-surface-variant);
+  opacity: 0.75;
+}
+
+.founderLink {
+  margin-top: var(--dp-space-75);
+  font-family: var(--dp-sem-font-body);
+  font-size: var(--dp-font-size-62);
+  font-weight: 500;
+  color: var(--dp-color-primary-on-dark);
+  text-decoration: none;
+  transition: opacity var(--dp-sem-motion-interactive);
+}
+
+.founderLink:hover { opacity: 0.75; }
+
+.founderLink:focus-visible {
+  outline: var(--dp-sem-stroke-focus) solid var(--dp-color-primary);
+  outline-offset: var(--dp-focus-offset);
+  border-radius: var(--dp-sem-radius-chip);
+}
+
 /* ─── Link columns ────────────────────────────────────────────────── */
 
 .columns {

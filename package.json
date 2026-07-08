@@ -1,6 +1,6 @@
 {
   "name": "@steschoch/digital-pampas-ds",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "description": "Digital Pampas Design System — tokens and React components. Single source of truth.",
   "repository": {
@@ -18,8 +18,12 @@
     "./styles.css": "./dist/styles.css",
     "./globals.css": "./dist/globals.css"
   },
-  "files": ["dist"],
-  "sideEffects": ["**/*.css"],
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build && npm run build:types && npm run build:assets",
