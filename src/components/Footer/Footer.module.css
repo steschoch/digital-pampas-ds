@@ -169,22 +169,7 @@
   flex-direction: column;
 }
 
-/* ─── Social connect ──────────────────────────────────────────────── */
-
-.socialConnect {
-  margin-top: var(--dp-space-400);
-}
-
-.socialLabel {
-  margin: 0 0 var(--dp-space-75);
-  font-family: var(--dp-sem-font-code);
-  font-size: var(--dp-font-size-37);
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--dp-color-on-surface-variant);
-  opacity: 0.55;
-}
+/* ─── Social icons (Connect column) ───────────────────────────────── */
 
 .socialIcons {
   display: flex;
@@ -244,10 +229,11 @@
 
 .tagline {
   margin: 0;
-  margin-top: var(--dp-space-50);
+  margin-top: var(--dp-space-75);
   font-family: var(--dp-sem-font-body);
   font-size: var(--dp-font-size-75);
   line-height: 1.5;
+  white-space: nowrap;
   color: var(--dp-color-on-surface-variant);
 }
 
@@ -255,8 +241,6 @@
 /* ─── Client portal link ──────────────────────────────────────────── */
 
 .portalLink {
-  align-self: flex-start;
-  margin-top: var(--dp-space-150);
   display: inline-flex;
   align-items: center;
   padding: var(--dp-space-50) var(--dp-space-150);
@@ -285,7 +269,7 @@
 /* ─── Founder card ────────────────────────────────────────────────── */
 
 .founder {
-  margin-top: var(--dp-space-400);
+  margin-top: var(--dp-space-200);
   display: flex;
   flex-direction: column;
   align-items: flex-start;

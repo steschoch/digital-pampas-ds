@@ -152,11 +152,7 @@ function NewsletterBand({
 export function Footer({
   columns = DEFAULT_COLUMNS,
   social = DEFAULT_SOCIAL,
-  tagline = (
-    <>
-      We build the machine.<br />You own it.
-    </>
-  ),
+  tagline = 'We build the machine. You own it.',
   email = 'hello@digitalpampas.com',
   logoSrc = '/logo-footer.png',
   logoLightSrc = '/logo-footer-light.png',
@@ -188,34 +184,8 @@ export function Footer({
               <img src={logoSrc} alt="Digital Pampas" className={`${styles.logoImg} ${styles.logoDark}`} />
               <img src={logoLightSrc} alt="Digital Pampas" className={`${styles.logoImg} ${styles.logoLight}`} aria-hidden="true" />
             </a>
+
             <p className={styles.tagline}>{tagline}</p>
-
-            {portalHref && (
-              <a
-                href={portalHref}
-                className={styles.portalLink}
-                {...(portalHref.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-              >
-                {portalLabel}&nbsp;→
-              </a>
-            )}
-
-            <div className={styles.socialConnect}>
-              <p className={styles.socialLabel}>Connect</p>
-              <div className={styles.socialIcons}>
-                {social.map(({ label, href, Icon }) => (
-                  <a
-                    key={label}
-                    href={href}
-                    aria-label={label}
-                    className={styles.socialIcon}
-                    {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                  >
-                    <Icon size={18} />
-                  </a>
-                ))}
-              </div>
-            </div>
 
             {founder && (
               <div className={styles.founder}>
@@ -243,6 +213,34 @@ export function Footer({
           </div>
 
           <nav className={styles.columns} aria-label="Footer navigation">
+            <div className={styles.column}>
+              <p className={styles.colTitle}>Connect</p>
+              <div className={styles.socialIcons}>
+                {social.map(({ label, href, Icon }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    aria-label={label}
+                    className={styles.socialIcon}
+                    {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  >
+                    <Icon size={18} />
+                  </a>
+                ))}
+              </div>
+            </div>
+            {portalHref && (
+              <div className={styles.column}>
+                <p className={styles.colTitle}>Access</p>
+                <a
+                  href={portalHref}
+                  className={styles.portalLink}
+                  {...(portalHref.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
+                  {portalLabel}&nbsp;→
+                </a>
+              </div>
+            )}
             {columns.map((col) => (
               <div key={col.title} className={styles.column}>
                 <p className={styles.colTitle}>{col.title}</p>
