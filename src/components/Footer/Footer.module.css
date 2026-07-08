@@ -252,6 +252,36 @@
 }
 
 
+/* ─── Client portal link ──────────────────────────────────────────── */
+
+.portalLink {
+  align-self: flex-start;
+  margin-top: var(--dp-space-150);
+  display: inline-flex;
+  align-items: center;
+  padding: var(--dp-space-50) var(--dp-space-150);
+  border: var(--dp-sem-stroke-border) solid var(--dp-color-primary);
+  border-radius: var(--dp-sem-radius-pill);
+  font-family: var(--dp-sem-font-body);
+  font-size: var(--dp-font-size-62);
+  font-weight: 600;
+  color: var(--dp-color-primary-on-dark);
+  text-decoration: none;
+  transition:
+    background-color var(--dp-sem-motion-interactive),
+    color var(--dp-sem-motion-interactive);
+}
+
+.portalLink:hover {
+  background-color: var(--dp-color-primary);
+  color: var(--dp-color-on-primary);
+}
+
+.portalLink:focus-visible {
+  outline: var(--dp-sem-stroke-focus) solid var(--dp-color-primary);
+  outline-offset: var(--dp-focus-offset);
+}
+
 /* ─── Founder card ────────────────────────────────────────────────── */
 
 .founder {

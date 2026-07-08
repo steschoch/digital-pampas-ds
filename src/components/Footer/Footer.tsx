@@ -66,6 +66,9 @@ export interface FooterProps {
   onNewsletterSubmit?: (email: string) => void
   /** Optional founder/person card shown in the brand column. Omit to hide. */
   founder?: FooterFounder
+  /** Optional client portal link (login CTA) shown in the brand column. Omit to hide. */
+  portalHref?: string
+  portalLabel?: string
   id?: string
 }
 
@@ -161,6 +164,8 @@ export function Footer({
   newsletterHeading = 'Sign up to our newsletter',
   onNewsletterSubmit,
   founder,
+  portalHref,
+  portalLabel = 'Client Portal',
   id = 'about',
 }: FooterProps) {
   return (
@@ -184,6 +189,16 @@ export function Footer({
               <img src={logoLightSrc} alt="Digital Pampas" className={`${styles.logoImg} ${styles.logoLight}`} aria-hidden="true" />
             </a>
             <p className={styles.tagline}>{tagline}</p>
+
+            {portalHref && (
+              <a
+                href={portalHref}
+                className={styles.portalLink}
+                {...(portalHref.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              >
+                {portalLabel}&nbsp;→
+              </a>
+            )}
 
             <div className={styles.socialConnect}>
               <p className={styles.socialLabel}>Connect</p>
