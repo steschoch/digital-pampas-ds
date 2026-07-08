@@ -81,7 +81,7 @@ const NAV_GROUPS: NavGroup[] = [
   },
   {
     id: 'components',
-    label: 'Components',
+    label: 'Components — Site',
     items: [
       { id: 'all-components',   label: 'All Components' },
       { id: 'button',           label: 'Button' },
@@ -107,9 +107,9 @@ const NAV_GROUPS: NavGroup[] = [
   },
   {
     id: 'application',
-    label: 'Application',
+    label: 'Components — Portal',
     items: [
-      { id: 'all-application', label: 'All Application' },
+      { id: 'all-application', label: 'All Components' },
       ...PORTAL_CATALOG.map((d) => ({ id: d.id, label: d.name })),
     ],
   },
@@ -1506,9 +1506,9 @@ export default function App() {
 
         {/* Application / Portal — overview grid */}
         <Page id="all-application" active={activeId}>
-          <SectionHeader id="all-application" kicker="A0" title="All Application" />
+          <SectionHeader id="all-application" kicker="A0" title="All Components" />
           <div className={styles.catalogIntro}>
-            <p className={styles.catalogKicker}>Application Components</p>
+            <p className={styles.catalogKicker}>Portal Components</p>
             <p className={styles.catalogBody}>
               {PORTAL_CATALOG.length} components built for the client portal — data visualization,
               navigation, forms, and feedback patterns.
