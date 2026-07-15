@@ -45,7 +45,8 @@ export interface FooterSocial {
 export interface FooterFounder {
   name: string
   role: string
-  location: string
+  /** Optional location/availability line. Omit to hide. */
+  location?: string
   linkedinHref: string
   photoSrc: string
   /** Alt text for the photo. Defaults to the founder's name. */
@@ -199,7 +200,9 @@ export function Footer({
                 />
                 <p className={styles.founderName}>{founder.name}</p>
                 <p className={styles.founderRole}>{founder.role}</p>
-                <p className={styles.founderLocation}>{founder.location}</p>
+                {founder.location && (
+                  <p className={styles.founderLocation}>{founder.location}</p>
+                )}
                 <a
                   href={founder.linkedinHref}
                   className={styles.founderLink}
