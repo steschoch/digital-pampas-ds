@@ -10,7 +10,7 @@ interface Phase {
   num: string;
   name: string;
   title: string;
-  tool: string;
+  tools: string[];
   dur: string;
   bullets: [string, string, string];
   youGet: string;
@@ -18,24 +18,37 @@ interface Phase {
 }
 
 /* ── Sub-panel components ──────────────────────────────────────────── */
+/* Each panel mirrors the demonstration shown on the current
+   digitalpampas.com "How I build" section, faithfully. */
 
 function IcpPanel() {
-  const rows: [string, string][] = [
-    ['Role', 'VP Sales · Founder · Head of Revenue'],
-    ['Company size', '50 – 500 employees'],
-    ['Tech stack', 'HubSpot or Salesforce + Clay'],
-    ['Geography', 'US · DACH · LatAm'],
+  const cards: { n: string; title: string; rows: [string, string][] }[] = [
+    { n: '01', title: 'Firmographics',   rows: [['SIZE', '50-500 employees'], ['INDUSTRY', 'B2B SaaS'], ['REVENUE', '$1M-$50M ARR']] },
+    { n: '02', title: 'Technographics',  rows: [['CRM', 'HubSpot, Salesforce'], ['TOOLS', 'Clay, Apollo'], ['STACK', 'Modern automation']] },
+    { n: '03', title: 'Behavioral',      rows: [['DECISIONS', 'Data-driven'], ['ACTIVE', 'On LinkedIn'], ['CYCLE', '2-4 weeks']] },
+    { n: '04', title: 'Success Signals', rows: [['PAIN', 'Manual work'], ['GOAL', 'Scale sales'], ['TRIGGERS', 'Funding, hiring']] },
   ];
   return (
     <div className={styles.subPanel}>
       <div className={styles.subPanelHeader}>
-        <span className={styles.subPanelTitle}>ICP CRITERIA: TARGETING ACTIVE</span>
+        <span className={styles.subPanelTitle}>ICP Criteria</span>
+        <span className={styles.liveIndicator} aria-label="Status: targeting active">● ICP TARGETING ACTIVE</span>
       </div>
-      <div className={styles.tableRows}>
-        {rows.map(([k, v]) => (
-          <div key={k} className={styles.tableRow}>
-            <span className={styles.tableKey}>{k}</span>
-            <span className={styles.tableVal}>{v}</span>
+      <div className={styles.icpGrid}>
+        {cards.map((c) => (
+          <div key={c.n} className={styles.icpCard}>
+            <div className={styles.icpCardHead}>
+              <span className={styles.icpCardNum} aria-hidden="true">{c.n}</span>
+              <span className={styles.icpCardTitle}>{c.title}</span>
+            </div>
+            <div className={styles.icpRows}>
+              {c.rows.map(([k, v]) => (
+                <div key={k} className={styles.icpRow}>
+                  <span className={styles.icpKey}>{k}</span>
+                  <span className={styles.icpVal}>{v}</span>
+                </div>
+              ))}
+            </div>
           </div>
         ))}
       </div>
@@ -44,112 +57,127 @@ function IcpPanel() {
 }
 
 function ProspectPanel() {
-  const rows = [
-    { name: 'Sarah Chen', company: 'Veritas SaaS', role: 'VP Sales', fit: '96%' },
-    { name: 'Marco Duarte', company: 'Axio Growth', role: 'Founder', fit: '91%' },
-    { name: 'Anna Kowalski', company: 'Pipeline Co.', role: 'Head of Revenue', fit: '88%' },
+  const rows: [string, string, string, string, string][] = [
+    ['001', 'TechFlow', 'Sarah Chen, VP', 'SaaS', 'Qualified'],
+    ['002', 'DataSync', 'Mike Rodriguez', 'Analytics', 'Qualified'],
+    ['003', 'CloudVenture', 'Emma Thompson', 'Cloud', 'Qualified'],
+    ['004', 'GrowthStack', 'James Park', 'MarTech', 'Qualified'],
+    ['005', 'AutomateIO', 'Lisa Wang', 'Automation', 'Qualified'],
   ];
+  const totals: [string, string][] = [['1,247', 'Total Prospects'], ['892', 'ICP Match'], ['98%', 'Data Quality']];
   return (
     <div className={styles.subPanel}>
-      <div className={styles.subPanelHeader}>
-        <span className={styles.subPanelTitle}>NAME / COMPANY</span>
-        <span className={styles.subPanelTitle}>ROLE</span>
-        <span className={styles.subPanelTitle}>ICP FIT</span>
-      </div>
-      {rows.map((r) => (
-        <div key={r.name} className={styles.prospectRow}>
-          <div className={styles.prospectCell}>
-            <span className={styles.prospectName}>{r.name}</span>
-            <span className={styles.prospectCompany}>{r.company}</span>
-          </div>
-          <span className={styles.prospectRole}>{r.role}</span>
-          <span className={styles.fitBadge}>{r.fit}</span>
+      <div className={styles.prospectTable}>
+        <div className={`${styles.prospectRow} ${styles.prospectHead}`}>
+          <span className={styles.pcHash}>#</span>
+          <span className={styles.pcCompany}>COMPANY</span>
+          <span className={styles.pcContact}>CONTACT</span>
+          <span className={styles.pcIndustry}>INDUSTRY</span>
+          <span className={styles.pcStatus}>STATUS</span>
         </div>
-      ))}
+        {rows.map((r) => (
+          <div key={r[0]} className={styles.prospectRow}>
+            <span className={styles.pcHash}>{r[0]}</span>
+            <span className={styles.pcCompany}>{r[1]}</span>
+            <span className={styles.pcContact}>{r[2]}</span>
+            <span className={styles.pcIndustry}>{r[3]}</span>
+            <span className={styles.pcStatus}><span className={styles.statusPill}>{r[4]}</span></span>
+          </div>
+        ))}
+      </div>
+      <div className={styles.prospectTotals}>
+        {totals.map(([v, l]) => (
+          <div key={l} className={styles.totalCell}>
+            <span className={styles.totalVal}>{v}</span>
+            <span className={styles.totalLbl}>{l}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
 
-function VerificationPanel() {
-  const bars = [
-    { label: 'Hunter.io', value: '78%', pct: 78 },
-    { label: 'Apollo', value: '+13%', pct: 13 },
-    { label: 'Prospeo', value: '+4%', pct: 4 },
+function EnrichmentPanel() {
+  const steps: { n: string; title: string; tools: string[]; result: string }[] = [
+    { n: '1', title: 'Email Verification Waterfall', tools: ['Apollo', 'FindyMail', 'BetterContact'], result: 'Verified: sarah.chen@techflow.io (95% confidence)' },
+    { n: '2', title: 'LinkedIn Profile Enrichment', tools: ['LinkedIn', 'Clay'], result: 'Profile: VP of Sales · 8 years exp · Stanford MBA' },
+    { n: '3', title: 'Company Intelligence', tools: ['Clearbit', 'Crunchbase', 'BuiltWith'], result: '250 employees · $15M funding · HubSpot + Salesforce stack' },
+    { n: '4', title: 'Buying Signals Detection', tools: ['AI Analysis', 'News API'], result: 'Hired 3 SDRs · Job posted for Sales Ops Manager' },
   ];
   return (
     <div className={styles.subPanel}>
-      <div className={styles.subPanelHeader}>
-        <span className={styles.subPanelTitle}>VERIFICATION CHAIN</span>
-      </div>
-      <div className={styles.verBars}>
-        {bars.map((b) => (
-          <div key={b.label} className={styles.verRow}>
-            <span className={styles.verLabel}>{b.label}</span>
-            <div className={styles.verTrack} role="progressbar" aria-valuenow={b.pct} aria-valuemin={0} aria-valuemax={100}>
-              <div className={`${styles.verFill} ${styles.verFillIndigo}`} style={{ width: `${b.pct}%` }} />
+      <div className={styles.enrichSteps}>
+        {steps.map((s) => (
+          <div key={s.n} className={styles.enrichStep}>
+            <span className={styles.enrichNum} aria-hidden="true">{s.n}</span>
+            <div className={styles.enrichBody}>
+              <div className={styles.enrichTop}>
+                <span className={styles.enrichTitle}>{s.title}</span>
+                <span className={styles.chipRow}>
+                  {s.tools.map((t) => (
+                    <span key={t} className={styles.toolChip}>{t}</span>
+                  ))}
+                </span>
+              </div>
+              <span className={styles.enrichResult}>{s.result}</span>
             </div>
-            <span className={styles.verVal}>{b.value}</span>
           </div>
         ))}
-        <div className={styles.verTotal}>
-          <span>Total verified:</span>
-          <span className={styles.verTotalVal}>95%+</span>
-        </div>
       </div>
     </div>
   );
 }
 
 function ScorePanel() {
-  const bars: { label: string; pct: number; dim: boolean }[] = [
-    { label: 'High fit (85+)', pct: 32, dim: false },
-    { label: 'Medium (60–84)', pct: 45, dim: false },
-    { label: 'Low (< 60)', pct: 23, dim: true },
+  const leads: { name: string; score: string; points: string[] }[] = [
+    { name: 'TechFlow Solutions', score: '95', points: ['Perfect ICP fit: B2B SaaS, 250 employees, $15M funding', 'Hiring signal: 3 new SDRs, looking for Sales Ops Manager', 'Tech stack match: Using HubSpot + Salesforce'] },
+    { name: 'CloudVenture Labs', score: '88', points: ['Strong fit: Cloud services, 180 employees, Series A', 'Funding signal: Just raised $10M Series A'] },
+    { name: 'GrowthStack Inc', score: '82', points: ['Good fit: MarTech company, 120 employees', 'Using modern stack: Clay, Apollo already implemented'] },
   ];
   return (
     <div className={styles.subPanel}>
       <div className={styles.subPanelHeader}>
-        <span className={styles.subPanelTitle}>AI SCORE DISTRIBUTION</span>
+        <span className={styles.subPanelTitle}>AI-Scored Leads</span>
       </div>
-      <div className={styles.scoreBars}>
-        {bars.map((b) => (
-          <div key={b.label} className={styles.scoreRow}>
-            <span className={styles.scoreLabel}>{b.label}</span>
-            <div className={styles.scoreTrack} role="progressbar" aria-valuenow={b.pct} aria-valuemin={0} aria-valuemax={100}>
-              <div
-                className={`${styles.scoreFill} ${b.dim ? styles.scoreFillDim : styles.scoreFillPlum}`}
-                style={{ width: `${b.pct}%` }}
-              />
+      <div className={styles.scoreLeads}>
+        {leads.map((l) => (
+          <div key={l.name} className={styles.leadCard}>
+            <div className={styles.leadHead}>
+              <span className={styles.leadName}>{l.name}</span>
+              <span className={styles.leadScore}>{l.score}</span>
             </div>
-            <span className={styles.scoreVal}>{b.pct}%</span>
+            <ul className={styles.leadPoints}>
+              {l.points.map((p) => (
+                <li key={p} className={styles.leadPoint}>{p}</li>
+              ))}
+            </ul>
           </div>
         ))}
-      </div>
-      <div className={styles.scoreFooter}>
-        <span className={styles.scoreFooterLabel}>Entering sequences</span>
-        <span className={styles.scoreFooterVal}>High fit only</span>
       </div>
     </div>
   );
 }
 
 function SequencePanel() {
-  const steps = [
-    { n: '1', action: 'Email, personalized opener', day: 'Day 0' },
-    { n: '2', action: 'LinkedIn connect + message', day: 'Day 3' },
-    { n: '3', action: 'Email follow-up, value add', day: 'Day 7' },
+  const touches: { day: string; channel: string; subject: string; preview: string }[] = [
+    { day: 'Day 1', channel: 'EMAIL', subject: 'Quick question about your sales ops at {{company}}', preview: 'Hi {{first_name}}, Saw you recently hired {{hiring_signal}}. Curious — are you still manually qualifying leads?' },
+    { day: 'Day 3', channel: 'LINKEDIN', subject: 'Connection Request + Note', preview: "Hi {{first_name}}, noticed we're both focused on scaling B2B sales. Would love to connect!" },
+    { day: 'Day 6', channel: 'EMAIL', subject: 'Re: Quick question about your sales ops', preview: '{{first_name}}, I know {{company}} is focused on {{pain_point}}. Quick 15-min call this week?' },
+    { day: 'Day 10', channel: 'EMAIL', subject: '[Case Study] How {{similar_company}} automated their pipeline', preview: '{{first_name}}, {{similar_company}} went from 0 to 10 qualified meetings in 30 days using our system.' },
   ];
   return (
     <div className={styles.subPanel}>
-      <div className={styles.subPanelHeader}>
-        <span className={styles.subPanelTitle}>SEQUENCE STRUCTURE</span>
-      </div>
-      <div className={styles.seqSteps}>
-        {steps.map((s) => (
-          <div key={s.n} className={styles.seqStep}>
-            <span className={styles.seqNum} aria-hidden="true">{s.n}</span>
-            <span className={styles.seqAction}>{s.action}</span>
-            <span className={styles.seqDay}>{s.day}</span>
+      <div className={styles.seqTouches}>
+        {touches.map((t, i) => (
+          <div key={i} className={styles.seqTouch}>
+            <div className={styles.seqMeta}>
+              <span className={styles.seqDayTag}>{t.day}</span>
+              <span className={`${styles.seqChannel} ${t.channel === 'LINKEDIN' ? styles.seqChannelLi : styles.seqChannelEmail}`}>
+                {t.channel}
+              </span>
+            </div>
+            <span className={styles.seqSubject}>{t.subject}</span>
+            <span className={styles.seqPreview}>{t.preview}</span>
           </div>
         ))}
       </div>
@@ -159,17 +187,18 @@ function SequencePanel() {
 
 function LaunchPanel() {
   const metrics: { value: string; label: string; accent: 'cyan' | 'coral' }[] = [
-    { value: '40%', label: 'reply rate', accent: 'cyan' },
-    { value: '1.2%', label: 'bounce rate', accent: 'coral' },
-    { value: '12', label: 'meetings / wk', accent: 'cyan' },
+    { value: '847', label: 'Emails Sent', accent: 'cyan' },
+    { value: '156', label: 'Replies', accent: 'cyan' },
+    { value: '18%', label: 'Reply Rate', accent: 'cyan' },
+    { value: '12', label: 'Meetings', accent: 'coral' },
   ];
   return (
     <div className={styles.subPanel}>
       <div className={styles.subPanelHeader}>
-        <span className={styles.subPanelTitle}>LIVE METRICS</span>
+        <span className={styles.subPanelTitle}>Campaign Dashboard</span>
         <span className={styles.liveIndicator} aria-label="Status: live">● LIVE</span>
       </div>
-      <div className={styles.liveGrid}>
+      <div className={styles.launchGrid}>
         {metrics.map((m) => (
           <div key={m.label} className={`${styles.liveMetric} ${styles[`liveMetric-${m.accent}`]}`}>
             <span className={styles.liveVal}>{m.value}</span>
@@ -177,95 +206,104 @@ function LaunchPanel() {
           </div>
         ))}
       </div>
+      <div className={styles.launchBanner}>
+        <span className={styles.launchBannerTitle}>Campaign Performance: Exceeding Targets</span>
+        <span className={styles.launchBannerText}>
+          12 qualified meetings booked this week. 7 hot leads in active conversation. 2 deals moved to proposal stage.
+        </span>
+      </div>
     </div>
   );
 }
 
 /* ── Phase data ───────────────────────────────────────────────────── */
+/* Narrative copy (title, description, bullets, YOU GET) is intentionally
+   generic — no specific tool is named in the prose, since the process
+   can run on many tools. Tool names live only in the demo chips/panels. */
 
 const PHASES: Phase[] = [
   {
     num: '01',
-    name: 'Define ICP',
-    title: 'Define Your ICP',
-    tool: 'Strategy Call',
-    dur: '~1h',
+    name: 'ICP Definition',
+    title: 'Define Your Ideal Customer Profile',
+    tools: ['Strategy Call'],
+    dur: '~1 hour',
     bullets: [
-      'Analyze your best existing customers to extract common patterns',
-      'Define firmographic and technographic criteria (role, size, tech, region)',
-      'Map the decision-makers and influencers in your target accounts',
+      'Analyze your best customers and identify patterns',
+      'Define key firmographic and demographic criteria',
+      'Map decision-maker personas and pain points',
     ],
-    youGet: 'A crystal-clear ICP document, the foundation every phase builds on.',
+    youGet: 'Crystal-clear ICP document with targeting parameters',
     panel: IcpPanel,
   },
   {
     num: '02',
-    name: 'Build List',
+    name: 'List Building',
     title: 'Build Your Prospect List',
-    tool: 'Apollo · LinkedIn Sales Nav',
-    dur: '~2h',
+    tools: ['Apollo', 'LinkedIn Sales Nav'],
+    dur: '~2 hours',
     bullets: [
-      'Pull verified contacts from Apollo and LinkedIn Sales Navigator',
-      'Filter by ICP criteria: role, company size, tech stack, region',
-      'Cross-reference sources to deduplicate and rank by fit',
+      'Source prospects from multiple databases and platforms',
+      'Apply ICP filters automatically for perfect matches',
+      'Remove duplicates and clean bad data',
     ],
-    youGet: 'A clean, ICP-qualified prospect list, ready for enrichment.',
+    youGet: '500-2000+ qualified prospects matching your ICP',
     panel: ProspectPanel,
   },
   {
     num: '03',
-    name: 'Enrich',
+    name: 'Enrichment',
     title: 'Enrich With Deep Data',
-    tool: 'Waterfall Enrichment',
-    dur: '~2-3h',
+    tools: ['Apollo', 'FindyMail', 'BetterContact', 'Clay Enrichment'],
+    dur: '~2-3 hours',
     bullets: [
-      'Waterfall email verification: Hunter.io → Apollo → Prospeo',
-      'Enrich firmographic data: headcount, funding stage, tech stack',
-      'Flag behavioral signals: job changes, hiring posts, tech adoption',
+      'Triple-verify emails with waterfall enrichment approach',
+      'Add LinkedIn profiles and detailed company information',
+      'Detect buying signals like hiring, funding, and tech stack',
     ],
-    youGet: 'Verified contacts with 95%+ email accuracy + full enrichment data.',
-    panel: VerificationPanel,
+    youGet: '95%+ email accuracy with rich personalization data on every lead',
+    panel: EnrichmentPanel,
   },
   {
     num: '04',
-    name: 'AI Score',
+    name: 'AI Scoring',
     title: 'AI-Powered Lead Prioritization',
-    tool: 'Claude · Clay AI',
-    dur: '~2-3h',
+    tools: ['Claude AI', 'GPT-4', 'Clay AI'],
+    dur: '~2-3 hours',
     bullets: [
-      'Score each contact against your ICP with Claude running inside Clay',
-      'Surface behavioral buying signals from enrichment data',
-      'Rank and filter, only best-fit leads enter sequences',
+      'Score leads by ICP fit and buying intent',
+      'Detect pain points and trigger events automatically',
+      'Generate unique personalization variables for each lead',
     ],
-    youGet: 'A prioritized, scored list, your highest-fit contacts go first.',
+    youGet: 'Leads ranked by fit score with AI-generated talking points',
     panel: ScorePanel,
   },
   {
     num: '05',
     name: 'Sequences',
     title: 'Craft Your Outreach Sequences',
-    tool: 'Instantly · Smartlead',
-    dur: '~2-3h',
+    tools: ['Instantly', 'Smartlead'],
+    dur: '~2-3 hours',
     bullets: [
-      'Write personalized multi-step sequences (email + LinkedIn)',
-      'A/B test subject lines and core messaging angles',
-      'Configure domain warming, send limits, and unsubscribe handling',
+      'Write personalized email templates with variable insertion',
+      'Set up multi-touch sequences (email + LinkedIn)',
+      'Configure sending schedules and daily limits',
     ],
-    youGet: 'Campaign-ready sequences loaded in your sending tool.',
+    youGet: 'Battle-tested email sequences ready to send',
     panel: SequencePanel,
   },
   {
     num: '06',
     name: 'Launch',
     title: 'Launch & Continuously Improve',
-    tool: 'Campaign Dashboard',
-    dur: 'ongoing',
+    tools: ['Campaign Dashboard'],
+    dur: 'Ongoing',
     bullets: [
-      'Go live on your own domains, you control every send',
-      'Monitor reply rate, bounce rate, and meetings booked per week',
-      'Iterate on copy and targeting with real send data',
+      'Monitor campaign performance daily with real-time dashboards',
+      'Handle replies and qualify hot leads immediately',
+      'Run A/B tests and iterate messaging based on data',
     ],
-    youGet: 'A live outbound engine, documented, deployed, owned by you.',
+    youGet: '5-10 qualified conversations per week on autopilot',
     panel: LaunchPanel,
   },
 ];
@@ -377,8 +415,10 @@ export function HowWeBuildIt() {
             <h3 className={styles.phaseTitle}>{p.title}</h3>
           </div>
           <div className={styles.badges}>
-            <span className={styles.badge}>{p.tool}</span>
-            <span className={styles.badge}>{p.dur}</span>
+            {p.tools.map((t) => (
+              <span key={t} className={styles.badge}>{t}</span>
+            ))}
+            <span className={`${styles.badge} ${styles.badgeDur}`}>{p.dur}</span>
           </div>
         </div>
 
@@ -540,7 +580,7 @@ export function HowWeBuildIt() {
                       }
                       aria-label="Skip phases, scroll to proof section"
                     >
-                      Skip ↓
+                      Skip
                     </button>
                   </div>
                   <div

@@ -53,7 +53,7 @@ export function Hero({
   titleAccent = "You keep it when we're done.",
   subheadline = "We build your full outbound system, ICP to inbox, on your own domains. Live in about four weeks. Then it's yours to run.",
   primaryCta = { label: 'Book a 15-min call', href: '#book-call' },
-  ghostCta = { label: <>See how we build it&nbsp;&rarr;</>, href: '#how-it-works' },
+  ghostCta = { label: 'See how we build it', href: '#how-it-works' },
   microcopy = (
     <>15-minute call&nbsp;&middot;&nbsp;No pitch deck&nbsp;&middot;&nbsp;No commitment</>
   ),

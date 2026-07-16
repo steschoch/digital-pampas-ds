@@ -49,7 +49,7 @@ export function Problem({
   bad = DEFAULT_BAD,
   good = DEFAULT_GOOD,
   closing = "Higher reply rates. Fewer bounces. Leads that convert. And when we're done, you own it. Not us. You.",
-  closingLabel = 'See the full process →',
+  closingLabel = 'See the full process',
   closingHref = '#how-it-works',
   id = 'problem',
 }: ProblemProps) {

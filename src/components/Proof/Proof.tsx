@@ -96,7 +96,7 @@ function CaseCard({ c, delay }: { c: ProofCase; delay: number }) {
         <p className={styles.bullet}>
           <span aria-hidden="true">•</span> {c.bullet}
         </p>
-        <a href={c.href} className={styles.caseLink}>Read case →</a>
+        <a href={c.href} className={styles.caseLink}>Read case</a>
       </div>
     </AnimatedSection>
   )
@@ -111,7 +111,7 @@ export function Proof({
   intro = "Every system ships with numbers attached. Did it move the metric? Here's a sample.",
   cases = DEFAULT_CASES,
   testimonials = DEFAULT_TESTIMONIALS,
-  viewAllLabel = 'View all case studies →',
+  viewAllLabel = 'View all case studies',
   viewAllHref = '/case-studies',
   id = 'cases',
 }: ProofProps) {

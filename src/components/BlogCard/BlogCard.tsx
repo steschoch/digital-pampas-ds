@@ -69,7 +69,7 @@ export function BlogCard({ post, delay = 0, hrefBase = '/blog', renderLink = def
             href,
             className: styles.readLink,
             'aria-label': `Read post: ${post.title}`,
-            children: 'Read post →',
+            children: 'Read post',
           })}
         </footer>
       </article>

@@ -83,7 +83,7 @@ export function CaseStudyCard({
           href,
           className: styles.cta,
           'aria-label': `View case study: ${cs.headline}`,
-          children: 'View case →' as ReactNode,
+          children: 'View case' as ReactNode,
         })}
       </article>
     </AnimatedSection>

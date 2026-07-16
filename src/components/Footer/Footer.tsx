@@ -59,6 +59,10 @@ export interface FooterProps {
   tagline?: ReactNode
   /** Contact email used in the "Got a question?" band. */
   email?: string
+  /** Optional href for the "Send us an email" link. When set (e.g. an in-page
+   *  anchor like "/#book-call"), it overrides the default mailto: behaviour so
+   *  the link goes to the contact form instead of opening a mail client. */
+  emailHref?: string
   logoSrc?: string
   logoLightSrc?: string
   legal?: string
@@ -155,6 +159,7 @@ export function Footer({
   social = DEFAULT_SOCIAL,
   tagline = 'We build the machine. You own it.',
   email = 'hello@digitalpampas.com',
+  emailHref,
   logoSrc = '/logo-footer.png',
   logoLightSrc = '/logo-footer-light.png',
   legal = '© 2026 Digital Pampas · B2B outbound infrastructure',
@@ -172,8 +177,12 @@ export function Footer({
       <div className={styles.emailBand}>
         <div className={styles.emailBandInner}>
           <span className={styles.emailPrompt}>Got a question?</span>
-          <a href={`mailto:${email}`} className={styles.emailLink} aria-label={`Send email to ${email}`}>
-            Send us an email&nbsp;→
+          <a
+            href={emailHref ?? `mailto:${email}`}
+            className={styles.emailLink}
+            aria-label={emailHref ? 'Go to the contact form' : `Send email to ${email}`}
+          >
+            Send us an email
           </a>
         </div>
       </div>
@@ -209,7 +218,7 @@ export function Footer({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Connect on LinkedIn&nbsp;→
+                  Connect on LinkedIn
                 </a>
               </div>
             )}
@@ -240,7 +249,7 @@ export function Footer({
                   className={styles.portalLink}
                   {...(portalHref.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                 >
-                  {portalLabel}&nbsp;→
+                  {portalLabel}
                 </a>
               </div>
             )}
