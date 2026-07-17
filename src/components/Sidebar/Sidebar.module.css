@@ -6,7 +6,8 @@
   --sb-border:   var(--dp-color-outline-variant);
   --sb-fg:       var(--dp-color-on-surface-variant);
   --sb-fg-hover: var(--dp-color-on-surface);
-  --sb-accent:   var(--dp-color-primary);
+  /* primary-strong: AA-safe as text on the light-mode active-item tint (C-16) */
+  --sb-accent:   var(--dp-color-primary-strong);
   --sb-active-bg:color-mix(in srgb, var(--dp-color-primary) 12%, transparent);
   --sb-width:    240px;
 

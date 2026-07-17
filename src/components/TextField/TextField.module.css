@@ -5,7 +5,7 @@
   --tf-label:    var(--dp-color-on-surface-variant);
   --tf-fg:       var(--dp-color-on-surface);
   --tf-bg:       var(--dp-color-surface-container-low);
-  --tf-border:   var(--dp-color-outline-variant);
+  --tf-border:   var(--dp-color-border-control);
   --tf-accent:   var(--dp-color-primary);
   --tf-error:    var(--dp-color-error);
   --tf-radius:   var(--dp-sem-radius-button);

@@ -6,8 +6,8 @@
   --sc-border: var(--dp-color-outline-variant);
   --sc-label:  var(--dp-color-on-surface-variant);
   --sc-value:  var(--dp-color-on-surface);
-  --sc-good:   var(--dp-color-success);
-  --sc-bad:    var(--dp-color-error);
+  --sc-good:   var(--dp-color-success-text);
+  --sc-bad:    var(--dp-color-error-text);
 
   display: flex;
   flex-direction: column;

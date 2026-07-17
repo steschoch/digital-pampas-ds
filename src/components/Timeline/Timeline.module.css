@@ -3,8 +3,10 @@
 
 .timeline {
   --tl-line:     var(--dp-color-outline-variant);
-  --tl-done:     var(--dp-color-primary);
-  --tl-active:   var(--dp-color-primary);
+  /* primary-strong = AA-safe primary as text on light surfaces; equals primary
+     on dark. Used as both fill and status-text here → light mode fixes. (C-15) */
+  --tl-done:     var(--dp-color-primary-strong);
+  --tl-active:   var(--dp-color-primary-strong);
   --tl-upcoming: var(--dp-color-outline);
   --tl-delayed:  var(--dp-color-warning);
   --tl-fg:       var(--dp-color-on-surface);
@@ -63,7 +65,7 @@
 }
 .status {
   font-family: var(--dp-sem-font-code);
-  font-size: var(--dp-font-size-25);
+  font-size: var(--dp-font-size-37); /* 11px — informative micro-label (C-30) */
   text-transform: uppercase;
   letter-spacing: var(--dp-sem-tracking-caps);
 }

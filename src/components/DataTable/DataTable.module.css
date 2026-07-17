@@ -74,15 +74,21 @@
   }
   .td {
     display: flex;
+    align-items: baseline;
     justify-content: space-between;
-    gap: var(--dp-space-100);
+    flex-wrap: wrap;
+    gap: var(--dp-space-25) var(--dp-space-100);
     border-bottom: none;
     text-align: right !important;
   }
+  /* Hide cells with no value (e.g. an unresolved icon) so they don't render as
+     a label-only row in the stacked card. (C-33) */
+  .td:empty { display: none; }
   .td::before {
     content: attr(data-label);
+    flex-shrink: 0;
     font-family: var(--dp-sem-font-code);
-    font-size: var(--dp-font-size-25);
+    font-size: var(--dp-font-size-37);
     text-transform: uppercase;
     letter-spacing: var(--dp-sem-tracking-caps);
     color: var(--dt-head);

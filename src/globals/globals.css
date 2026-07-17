@@ -146,6 +146,7 @@ a      { color: inherit; text-decoration: none; }
   --dp-color-status-error-100: #ffb3bc;
   --dp-color-status-error-200: #ff8093;
   --dp-color-status-error-500: #fc2e49;
+  --dp-color-status-error-650: #d0233c; /* AA as text on light surfaces (4.92:1) */
   --dp-color-status-error-900: #32090f;
 
   /* Status — Success */
@@ -153,6 +154,7 @@ a      { color: inherit; text-decoration: none; }
   --dp-color-status-success-100: #b3f5cc;
   --dp-color-status-success-200: #66eba0;
   --dp-color-status-success-500: #2efc73;
+  --dp-color-status-success-750: #1a7a44; /* AA as text on light surfaces (5.02:1) */
   --dp-color-status-success-900: #093217;
 
   /* Status — Warning */
@@ -413,12 +415,14 @@ a      { color: inherit; text-decoration: none; }
   --dp-color-on-error:           var(--dp-color-neutral-white);
   --dp-color-error-container:    var(--dp-color-status-error-50);
   --dp-color-on-error-container: var(--dp-color-status-error-900);
+  --dp-color-error-text:         var(--dp-color-status-error-650); /* error as TEXT on light surfaces — AA (C-14) */
 
   /* Success */
   --dp-color-success:              var(--dp-color-status-success-500);
   --dp-color-on-success:           var(--dp-color-neutral-white);
   --dp-color-success-container:    var(--dp-color-status-success-50);
   --dp-color-on-success-container: var(--dp-color-status-success-900);
+  --dp-color-success-text:         var(--dp-color-status-success-750); /* success as TEXT on light surfaces — AA (C-14) */
 
   /* Warning */
   --dp-color-warning:              var(--dp-color-status-warning-500);
@@ -487,6 +491,9 @@ a      { color: inherit; text-decoration: none; }
   /* Outline */
   --dp-color-outline:         var(--dp-color-space-grey-400);
   --dp-color-outline-variant: var(--dp-color-space-grey-200);
+  /* Border for FORM CONTROLS — needs ≥3:1 in both themes (WCAG 1.4.11).
+     grey-500 is a mid-tone: 3.86:1 on light, 4.12:1 on dark. (C-27) */
+  --dp-color-border-control:  var(--dp-color-space-grey-500);
 
   /* Inverse */
   --dp-color-inverse-surface:    var(--dp-color-space-grey-950);
@@ -538,12 +545,14 @@ a      { color: inherit; text-decoration: none; }
   --dp-color-on-error:           var(--dp-color-status-error-900);
   --dp-color-error-container:    var(--dp-color-status-error-900);
   --dp-color-on-error-container: var(--dp-color-status-error-100);
+  --dp-color-error-text:         var(--dp-color-status-error-200); /* bright variant already passes AA on dark (C-14) */
 
   /* Success — dark */
   --dp-color-success:              var(--dp-color-status-success-200);
   --dp-color-on-success:           var(--dp-color-status-success-900);
   --dp-color-success-container:    var(--dp-color-status-success-900);
   --dp-color-on-success-container: var(--dp-color-status-success-100);
+  --dp-color-success-text:         var(--dp-color-status-success-200); /* bright variant already passes AA on dark (C-14) */
 
   /* Warning — dark */
   --dp-color-warning:              var(--dp-color-status-warning-200);

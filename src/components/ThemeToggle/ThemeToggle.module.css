@@ -2,7 +2,7 @@
    Layer 3 — component tokens → semantic tokens in globals.css. */
 
 .toggle {
-  --tt-size:    40px;
+  --tt-size:    44px; /* HIG/WCAG 2.5.8 minimum touch target (C-29) */
   --tt-fg:      var(--dp-color-on-surface-variant);
   --tt-fg-hover:var(--dp-color-on-surface);
   --tt-bg-hover:color-mix(in srgb, var(--dp-color-on-surface) 8%, transparent);

@@ -6,7 +6,7 @@
   --sel-muted:     var(--dp-color-on-surface-variant);
   --sel-bg:        var(--dp-color-surface-container-low);
   --sel-menu-bg:   var(--dp-color-surface-container);
-  --sel-border:    var(--dp-color-outline-variant);
+  --sel-border:    var(--dp-color-border-control);
   --sel-accent:    var(--dp-color-primary);
   --sel-hover:     color-mix(in srgb, var(--dp-color-on-surface) 6%, transparent);
   --sel-radius:    var(--dp-sem-radius-button);
@@ -15,6 +15,11 @@
   position: relative;
   display: inline-block;
   width: 100%;
+  /* Allow the select to shrink below its content's min-content when used as a
+     flex item (e.g. in the topbar), so the .value ellipsis activates instead of
+     overflowing into neighbouring controls. (C-04a) */
+  min-width: 0;
+  max-width: 100%;
 }
 
 .sm { --sel-h: var(--dp-space-400); }

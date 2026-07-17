@@ -38,7 +38,7 @@
   max-width: 100%;
   text-align: center;
   font-family: var(--dp-sem-font-code);
-  font-size: var(--dp-font-size-25);
+  font-size: var(--dp-font-size-37); /* 11px — informative micro-label (C-30) */
   text-transform: uppercase;
   letter-spacing: var(--dp-sem-tracking-caps);
   color: var(--dp-color-on-surface-variant);

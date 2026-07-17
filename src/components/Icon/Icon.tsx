@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react'
-import * as Icons from 'lucide-react'
+import { icons } from 'lucide-react'
 import type { LucideProps } from 'lucide-react'
 import styles from './Icon.module.css'
 
@@ -13,7 +13,7 @@ const SIZE_MAP = {
 } as const
 
 type IconSize = keyof typeof SIZE_MAP
-export type IconName = keyof typeof Icons
+export type IconName = keyof typeof icons
 
 interface IconProps extends Omit<LucideProps, 'size'> {
   name: IconName
@@ -21,8 +21,8 @@ interface IconProps extends Omit<LucideProps, 'size'> {
 }
 
 export function Icon({ name, size = 'md', className, ...props }: IconProps) {
-  const LucideIcon = Icons[name] as ComponentType<LucideProps> | undefined
-  if (!LucideIcon || typeof LucideIcon !== 'function') return null
+  const LucideIcon = icons[name] as ComponentType<LucideProps> | undefined
+  if (!LucideIcon) return null
   return (
     <LucideIcon
       size={SIZE_MAP[size]}

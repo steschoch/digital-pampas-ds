@@ -11,13 +11,22 @@
   display: flex;
   gap: var(--dp-space-100);
   border-bottom: var(--dp-sem-stroke-border) solid var(--tabs-border);
+  /* Narrow viewports: scroll the tablist internally instead of overflowing the
+     page (WCAG 1.4.10 allows component-level horizontal scroll). (C-07) */
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
+
+.tablist::-webkit-scrollbar { display: none; }
 
 .tab {
   display: inline-flex;
   align-items: center;
   gap: var(--dp-space-50);
-  padding: var(--dp-space-75) var(--dp-space-50);
+  padding: var(--dp-space-100) var(--dp-space-50);
+  flex-shrink: 0;
+  white-space: nowrap;
   background: none;
   border: none;
   border-bottom: 2px solid transparent;
