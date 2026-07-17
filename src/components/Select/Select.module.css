@@ -60,6 +60,16 @@
 .value { color: var(--sel-fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .placeholder { color: var(--sel-muted); }
 
+/* Eyebrow prefix (e.g. "CLIENT ·") — labels the field inline without a separate row. */
+.eyebrow {
+  flex-shrink: 0;
+  color: var(--sel-muted);
+  font-size: var(--dp-font-size-37);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .chevron {
   display: inline-flex;
   color: var(--sel-muted);

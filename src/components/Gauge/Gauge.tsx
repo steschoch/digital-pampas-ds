@@ -13,6 +13,13 @@ export interface GaugeProps {
   thresholds?: GaugeThresholds
   size?: number
   className?: string
+  /**
+   * How to render the value in the center and in the aria-label:
+   * - `'percent'` → "98%" / "…: 98%"
+   * - `'ratio100'` → "92/100" / "…: 92 of 100"
+   * - default → "92" / "…: 92 of 100"
+   */
+  format?: 'percent' | 'ratio100'
 }
 
 function colorFor(value: number, t?: GaugeThresholds): string {
@@ -26,7 +33,7 @@ function colorFor(value: number, t?: GaugeThresholds): string {
  * Gauge — radial 0–100 meter (270° arc). Color shifts by threshold band.
  * Pure SVG; colors via tokens.
  */
-export function Gauge({ value, label, thresholds, size = 140, className }: GaugeProps) {
+export function Gauge({ value, label, thresholds, size = 140, className, format }: GaugeProps) {
   const v = Math.max(0, Math.min(100, value))
   const stroke = Math.max(10, Math.round(size * 0.09))
   const r = (size - stroke) / 2
@@ -37,18 +44,21 @@ export function Gauge({ value, label, thresholds, size = 140, className }: Gauge
   const gap = c - track
   const valueDash = track * (v / 100)
   const color = colorFor(v, thresholds)
+  const rounded = Math.round(v)
+  const display = format === 'percent' ? `${rounded}%` : format === 'ratio100' ? `${rounded}/100` : `${rounded}`
+  const ariaValue = format === 'percent' ? `${rounded}%` : `${rounded} of 100`
 
   return (
     <div className={[styles.wrap, className].filter(Boolean).join(' ')} style={{ width: size }}>
       <div className={styles.chart} style={{ width: size, height: size }}>
-        <svg viewBox={`0 0 ${size} ${size}`} width={size} height={size} role="img" aria-label={`${label ?? 'Gauge'}: ${Math.round(v)} of 100`}>
+        <svg viewBox={`0 0 ${size} ${size}`} width={size} height={size} role="img" aria-label={`${label ?? 'Gauge'}: ${ariaValue}`}>
           <g transform={`rotate(135 ${cx} ${cx})`}>
             <circle cx={cx} cy={cx} r={r} fill="none" stroke="var(--dp-color-surface-container)" strokeWidth={stroke} strokeDasharray={`${track} ${gap}`} strokeLinecap="round" />
             <circle cx={cx} cy={cx} r={r} fill="none" stroke={color} strokeWidth={stroke} strokeDasharray={`${valueDash} ${c - valueDash}`} strokeLinecap="round" className={styles.value} />
           </g>
         </svg>
         <div className={styles.center}>
-          <span className={styles.num} style={{ color }}>{Math.round(v)}</span>
+          <span className={styles.num} style={{ color }}>{display}</span>
         </div>
       </div>
       {label && <span className={styles.label}>{label}</span>}

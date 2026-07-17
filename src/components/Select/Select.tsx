@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import styles from './Select.module.css'
 
@@ -17,6 +17,8 @@ export interface SelectProps {
   size?: 'sm' | 'md'
   disabled?: boolean
   'aria-label'?: string
+  /** Visible eyebrow shown before the value (e.g. "CLIENT"). Also folds into the accessible name. */
+  label?: string
   className?: string
 }
 
@@ -40,13 +42,23 @@ export function Select({
   size = 'md',
   disabled,
   'aria-label': ariaLabel,
+  label,
   className,
 }: SelectProps) {
   const [open, setOpen] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)
   const rootRef = useRef<HTMLDivElement>(null)
+  const baseId = useId()
 
   const selected = options.find((o) => o.value === value) ?? null
+  // Accessible name always names the field and its current value (WCAG 4.1.2).
+  const valueText = selected?.label ?? placeholder
+  const accessibleName = ariaLabel
+    ? `${ariaLabel}: ${valueText}`
+    : label
+      ? `${label}: ${valueText}`
+      : valueText
+  const optionId = (i: number) => `${baseId}-opt-${i}`
 
   useEffect(() => {
     if (!open) return
@@ -94,10 +106,12 @@ export function Select({
         disabled={disabled}
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-label={ariaLabel}
+        aria-label={accessibleName}
+        aria-activedescendant={open ? optionId(activeIndex) : undefined}
       >
         <span className={styles.triggerContent}>
           {selected?.icon && <span className={styles.optIcon}>{selected.icon}</span>}
+          {label && <span className={styles.eyebrow}>{label}</span>}
           <span className={selected ? styles.value : styles.placeholder}>
             {selected ? selected.label : placeholder}
           </span>
@@ -106,13 +120,14 @@ export function Select({
       </button>
 
       {open && (
-        <ul className={styles.menu} role="listbox" aria-label={ariaLabel} tabIndex={-1}>
+        <ul className={styles.menu} role="listbox" aria-label={ariaLabel ?? label} tabIndex={-1}>
           {options.map((opt, i) => {
             const isSelected = opt.value === value
             const isActive = i === activeIndex
             return (
               <li
                 key={opt.value}
+                id={optionId(i)}
                 role="option"
                 aria-selected={isSelected}
                 className={`${styles.option} ${isActive ? styles.optionActive : ''}`}
