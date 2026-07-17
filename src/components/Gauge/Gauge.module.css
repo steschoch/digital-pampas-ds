@@ -27,9 +27,12 @@
 
 .num {
   font-family: var(--dp-sem-font-display);
+  /* font-size is set inline, scaled to the gauge size + value length so the
+     number always fits inside the arc (see Gauge.tsx). */
   font-size: var(--dp-font-size-250);
   font-weight: var(--dp-font-weight-bold);
   line-height: 1;
+  white-space: nowrap;
 }
 
 /* Label sits BELOW the chart (outside the arc) so it's always legible. */

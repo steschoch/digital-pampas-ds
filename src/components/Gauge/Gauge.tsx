@@ -48,6 +48,12 @@ export function Gauge({ value, label, thresholds, size = 140, className, format 
   const display = format === 'percent' ? `${rounded}%` : format === 'ratio100' ? `${rounded}/100` : `${rounded}`
   const ariaValue = format === 'percent' ? `${rounded}%` : `${rounded} of 100`
 
+  // Fit the centered value inside the inner circle: scale with the gauge and shrink
+  // for longer strings (e.g. "92/100" vs "92") so it never touches or clips against
+  // the arc. ~0.62 approximates the display font's average char width in em.
+  const innerWidth = size - stroke * 2
+  const fontPx = Math.max(12, Math.min(size * 0.28, (innerWidth * 0.9) / (display.length * 0.62)))
+
   return (
     <div className={[styles.wrap, className].filter(Boolean).join(' ')} style={{ width: size }}>
       <div className={styles.chart} style={{ width: size, height: size }}>
@@ -58,7 +64,7 @@ export function Gauge({ value, label, thresholds, size = 140, className, format 
           </g>
         </svg>
         <div className={styles.center}>
-          <span className={styles.num} style={{ color }}>{display}</span>
+          <span className={styles.num} style={{ color, fontSize: `${fontPx}px` }}>{display}</span>
         </div>
       </div>
       {label && <span className={styles.label}>{label}</span>}
