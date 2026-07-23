@@ -103,6 +103,7 @@ const NAV_GROUPS: NavGroup[] = [
       { id: 'page-layout',      label: 'PageLayout' },
       { id: 'blog-card',        label: 'BlogCard' },
       { id: 'case-study-card',  label: 'CaseStudyCard' },
+      { id: 'case-flow',        label: 'CaseFlow' },
     ],
   },
   {

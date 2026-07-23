@@ -1,0 +1,170 @@
+/* ── CaseFlow ─────────────────────────────────────────────────────
+   Layer 3 — component tokens → semantic tokens in globals.css.
+   The case-study "system map": boxes on a grid, directed arrows drawn
+   between them. Arrows are the information (the path), so they stay. */
+
+.flow {
+  /* Consumers may override --cf-accent, e.g. --cf-accent: var(--case-hue-soft) */
+  --cf-accent:  var(--dp-color-primary-strong);
+  --cf-muted:   var(--dp-color-outline);
+  --cf-accent2: var(--dp-color-coral-400);
+  --cf-step:    150ms;
+
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--dp-space-200);
+}
+
+/* ── Free-floating annotations ── */
+.noteTop,
+.noteBottom {
+  margin: 0;
+  font-family: var(--dp-sem-font-code);
+  font-size: var(--dp-font-size-56);
+  line-height: 1.4;
+  color: var(--cf-accent);
+  align-self: flex-start;
+  max-width: 42ch;
+  opacity: 0;
+  transform: translateY(var(--dp-space-50));
+  transition:
+    opacity var(--dp-duration-slow) var(--dp-easing-default),
+    transform var(--dp-duration-slow) var(--dp-easing-default);
+}
+.noteBottom {
+  color: var(--cf-accent2);
+  transition-delay: 500ms;
+}
+.playing .noteTop,
+.playing .noteBottom {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Canvas: the grid that positions the boxes ── */
+.canvas {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--cf-cols, 3), minmax(0, 1fr));
+  column-gap: var(--dp-space-500);
+  row-gap: var(--dp-space-550);
+  align-items: start;
+}
+
+/* ── Arrows (SVG overlay) ── */
+.edges {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 0;
+}
+.edge {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dashoffset: var(--cf-len, 0);
+  opacity: 0;
+  transition:
+    stroke-dashoffset var(--dp-duration-slow) var(--dp-easing-default),
+    opacity var(--dp-duration-fast) var(--dp-easing-default);
+}
+.edge_primary { stroke: var(--cf-accent); }
+.edge_muted   { stroke: var(--cf-muted); }
+.edge_accent  { stroke: var(--cf-accent2); }
+.playing .edge {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
+/* ── Boxes ── */
+.node {
+  position: relative;
+  z-index: 1;
+  grid-row: var(--cf-r, auto);
+  grid-column: var(--cf-c, auto);
+  display: flex;
+  flex-direction: column;
+  gap: var(--dp-space-75);
+  padding: var(--dp-space-150) var(--dp-space-200);
+  background: color-mix(in srgb, var(--dp-color-surface-container-low) 88%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--cf-accent) 42%, transparent);
+  border-radius: var(--dp-sem-radius-card);
+  opacity: 0;
+  transform: translateY(var(--dp-space-100)) scale(0.98);
+  transition:
+    opacity var(--dp-duration-base) var(--dp-easing-default),
+    transform var(--dp-duration-slow) var(--dp-easing-spring);
+}
+.playing .node {
+  opacity: 1;
+  transform: none;
+}
+.node_gate    { border-color: color-mix(in srgb, var(--cf-accent2) 55%, transparent); }
+.node_outcome { border-color: color-mix(in srgb, var(--cf-accent) 70%, transparent); }
+
+.nodeTitle {
+  font-family: var(--dp-sem-font-display);
+  font-weight: var(--dp-font-weight-semibold);
+  font-size: var(--dp-font-size-62);
+  letter-spacing: var(--dp-sem-tracking-caps);
+  text-transform: uppercase;
+  color: var(--cf-accent);
+}
+.node_gate .nodeTitle { color: var(--cf-accent2); }
+
+.bullets {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.bullets li {
+  font-family: var(--dp-sem-font-body);
+  font-size: var(--dp-font-size-56);
+  line-height: 1.4;
+  color: var(--dp-color-on-surface-variant);
+}
+
+/* Small outlined chips (e.g. "6 signal agents", "V1…V9") */
+.chips {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dp-space-50);
+}
+.chip {
+  font-family: var(--dp-sem-font-code);
+  font-size: var(--dp-font-size-37);
+  color: var(--dp-color-on-surface-variant);
+  padding: 2px var(--dp-space-75);
+  border: 1px solid var(--dp-color-outline-variant);
+  border-radius: var(--dp-sem-radius-chip);
+}
+
+/* ── Mobile: collapse to a single vertical column; arrows re-measure ── */
+@media (max-width: 720px) {
+  .canvas {
+    grid-template-columns: 1fr;
+    row-gap: var(--dp-space-500);
+  }
+  .node {
+    grid-row: auto !important;
+    grid-column: 1 !important;
+  }
+}
+
+/* ── Reduced motion: global rule snaps transitions; ensure final state ── */
+@media (prefers-reduced-motion: reduce) {
+  .edge { stroke-dashoffset: 0; opacity: 1; }
+  .node,
+  .noteTop,
+  .noteBottom { opacity: 1; transform: none; }
+}

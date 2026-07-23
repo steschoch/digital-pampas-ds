@@ -19,6 +19,8 @@ import { Footer } from '../components/Footer'
 import { PageLayout } from '../components/PageLayout'
 import { BlogCard } from '../components/BlogCard'
 import { CaseStudyCard } from '../components/CaseStudyCard'
+import { CaseFlow } from '../components/CaseFlow'
+import type { CaseFlowNode, CaseFlowEdge } from '../components/CaseFlow'
 /* Application / Portal components (§11 client-portal-architecture). */
 import { Skeleton } from '../components/Skeleton'
 import { ThemeToggle } from '../components/ThemeToggle'
@@ -2240,6 +2242,138 @@ const THEME_TOGGLE_DOC: Omit<ComponentViewerProps, 'id'> = {
 
 /* ─── Catalog ─────────────────────────────────────────────────── */
 
+/* ═══════════════════════════════════════════════════════════════
+   CASE FLOW
+══════════════════════════════════════════════════════════════ */
+
+const CF_TREMMUN_NODES: CaseFlowNode[] = [
+  { id: 'n1', title: 'Dormant network', bullets: ['500+ past contacts', 'years of relationships', 'no follow-up system'], row: 1, col: 1 },
+  { id: 'n2', title: 'Segmentation', bullets: ['by relationship strength', 'industry + potential value', 'qualification scoring'], row: 1, col: 2 },
+  { id: 'n3', title: 'AI personalization', bullets: ['per-contact context', 'message tuned to history', 'Clay enrich + Apollo CRM'], row: 1, col: 3 },
+  { id: 'n4', title: 'Outreach sequences', bullets: ['structured reactivation', 'Make.com workflows', 'human in the loop'], row: 2, col: 2 },
+  { id: 'n5', title: 'Meetings', bullets: ['10 qualified meetings', '1 deal closed', '30 days end to end'], row: 2, col: 3, tone: 'outcome' },
+]
+const CF_TREMMUN_EDGES: CaseFlowEdge[] = [
+  { from: 'n1', to: 'n2', tone: 'primary' },
+  { from: 'n2', to: 'n3', tone: 'primary' },
+  { from: 'n3', to: 'n4', tone: 'muted' },
+  { from: 'n4', to: 'n5', tone: 'primary' },
+]
+
+const CASE_FLOW_DOC: Omit<ComponentViewerProps, 'id'> = {
+  name: 'CaseFlow',
+  category: 'Pattern',
+  description:
+    'The case-study "system map" as an animated flow diagram: boxes with a title + bullets placed on a grid, connected by real SVG arrows that draw along the exact path. Arrow geometry is measured from the live boxes, so it stays correct at any width and collapses to a single column on mobile. Arrows are the information (the flow path), so they stay. Respects prefers-reduced-motion.',
+
+  overviewBlocks: [
+    {
+      label: 'Tremmun — network reactivation (scroll re-triggers)',
+      content: (
+        <div style={{ width: '100%', padding: '8px 4px' }}>
+          <CaseFlow
+            once={false}
+            topNote="a warm network with no system to work it."
+            bottomNote="40% response rate."
+            nodes={CF_TREMMUN_NODES}
+            edges={CF_TREMMUN_EDGES}
+          />
+        </div>
+      ),
+    },
+    {
+      label: 'Custom accent (coral) + a compliance gate node',
+      content: (
+        <div style={{ width: '100%', padding: '8px 4px', ['--cf-accent' as string]: 'var(--dp-color-coral-400)' }}>
+          <CaseFlow
+            once={false}
+            nodes={[
+              { id: 'a', title: 'Company universe', bullets: ['target CX buyers', '859 companies scored'], row: 1, col: 1 },
+              { id: 'b', title: 'BPO exclusion gate', bullets: ['5-layer exclusion', 'clean target list'], row: 1, col: 2, tone: 'gate' },
+              { id: 'c', title: '6 signal agents', chips: ['Hiring', 'Expansion', 'Review pressure', 'Tech stack', 'Regulatory', 'Seasonal'], row: 1, col: 3 },
+            ]}
+            edges={[
+              { from: 'a', to: 'b', tone: 'primary' },
+              { from: 'b', to: 'c', tone: 'accent' },
+            ]}
+          />
+        </div>
+      ),
+    },
+  ],
+
+  anatomyPreview: (
+    <div style={{ width: '100%', maxWidth: 460, padding: 8 }}>
+      <CaseFlow
+        once={false}
+        nodes={[
+          { id: 'x', title: 'Input', bullets: ['raw list'], row: 1, col: 1 },
+          { id: 'y', title: 'Process', bullets: ['enrich + score'], row: 1, col: 2 },
+          { id: 'z', title: 'Outcome', bullets: ['meetings'], row: 1, col: 3, tone: 'outcome' },
+        ]}
+        edges={[{ from: 'x', to: 'y' }, { from: 'y', to: 'z' }]}
+      />
+    </div>
+  ),
+
+  anatomy: [
+    { id: 1, label: 'Box', desc: 'Título (maiúsculas) + bullets ou chips, posicionado por row/col numa grade. Faz fade-up em sequência.' },
+    { id: 2, label: 'Arrow (SVG)', desc: 'Linha reta medida da borda de uma caixa até a próxima, com ponta de flecha. Se "desenha" (stroke-dashoffset) após o nó de origem aparecer.' },
+    { id: 3, label: 'Tones', desc: 'Edge: primary (acento) / muted (cinza, a quebra diagonal) / accent (coral). Node: default / gate (coral) / outcome.' },
+    { id: 4, label: 'Notes', desc: 'topNote e bottomNote flutuantes (mono), como no diagrama original.' },
+    { id: 5, label: 'Responsivo', desc: 'No mobile a grade colapsa em coluna única e as flechas são remedidas (viram verticais).' },
+  ],
+
+  tokens: [
+    { name: '--cf-accent', usage: 'Bordas/títulos default, flechas primary e topNote (default: --dp-color-primary-strong; sobrescrevível)' },
+    { name: '--cf-accent2', usage: 'Nós/flechas de tom gate/accent e bottomNote (--dp-color-coral-400)' },
+    { name: '--cf-muted', usage: 'Flecha da quebra diagonal (--dp-color-outline)' },
+    { name: '--dp-easing-spring', usage: 'Pop das caixas ao aparecer' },
+  ],
+
+  accessibility: [
+    { rule: 'Renderizado como <figure>; SVG das flechas é aria-hidden (decorativo)', status: 'pass' },
+    { rule: 'decorative → aria-hidden quando o mesmo conteúdo aparece como texto perto', status: 'pass' },
+    { rule: 'Reveal + desenho das flechas respeitam prefers-reduced-motion', status: 'pass' },
+  ],
+
+  guidelines: [
+    { type: 'do', text: 'Reproduza o conteúdo e o caminho EXATOS do diagrama do case (títulos, bullets, quem aponta pra quem).' },
+    { type: 'do', text: 'Sobrescreva --cf-accent para herdar a cor do setor do case (--case-hue-soft).' },
+    { type: 'dont', text: 'Não use para progresso com estados por fase (done/pending) — isso é Timeline.' },
+    { type: 'dont', text: 'Não remova as flechas: aqui elas são a informação (o caminho do sistema).' },
+  ],
+
+  prompt: `## Component: CaseFlow
+Role: Animated "system map" flow diagram for a case study.
+
+Props:
+  nodes       { id, title, bullets?, chips?, row, col, tone? }[]   (required)
+  edges       { from, to, tone? }[]                                (required)
+  columns     number   default: max node col
+  topNote     string   free-floating annotation above
+  bottomNote  string   free-floating annotation below
+  once        boolean  default: true
+  threshold   number   default: 0.25
+  decorative  boolean  default: false
+  className   string
+  aria-label  string
+
+node.tone: 'default' | 'gate' (coral) | 'outcome'
+edge.tone: 'primary' (accent) | 'muted' (grey diagonal) | 'accent' (coral)
+Accent: set --cf-accent to recolor. Arrows carry the path — never remove them.`,
+
+  codeSnippet: `import { CaseFlow } from '@steschoch/digital-pampas-ds'
+
+<CaseFlow
+  decorative
+  topNote="a warm network with no system to work it."
+  bottomNote="40% response rate."
+  nodes={cs.flow.nodes}
+  edges={cs.flow.edges}
+/>`,
+}
+
 export const COMPONENT_CATALOG: Array<{ id: string } & Omit<ComponentViewerProps, 'id'>> = [
   { id: 'button',           ...BUTTON_DOC },
   { id: 'card',             ...CARD_DOC },
@@ -2259,6 +2393,7 @@ export const COMPONENT_CATALOG: Array<{ id: string } & Omit<ComponentViewerProps
   { id: 'page-layout',      ...PAGE_LAYOUT_DOC },
   { id: 'blog-card',        ...BLOG_CARD_DOC },
   { id: 'case-study-card',  ...CASE_STUDY_CARD_DOC },
+  { id: 'case-flow',        ...CASE_FLOW_DOC },
 ]
 
 /* ─── Live previews ───────────────────────────────────────────────

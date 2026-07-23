@@ -38,6 +38,14 @@ export { BlogCard } from './BlogCard'
 export type { BlogCardProps, BlogPostLike, LinkRenderer } from './BlogCard'
 export { CaseStudyCard } from './CaseStudyCard'
 export type { CaseStudyCardProps, CaseStudyLike, CaseMetricLike, CaseMetricAccent } from './CaseStudyCard'
+export { CaseFlow } from './CaseFlow'
+export type {
+  CaseFlowProps,
+  CaseFlowNode,
+  CaseFlowEdge,
+  CaseFlowNodeTone,
+  CaseFlowEdgeTone,
+} from './CaseFlow'
 
 /* ── Application / Portal components (client-portal-architecture §11) ── */
 export { Skeleton } from './Skeleton'
