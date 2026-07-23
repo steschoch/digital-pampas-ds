@@ -74,7 +74,7 @@ Site vs Portal não é opcional: componente usado pelo site vai em Site; compone
 
 **Versão publicada:** v1.9.0 no GitHub Packages.
 
-**Sessão de 23/07 — `MeterBar` + `MeterList` (Portal, categoria Pattern), NÃO publicado ainda:**
+**Sessão de 23/07 — `MeterBar` + `MeterList` (Portal, categoria Pattern):**
 - Uma métrica por linha (bullet chart compacto): rótulo, valor, trilha com barra e marca da meta, benchmark por extenso. Criado para o redesign dos channel cards do portal (Email/LinkedIn), que empilhavam quatro números de peso igual ao lado de um gauge.
 - `MeterList` é obrigatório ao empilhar: ele dissolve as linhas (`display: contents`) na própria grade, e é isso que alinha valores, trilhas e notas entre linhas.
 - **Armadilha aprendida (container queries):** `container-type` num elemento com `display: contents` cria um container INVÁLIDO que ainda assim sombreia o container válido acima; as regras `@container` param de casar para tudo que está dentro dele. O sintoma foi labels colapsando a zero e a nota vazando pra fora do card no mobile. Solução: `container-type: normal` junto do `display: contents`.
