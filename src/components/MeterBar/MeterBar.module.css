@@ -1,0 +1,191 @@
+/* ── MeterBar ─────────────────────────────────────────────────────
+   Layer 3 — component tokens → semantic tokens in globals.css. */
+
+/* The query container is the wrapper (standalone) or the list (stacked), so the
+   row restacks when its own COLUMN is narrow, not when the viewport is — the
+   same card is wide on a detail page and half-width in a two-column grid. */
+.wrap {
+  container-type: inline-size;
+}
+
+.row {
+  display: grid;
+  /* Label, value and note take exactly the width their text needs; the track is
+     the only elastic column. Fixed fractions truncated the labels ("Deliver…")
+     to hold a track nobody was measuring. */
+  grid-template-columns: auto auto minmax(56px, 1fr) auto;
+  align-items: center;
+  gap: var(--dp-space-100);
+  padding: var(--dp-space-75) 0;
+}
+
+/* ── Stacked in a MeterList ──────────────────────────────────────
+   Wrapper and row dissolve so the four cells of EVERY row become items of the
+   list's own grid. One set of columns for all rows: that is what aligns the
+   values, the tracks and the notes down the card. */
+.listOuter {
+  container-type: inline-size;
+  min-width: 0;
+}
+
+.list {
+  display: grid;
+  min-width: 0;
+  /* Label, value and note take exactly the width their text needs; the track is
+     the only elastic column. Fixed fractions truncated the labels ("Deliver…")
+     to hold a track nobody was measuring. */
+  grid-template-columns: auto auto minmax(56px, 1fr) auto;
+  align-items: center;
+  gap: var(--dp-space-100);
+}
+
+.list .wrap,
+.list .row {
+  display: contents;
+  /* `container-type` MUST be dropped here. An element with `display: contents`
+     generates no box, so it becomes an invalid query container — and while it is
+     invalid it still shadows .listOuter for everything inside it, which silently
+     killed the restack for the label, value, track and note (the list itself
+     restacked, the cells didn't). */
+  container-type: normal;
+}
+
+.label {
+  font-family: var(--dp-sem-font-body);
+  font-size: var(--dp-font-size-87);
+  color: var(--dp-color-on-surface-variant);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.value {
+  font-family: var(--dp-sem-font-display);
+  font-weight: var(--dp-font-weight-semibold);
+  font-size: var(--dp-font-size-150);
+  line-height: 1.1;
+  color: var(--dp-color-on-surface);
+  text-align: right;
+  /* Digits share one width, so the values stack into a clean right-aligned
+     column instead of shifting with every "1" and "7". */
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.row[data-emphasis='lead'] .value {
+  font-size: var(--dp-font-size-250);
+}
+
+.track {
+  position: relative;
+  height: 8px;
+  min-width: 64px;
+  border-radius: var(--dp-radius-pill);
+  background: var(--dp-color-surface-container);
+  overflow: visible;
+}
+
+.fill {
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  border-radius: var(--dp-radius-pill);
+  background: var(--dp-color-primary);
+  transition: width var(--dp-sem-motion-layout);
+}
+
+/* Target marker: taller than the track so it stays readable both over the empty
+   track and over the filled bar. */
+.tick {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  margin-left: -1px;
+  border-radius: var(--dp-radius-pill);
+  background: var(--dp-color-on-surface);
+  opacity: 0.55;
+}
+
+.note {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--dp-space-50);
+  font-family: var(--dp-sem-font-code);
+  font-size: var(--dp-font-size-62);
+  color: var(--dp-color-on-surface-variant);
+  white-space: nowrap;
+}
+
+.check {
+  flex: none;
+  color: var(--dp-color-success-text);
+}
+
+.noteExtra {
+  color: var(--dp-color-on-surface);
+}
+
+/* Tone applies to the bar only — an on-target row stays neutral so that color
+   marks the exception instead of decorating every row. */
+.row[data-tone='success'] .fill {
+  background: var(--dp-color-success);
+}
+
+.row[data-tone='warning'] .fill {
+  background: var(--dp-color-warning);
+}
+
+.row[data-tone='error'] .fill {
+  background: var(--dp-color-error);
+}
+
+.row[data-tone='warning'] .note,
+.row[data-tone='error'] .note {
+  color: var(--dp-color-on-surface);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Narrow column: label + value keep their line, the meter and the note each take
+   a full one. Nothing shrinks below its legible size. */
+@container (max-width: 420px) {
+  .row,
+  .list {
+    grid-template-columns: minmax(0, 1fr) auto;
+    row-gap: var(--dp-space-50);
+  }
+
+  .track {
+    grid-column: 1 / -1;
+  }
+
+  .note {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+
+  /* Rows are dissolved into the list grid, so the visual separation between one
+     metric and the next has to come from the row that closes it. */
+  .list .note {
+    padding-bottom: var(--dp-space-100);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fill {
+    transition: none;
+  }
+}

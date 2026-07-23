@@ -35,6 +35,7 @@ import { LineChart } from '../components/LineChart'
 import { DonutChart } from '../components/DonutChart'
 import { BarChart } from '../components/BarChart'
 import { Gauge } from '../components/Gauge'
+import { MeterBar, MeterList } from '../components/MeterBar'
 import { FunnelChart } from '../components/FunnelChart'
 import { StatCard } from '../components/StatCard'
 import { ChartPanel } from '../components/ChartPanel'
@@ -2755,6 +2756,17 @@ const PORTAL_DOCS: PortalDocCfg[] = [
     tokens: [{ name: '--dp-color-status-success-500', usage: 'Good band' }, { name: '--dp-color-status-warning-500', usage: 'Warn band' }, { name: '--dp-color-error', usage: 'Low band' }],
     a11y: [{ rule: 'role img + "X of 100" label', status: 'pass' }],
     guidelines: [{ type: 'do', text: 'Set thresholds so color is meaningful.' }, { type: 'dont', text: 'Use for values without a 0–100 scale.' }],
+  },
+  {
+    name: 'MeterBar', category: 'Pattern',
+    description: 'One metric per line: label, value, a track with the value bar and a target marker, and the benchmark in words. Compact bullet chart — the alternative to a gauge when several metrics must be read against their goals at once. Stack them inside MeterList so all rows share one grid.',
+    live: <LivePreview h={240} scale={1}><div style={{ padding: 20, maxWidth: 520 }}><MeterList><MeterBar label="Reply rate" value={4.1} target={3} format={(v) => `${v}%`} emphasis="lead" /><MeterBar label="Open rate" value={57.7} target={50} max={100} format={(v) => `${v}%`} /><MeterBar label="Bounce rate" value={2.6} target={2} better="lower" format={(v) => `${v}%`} /><MeterBar label="Deliverability" value={98} target={95} max={100} format={(v) => `${v}%`} /></MeterList></div></LivePreview>,
+    anatomy: [{ id: 1, label: 'Label + value', desc: 'Name left, value right-aligned in tabular figures.' }, { id: 2, label: 'Track + bar', desc: 'Bar width = value on a scale that defaults to 1.5× the target.' }, { id: 3, label: 'Target marker', desc: 'Tick at the benchmark. Rows on the default scale share a ruler, so their markers align; metrics with a natural ceiling take max={100}.' }, { id: 4, label: 'Note', desc: 'The benchmark in words, plus a ✓ when it is met.' }, { id: 5, label: 'MeterList', desc: 'Container that collapses every row into one shared grid, so columns and markers align across rows.' }],
+    prompt: '## MeterBar / MeterList\nMeterBar props: label, value, target?, better? higher|lower, max?, format?, targetLabel?, note?, emphasis? default|lead, tone? auto|neutral|success|warning|error. Wrap a stack in <MeterList> so rows share columns. Bar is aria-hidden (row is text).',
+    code: `<MeterList>\n  <MeterBar label="Reply rate" value={4.1} target={3} format={pct} emphasis="lead" />\n  <MeterBar label="Bounce rate" value={1.1} target={2} better="lower" format={pct} />\n</MeterList>`,
+    tokens: [{ name: '--dp-color-primary', usage: 'Bar, on target' }, { name: '--dp-color-warning', usage: 'Bar, near miss' }, { name: '--dp-color-error', usage: 'Bar, off target' }, { name: '--dp-color-surface-container', usage: 'Track' }, { name: '--dp-color-on-surface', usage: 'Target marker' }],
+    a11y: [{ rule: 'Bar aria-hidden — label, value and target are real text', status: 'pass' }, { rule: 'Target met announced as "target met", not by the ✓ glyph alone', status: 'pass' }, { rule: 'Tabular figures keep values aligned without a table', status: 'pass' }],
+    guidelines: [{ type: 'do', text: 'Always wrap a stack in MeterList — loose MeterBars each size their own columns and the markers stop lining up.' }, { type: 'do', text: 'Stack several in one card: the aligned target markers are what make the group readable.' }, { type: 'do', text: 'Use emphasis="lead" on at most one row per group — the metric that answers "is this working?".' }, { type: 'do', text: 'Set better="lower" on metrics where less is better (bounce rate), so the tone is computed correctly.' }, { type: 'dont', text: 'Leave a percentage-of-a-whole on the default scale — pass max={100} so the bar is honest.' }, { type: 'dont', text: 'Use it for a single hero number with no benchmark — that is StatCard or Gauge.' }],
   },
   {
     name: 'FunnelChart', category: 'Pattern',

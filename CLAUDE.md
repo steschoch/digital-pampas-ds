@@ -70,11 +70,18 @@ Site vs Portal não é opcional: componente usado pelo site vai em Site; compone
 
 ---
 
-## Estado atual (2026-07-22)
+## Estado atual (2026-07-23)
 
-**Versão publicada:** v1.6.2 no GitHub Packages.
+**Versão publicada:** v1.7.0 no GitHub Packages.
 
-**Sessão de hoje:**
+**Sessão de 23/07 — `MeterBar` + `MeterList` (Portal, categoria Pattern), NÃO publicado ainda:**
+- Uma métrica por linha (bullet chart compacto): rótulo, valor, trilha com barra e marca da meta, benchmark por extenso. Criado para o redesign dos channel cards do portal (Email/LinkedIn), que empilhavam quatro números de peso igual ao lado de um gauge.
+- `MeterList` é obrigatório ao empilhar: ele dissolve as linhas (`display: contents`) na própria grade, e é isso que alinha valores, trilhas e notas entre linhas.
+- **Armadilha aprendida (container queries):** `container-type` num elemento com `display: contents` cria um container INVÁLIDO que ainda assim sombreia o container válido acima; as regras `@container` param de casar para tudo que está dentro dele. O sintoma foi labels colapsando a zero e a nota vazando pra fora do card no mobile. Solução: `container-type: normal` junto do `display: contents`.
+- Cor é exceção, não decoração: linha dentro da meta fica neutra (primary) + ✓; só quem erra a meta ganha warning/error.
+- Está no portal via cópia local do `dist/` (preview sem publicar). **Publicar como v1.8.0 quando a Ste aprovar** (`npm version minor` + build + publish), e então bumpar o portal.
+
+**Sessão de 22/07:**
 - Criado e depois **removido** o componente `SystemFlow` (era pro portal, mas a Ste esclareceu que o portal já tem o componente certo: `Timeline`, só precisava ser animado — não precisava de componente novo).
 - Criado o componente **`CaseFlow`** (categoria Pattern, seção Site): reproduz o "system map" de cada case study do site (caixas + flechas SVG desenhadas, medidas das caixas reais via `ResizeObserver`, caminho exato do diagrama original). Consumido em `website-digital-pampas`.
 - `Timeline` ganhou a prop opcional **`animate`**: fases done/active/delayed começam com a aparência "upcoming" (pontilhado/cinza) e revelam a cor real em sequência ao entrar na tela; fases upcoming não precisam de animação (já nascem corretas). Corrigido um bug real de cascata com a regra global de reduced-motion (v1.6.0 → v1.6.1 → v1.6.2, ver histórico de commits). Consumido em `client-portal-digital-pampas` (Overview → Campaign status).
