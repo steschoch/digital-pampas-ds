@@ -65,26 +65,32 @@ export function CaseStudyCard({
         aria-label={`Case study: ${cs.headline}`}
         style={{ '--card-bg': `url('${imageBase}/${cs.slug}.jpg')` } as CSSProperties}
       >
-        <p className={styles.cardEyebrow}>{cs.industry}</p>
-        <h3 className={styles.cardHeadline}>{cs.headline}</h3>
+        {/* Top zone — the image reads through a light scrim; bold title + metrics. */}
+        <div className={styles.top}>
+          <p className={styles.cardEyebrow}>{cs.industry}</p>
+          <h3 className={styles.cardHeadline}>{cs.headline}</h3>
 
-        <div className={styles.metricsRow}>
-          {cs.heroMetrics.slice(0, 2).map((m, j) => (
-            <div key={j} className={styles.metric}>
-              <span className={styles.metricValue} style={{ color: accentVar(m.accent) }}>{m.value}</span>
-              <span className={styles.metricLabel}>{m.label}</span>
-            </div>
-          ))}
+          <div className={styles.metricsRow}>
+            {cs.heroMetrics.slice(0, 2).map((m, j) => (
+              <div key={j} className={styles.metric}>
+                <span className={styles.metricValue} style={{ color: accentVar(m.accent) }}>{m.value}</span>
+                <span className={styles.metricLabel}>{m.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <p className={styles.excerpt}>{cs.excerpt}</p>
+        {/* Bottom zone — blurred, darkened panel so the fine copy stands out. */}
+        <div className={styles.bottom}>
+          <p className={styles.excerpt}>{cs.excerpt}</p>
 
-        {renderLink({
-          href,
-          className: styles.cta,
-          'aria-label': `View case study: ${cs.headline}`,
-          children: 'View case' as ReactNode,
-        })}
+          {renderLink({
+            href,
+            className: styles.cta,
+            'aria-label': `View case study: ${cs.headline}`,
+            children: 'View case' as ReactNode,
+          })}
+        </div>
       </article>
     </AnimatedSection>
   )

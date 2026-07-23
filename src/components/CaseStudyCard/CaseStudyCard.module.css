@@ -24,22 +24,82 @@
   content: '';
   position: absolute;
   inset: 0;
-  background-image: var(--card-bg);
+  /* Base scrim — the photo is only a faint detail, strongest near the top and
+     fading out below. The heavy darkening for text legibility comes from the
+     blur layer (::after). */
+  background-image:
+    linear-gradient(
+      to bottom,
+      var(--dp-color-alpha-dark-40) 0%,
+      var(--dp-color-alpha-dark-50) 30%,
+      var(--dp-color-alpha-dark-60) 100%
+    ),
+    var(--card-bg);
   background-size: cover;
-  background-position: center top;
-  opacity: 0.09;
+  /* Frame a little lower into the photo so the subject (e.g. the doctor) sits
+     up near the visible top rather than being cropped off. */
+  background-position: center 30%;
   z-index: 0;
   pointer-events: none;
   transition: opacity var(--dp-sem-motion-component);
 }
 
-.card:hover::before {
-  opacity: 0.13;
+/* Feathered blur + darkening: it fades in from within the metrics area and
+   deepens toward the bottom. The gradient MASK is what dissolves it into the
+   photo — no seam, no box. backdrop-filter blurs the image behind it, and the
+   mask makes that blur ramp up gradually. */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--dp-color-alpha-dark-40) 15%,
+    var(--dp-color-alpha-dark-80) 45%,
+    var(--dp-color-alpha-dark-80) 100%
+  );
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  /* The blur rises high — it starts feathering in just under the headline and is
+     already strong across the metrics, then goes solid toward the bottom. This
+     is what makes the gaussian "climb past the metrics" and dissolve upward. */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 6%,
+    var(--dp-color-alpha-dark-60) 15%,
+    black 30%,
+    black 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 6%,
+    var(--dp-color-alpha-dark-60) 15%,
+    black 30%,
+    black 100%
+  );
 }
 
 .card > * {
   position: relative;
   z-index: 1;
+}
+
+/* Layout wrappers only — no visual; the darkening/blur is the card-level
+   ::after overlay so it feathers across the whole face without a divider. */
+.top {
+  flex: 0 0 auto;
+}
+
+.bottom {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
 }
 
 .card:hover {
@@ -69,7 +129,7 @@
 .metricsRow {
   display: flex;
   gap: 24px;
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 
 .metric {
