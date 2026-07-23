@@ -2414,24 +2414,34 @@ function LivePreview({
 }) {
   const outerRef = useRef<HTMLDivElement>(null)
   const innerRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const outer = outerRef.current
     const inner = innerRef.current
-    if (!outer || !inner) return
+    const content = contentRef.current
+    if (!outer || !inner || !content) return
+
+    /* Deliberately NOT centering horizontally here. Shrinking this box to its
+       content is what centering would require, and the preview's width is load
+       bearing: a component with a container query (MeterList) or a percentage
+       layout renders its NARROW variant inside a shrunken box, so the showroom
+       would document a layout the product never shows. Horizontal centering is
+       therefore a per-preview decision, made at the call site below. */
     const fit = () => {
       const cw = outer.clientWidth
-      const nw = inner.scrollWidth || 1
+      const nw = content.scrollWidth || 1
       const s = Math.min(scale, cw / nw) // shrink to fit width; never grow past `scale`
       inner.style.transform = s < 1 ? `scale(${s})` : 'none'
       inner.style.transformOrigin = 'top left'
       // Auto height so the WHOLE component shows — never clipped.
-      outer.style.height = `${inner.scrollHeight * s}px`
+      outer.style.height = `${content.scrollHeight * s}px`
     }
+
     fit()
     const ro = new ResizeObserver(fit)
     ro.observe(outer)
-    ro.observe(inner)
+    ro.observe(content)
     return () => ro.disconnect()
   }, [scale])
 
@@ -2448,7 +2458,7 @@ function LivePreview({
       }}
     >
       <div ref={innerRef} style={{ transformOrigin: 'top left' }}>
-        {children}
+        <div ref={contentRef}>{children}</div>
       </div>
     </div>
   )
@@ -2661,7 +2671,7 @@ const PORTAL_DOCS: PortalDocCfg[] = [
   {
     name: 'TextField', category: 'Atomic',
     description: 'Labelled text/password input with help/error text and a "terminal" variant.',
-    live: <LivePreview h={200} scale={1}><div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 360 }}><TextField label="Email" type="email" value="you@company.com" onChange={() => {}} helpText="We'll never share it." /><TextField label="Password" type="password" value="secret" onChange={() => {}} error="Too short" /></div></LivePreview>,
+    live: <LivePreview h={200} scale={1}><div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 360, margin: '0 auto' }}><TextField label="Email" type="email" value="you@company.com" onChange={() => {}} helpText="We'll never share it." /><TextField label="Password" type="password" value="secret" onChange={() => {}} error="Too short" /></div></LivePreview>,
     anatomy: [{ id: 1, label: 'Label', desc: 'Always associated with the input.' }, { id: 2, label: 'Input', desc: 'Focus ring cyan; error border/message.' }, { id: 3, label: 'Help/Error', desc: 'One line below.' }],
     prompt: '## TextField\nProps: label, type?, value, onChange, error?, helpText?, variant default|terminal. Label associated; aria-invalid on error.',
     code: `<TextField label="Email" type="email" value={v} onChange={setV} error={err} />`,
@@ -2672,7 +2682,7 @@ const PORTAL_DOCS: PortalDocCfg[] = [
   {
     name: 'Select', category: 'Atomic',
     description: 'Single-choice dropdown (WAI-ARIA listbox) with keyboard nav and a floating menu.',
-    live: <LivePreview h={120} scale={1}><div style={{ padding: 24, maxWidth: 280 }}><Select options={[{ value: 'a', label: 'Acme Corp' }, { value: 'b', label: 'Globex' }]} value="a" onChange={() => {}} aria-label="Client" /></div></LivePreview>,
+    live: <LivePreview h={120} scale={1}><div style={{ padding: 24, maxWidth: 280, margin: '0 auto' }}><Select options={[{ value: 'a', label: 'Acme Corp' }, { value: 'b', label: 'Globex' }]} value="a" onChange={() => {}} aria-label="Client" /></div></LivePreview>,
     anatomy: [{ id: 1, label: 'Trigger', desc: 'Selected label + chevron.' }, { id: 2, label: 'Menu', desc: 'Floating listbox with check on selected.' }],
     prompt: '## Select\nProps: options {value,label,icon?,description?}[], value, onChange, placeholder?, size?. WAI-ARIA listbox; arrows/Enter/Esc.',
     code: `<Select options={opts} value={value} onChange={setValue} />`,
@@ -2683,7 +2693,7 @@ const PORTAL_DOCS: PortalDocCfg[] = [
   {
     name: 'Avatar', category: 'Atomic',
     description: 'User/client avatar — image when given, otherwise initials from the name on a tinted surface.',
-    live: <LivePreview h={100} scale={1}><div style={{ padding: 24, display: 'flex', gap: 12, alignItems: 'center' }}><Avatar name="Esteban Prospero" /><Avatar name="Moai Tech" size={48} /></div></LivePreview>,
+    live: <LivePreview h={100} scale={1}><div style={{ padding: 24, display: 'flex', gap: 12, alignItems: 'center', justifyContent: 'center' }}><Avatar name="Esteban Prospero" /><Avatar name="Moai Tech" size={48} /></div></LivePreview>,
     anatomy: [{ id: 1, label: 'Circle', desc: 'Tinted surface + outline.' }, { id: 2, label: 'Initials', desc: 'Derived from name; or image via src.' }],
     prompt: '## Avatar\nProps: name (initials), src?, size?.',
     code: `<Avatar name="Esteban Prospero" />`,
@@ -2705,7 +2715,7 @@ const PORTAL_DOCS: PortalDocCfg[] = [
   {
     name: 'Sparkline', category: 'Pattern',
     description: 'Tiny trend line (no axes) for use inside StatCard. Pure SVG; color via token.',
-    live: <LivePreview h={90} scale={1}><div style={{ padding: 24 }}><Sparkline points={[4, 8, 6, 12, 9, 15, 13]} fill /></div></LivePreview>,
+    live: <LivePreview h={90} scale={1}><div style={{ padding: 24, display: 'flex', justifyContent: 'center' }}><Sparkline points={[4, 8, 6, 12, 9, 15, 13]} fill /></div></LivePreview>,
     anatomy: [{ id: 1, label: 'Line', desc: 'Polyline scaled to min/max.' }, { id: 2, label: 'Fill', desc: 'Optional faint area under the line.' }],
     prompt: '## Sparkline\nProps: points number[], colorVar?, width?, height?, fill?. No axes/tooltip.',
     code: `<Sparkline points={[4,8,6,12,9]} fill />`,
@@ -2727,7 +2737,7 @@ const PORTAL_DOCS: PortalDocCfg[] = [
   {
     name: 'DonutChart', category: 'Pattern',
     description: 'Proportions as a pure-SVG ring with a centered total and a legend (value + %).',
-    live: <LivePreview h={220} scale={1}><div style={{ padding: 20 }}><DonutChart segments={P_DONUT} centerValue="100" centerLabel="replies" /></div></LivePreview>,
+    live: <LivePreview h={220} scale={1}><div style={{ padding: 20, display: 'flex', justifyContent: 'center' }}><DonutChart segments={P_DONUT} centerValue="100" centerLabel="replies" /></div></LivePreview>,
     anatomy: [{ id: 1, label: 'Ring', desc: 'Segments via stroke-dasharray.' }, { id: 2, label: 'Center', desc: 'Optional total value + label.' }, { id: 3, label: 'Legend', desc: 'Value + % per segment.' }],
     prompt: '## DonutChart\nProps: segments {label,value,colorVar}[], centerLabel?, centerValue?, size?.',
     code: `<DonutChart segments={segments} centerValue="100" centerLabel="replies" />`,
@@ -2749,7 +2759,7 @@ const PORTAL_DOCS: PortalDocCfg[] = [
   {
     name: 'Gauge', category: 'Pattern',
     description: 'Radial 0–100 meter (270° arc). Color shifts by threshold band. Pure SVG.',
-    live: <LivePreview h={180} scale={1}><div style={{ padding: 16, display: 'flex', gap: 24 }}><Gauge value={92} label="deliverability" thresholds={{ warn: 70, good: 90 }} /><Gauge value={64} label="reputation" thresholds={{ warn: 70, good: 90 }} /></div></LivePreview>,
+    live: <LivePreview h={180} scale={1}><div style={{ padding: 16, display: 'flex', gap: 24, justifyContent: 'center' }}><Gauge value={92} label="deliverability" thresholds={{ warn: 70, good: 90 }} /><Gauge value={64} label="reputation" thresholds={{ warn: 70, good: 90 }} /></div></LivePreview>,
     anatomy: [{ id: 1, label: 'Track', desc: '270° background arc.' }, { id: 2, label: 'Value arc', desc: 'Color by threshold (success/warning/error).' }, { id: 3, label: 'Center', desc: 'Number + label.' }],
     prompt: '## Gauge\nProps: value 0–100, label?, thresholds? {warn,good}, size?.',
     code: `<Gauge value={92} label="deliverability" thresholds={{ warn: 70, good: 90 }} />`,
@@ -2760,7 +2770,7 @@ const PORTAL_DOCS: PortalDocCfg[] = [
   {
     name: 'MeterBar', category: 'Pattern',
     description: 'One metric per line: label, value, a track with the value bar and a target marker, and the benchmark in words. Compact bullet chart — the alternative to a gauge when several metrics must be read against their goals at once. Stack them inside MeterList so all rows share one grid.',
-    live: <LivePreview h={240} scale={1}><div style={{ padding: 20, maxWidth: 520 }}><MeterList><MeterBar label="Reply rate" value={4.1} target={3} format={(v) => `${v}%`} emphasis="lead" /><MeterBar label="Open rate" value={57.7} target={50} max={100} format={(v) => `${v}%`} /><MeterBar label="Bounce rate" value={2.6} target={2} better="lower" format={(v) => `${v}%`} /><MeterBar label="Deliverability" value={98} target={95} max={100} format={(v) => `${v}%`} /></MeterList></div></LivePreview>,
+    live: <LivePreview h={240} scale={1}><div style={{ padding: 20, maxWidth: 520, margin: '0 auto' }}><MeterList><MeterBar label="Reply rate" value={4.1} target={3} format={(v) => `${v}%`} emphasis="lead" /><MeterBar label="Open rate" value={57.7} target={50} max={100} format={(v) => `${v}%`} /><MeterBar label="Bounce rate" value={2.6} target={2} better="lower" format={(v) => `${v}%`} /><MeterBar label="Deliverability" value={98} target={95} max={100} format={(v) => `${v}%`} /></MeterList></div></LivePreview>,
     anatomy: [{ id: 1, label: 'Label + value', desc: 'Name left, value right-aligned in tabular figures.' }, { id: 2, label: 'Track + bar', desc: 'Bar width = value on a scale that defaults to 1.5× the target.' }, { id: 3, label: 'Target marker', desc: 'Tick at the benchmark. Rows on the default scale share a ruler, so their markers align; metrics with a natural ceiling take max={100}.' }, { id: 4, label: 'Note', desc: 'The benchmark in words, plus a ✓ when it is met.' }, { id: 5, label: 'MeterList', desc: 'Container that collapses every row into one shared grid, so columns and markers align across rows.' }],
     prompt: '## MeterBar / MeterList\nMeterBar props: label, value, target?, better? higher|lower, max?, format?, targetLabel?, note?, emphasis? default|lead, tone? auto|neutral|success|warning|error. Wrap a stack in <MeterList> so rows share columns. Bar is aria-hidden (row is text).',
     code: `<MeterList>\n  <MeterBar label="Reply rate" value={4.1} target={3} format={pct} emphasis="lead" />\n  <MeterBar label="Bounce rate" value={1.1} target={2} better="lower" format={pct} />\n</MeterList>`,
@@ -2782,7 +2792,7 @@ const PORTAL_DOCS: PortalDocCfg[] = [
   {
     name: 'StatCard', category: 'Pattern',
     description: 'KPI card: label, big value, optional delta (↑/↓ good/bad color), badge, and a Sparkline slot.',
-    live: <LivePreview h={200} scale={1}><div style={{ padding: 20, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, maxWidth: 460 }}><StatCard label="Reply rate" value="8.95%" delta={{ value: '2.1%', direction: 'up' }} badge={<Badge variant="success">above benchmark</Badge>}><Sparkline points={[4, 6, 5, 9, 8, 12]} fill /></StatCard><StatCard label="Bounce rate" value="0.4%" delta={{ value: '0.3%', direction: 'down', positiveIsGood: false }} /></div></LivePreview>,
+    live: <LivePreview h={200} scale={1}><div style={{ padding: 20, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, maxWidth: 460, margin: '0 auto' }}><StatCard label="Reply rate" value="8.95%" delta={{ value: '2.1%', direction: 'up' }} badge={<Badge variant="success">above benchmark</Badge>}><Sparkline points={[4, 6, 5, 9, 8, 12]} fill /></StatCard><StatCard label="Bounce rate" value="0.4%" delta={{ value: '0.3%', direction: 'down', positiveIsGood: false }} /></div></LivePreview>,
     anatomy: [{ id: 1, label: 'Label', desc: 'Caption, muted.' }, { id: 2, label: 'Value', desc: 'Big display number; 40px under emphasis="hero".' }, { id: 3, label: 'Delta', desc: '↑/↓ + %, green/red by good/bad.' }, { id: 4, label: 'Slot', desc: 'Optional Sparkline/badge.' }],
     prompt: '## StatCard\nProps: label, value, delta? {value,direction,positiveIsGood?}, badge?, children? (sparkline), emphasis? (default|hero), loading?.',
     code: `<StatCard label="Meetings booked" value="14" emphasis="hero" />`,

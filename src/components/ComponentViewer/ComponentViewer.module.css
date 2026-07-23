@@ -143,6 +143,8 @@
 .overviewWrap {
   display: flex;
   flex-direction: column;
+  /* Fills the panel so the blocks below have room to center into. */
+  min-height: 100%;
 }
 
 .overviewTopBar {
@@ -166,6 +168,11 @@
 .overviewBlocks {
   display: flex;
   flex-direction: column;
+  /* A small component used to sit glued to the top of a 440px panel with dead
+     space under it. `margin: auto` only ever distributes LEFTOVER space, so a
+     tall preview still starts at the top and scrolls normally — unlike
+     justify-content: center, which would clip the top of an overflowing block. */
+  margin-block: auto;
 }
 
 .overviewBlock {
@@ -188,6 +195,15 @@
 
 .overviewBlockContent {
   max-width: var(--pw, 100%);
+}
+
+/* Centers the items of the preview's OUTERMOST row, so a handful of small
+   components (badges, buttons, icons) sits in the middle of the frame instead of
+   hugging its left edge. Scoped to the direct child on purpose: rows nested
+   inside an example composition keep their own alignment, and because the row
+   still spans the frame, nothing that depends on full width is affected. */
+.overviewBlockContent > div {
+  justify-content: center;
 }
 
 /* ── PLAYGROUND tab ──────────────────────────────────────────── */
