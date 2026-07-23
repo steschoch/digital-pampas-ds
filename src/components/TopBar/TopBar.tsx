@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import type { ReactNode } from 'react'
+import type { ReactNode, Ref } from 'react'
 import styles from './TopBar.module.css'
 
 export interface TopBarProps {
@@ -9,6 +9,16 @@ export interface TopBarProps {
   trailing?: ReactNode
   /** Mobile hamburger handler (opens the Sidebar drawer). */
   onMenuClick?: () => void
+  /**
+   * Ref to the hamburger. Closing a drawer must return focus to the control that
+   * opened it, otherwise the keyboard user lands back at the top of the document
+   * (WCAG 2.4.3). Hold this ref in the consumer and focus it on close.
+   */
+  menuButtonRef?: Ref<HTMLButtonElement>
+  /** Accessible name of the hamburger. Default: "Open menu". */
+  menuButtonLabel?: string
+  /** Drawer state, exposed as `aria-expanded` on the hamburger. */
+  menuExpanded?: boolean
   className?: string
 }
 
@@ -26,7 +36,15 @@ function MenuIcon() {
  * TopBar — application top bar. Sticky, gains a shadow on scroll. Left slot for
  * context selectors, right slot for actions; a hamburger appears on mobile.
  */
-export function TopBar({ leading, trailing, onMenuClick, className }: TopBarProps) {
+export function TopBar({
+  leading,
+  trailing,
+  onMenuClick,
+  menuButtonRef,
+  menuButtonLabel = 'Open menu',
+  menuExpanded,
+  className,
+}: TopBarProps) {
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -39,7 +57,14 @@ export function TopBar({ leading, trailing, onMenuClick, className }: TopBarProp
     <header className={[styles.topbar, scrolled ? styles.scrolled : '', className].filter(Boolean).join(' ')}>
       <div className={styles.left}>
         {onMenuClick && (
-          <button type="button" className={styles.menuBtn} onClick={onMenuClick} aria-label="Open menu">
+          <button
+            type="button"
+            ref={menuButtonRef}
+            className={styles.menuBtn}
+            onClick={onMenuClick}
+            aria-label={menuButtonLabel}
+            aria-expanded={menuExpanded}
+          >
             <MenuIcon />
           </button>
         )}

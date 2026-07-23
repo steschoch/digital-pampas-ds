@@ -79,7 +79,15 @@ Site vs Portal não é opcional: componente usado pelo site vai em Site; compone
 - `MeterList` é obrigatório ao empilhar: ele dissolve as linhas (`display: contents`) na própria grade, e é isso que alinha valores, trilhas e notas entre linhas.
 - **Armadilha aprendida (container queries):** `container-type` num elemento com `display: contents` cria um container INVÁLIDO que ainda assim sombreia o container válido acima; as regras `@container` param de casar para tudo que está dentro dele. O sintoma foi labels colapsando a zero e a nota vazando pra fora do card no mobile. Solução: `container-type: normal` junto do `display: contents`.
 - Cor é exceção, não decoração: linha dentro da meta fica neutra (primary) + ✓; só quem erra a meta ganha warning/error.
-- Está no portal via cópia local do `dist/` (preview sem publicar). **Publicar como v1.8.0 quando a Ste aprovar** (`npm version minor` + build + publish), e então bumpar o portal.
+- Publicado como **v1.8.0** e já consumido pelo portal (`^1.8.0`, install real, não cópia de `dist/`).
+
+**Sessão de 23/07 (parte 2) — showroom no mobile, NÃO publicado:**
+- Abaixo de 768px o showroom perdia a navegação inteira (`.sidebar { display: none }` sem substituto): dava para abrir no celular, mas não para sair da página que tivesse carregado. Agora a sidebar vira **drawer off-canvas** e uma barra fixa no topo (o `TopBar` do DS) traz o hambúrguer, o wordmark e o toggle de tema.
+- Drawer se comporta como modal: Esc fecha e devolve o foco ao hambúrguer, Tab fica preso dentro dele, o fundo não rola, o scrim fecha ao toque, e escolher uma página fecha o drawer.
+- `TopBar` ganhou três props aditivas: `menuButtonRef`, `menuButtonLabel`, `menuExpanded`. **Isso muda o pacote publicado → precisa de release (v1.9.0).**
+- `ComponentViewer` nunca teve media query: era um "desk" de duas colunas que empurrava a página de lado (390px de viewport rolando 898px). Abaixo de 768px cada split vira coluna única, o rail desce para baixo do conteúdo e a barra de abas rola dentro de si.
+- **Armadilha aprendida (duas vezes na mesma sessão, o mesmo princípio):** item de flex/grid não encolhe abaixo do conteúdo sem `min-width: 0` — foi o que fez o `.main` esticar a página. E um elemento colocado dentro de um container `display: flex` em row (a barra mobile dentro do `.layout`) fica AO LADO do conteúdo, não acima: a barra precisa ser `position: fixed`.
+- Varredura de 42 páginas do showroom a 390px: nenhuma com rolagem horizontal. Desktop (1440) e tablet (820) sem regressão.
 
 **Sessão de 22/07:**
 - Criado e depois **removido** o componente `SystemFlow` (era pro portal, mas a Ste esclareceu que o portal já tem o componente certo: `Timeline`, só precisava ser animado — não precisava de componente novo).

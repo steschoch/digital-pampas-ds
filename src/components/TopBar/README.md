@@ -35,6 +35,9 @@ Este componente não possui variantes. A única mudança visual é o estado rola
 | `leading` | `ReactNode` | `undefined` | Slot à esquerda (após o hamburguer) — seletores de contexto. |
 | `trailing` | `ReactNode` | `undefined` | Slot à direita — tema, usuário, ações. |
 | `onMenuClick` | `() => void` | `undefined` | Handler do hamburguer mobile (abre o drawer da `Sidebar`). Sem ele, o botão não é renderizado. |
+| `menuButtonRef` | `Ref<HTMLButtonElement>` | `undefined` | Ref do hamburguer. Fechar um drawer tem que devolver o foco ao controle que o abriu (WCAG 2.4.3); guarde a ref no consumidor e chame `.focus()` ao fechar. |
+| `menuButtonLabel` | `string` | `'Open menu'` | Nome acessível do hamburguer. |
+| `menuExpanded` | `boolean` | `undefined` | Estado do drawer, exposto como `aria-expanded` no hamburguer. |
 | `className` | `string` | `undefined` | Classe extra no `<header>`. |
 
 ## Exemplo de uso

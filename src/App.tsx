@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import {
   Sun, Moon, ArrowRight, ArrowLeft, ArrowUp, ArrowDown,
   ChevronRight, ChevronDown, Menu, X, ExternalLink, Home,
@@ -12,6 +12,7 @@ import {
   Mail, Phone, MessageSquare, Bell, User, Users, Star, Heart,
 } from 'lucide-react'
 import { Badge } from './components/Badge/Badge'
+import { TopBar } from './components/TopBar'
 import { ComponentViewer } from './components/ComponentViewer'
 import { ComponentsGrid } from './components/ComponentsGrid'
 import { SocialIcon, type SocialIconName } from './components/SocialIcon'
@@ -482,7 +483,51 @@ export default function App() {
   const [openGroups, setOpenGroups] = useState<Set<string>>(
     () => new Set([GROUP_OF_PAGE['gs-overview']]),
   )
+  const [navOpen, setNavOpen] = useState(false)
   const mainRef = useRef<HTMLElement>(null)
+  const drawerRef = useRef<HTMLElement>(null)
+  const menuBtnRef = useRef<HTMLButtonElement>(null)
+
+  /* Mobile drawer: below 768px the sidebar is off-canvas and the TopBar's
+     hamburger is the only way in. While it is open the drawer behaves like a
+     modal — Escape closes it, the page behind it does not scroll, and Tab stays
+     inside it, so a keyboard or screen-reader user is never left tabbing through
+     content hidden behind the overlay. */
+  useEffect(() => {
+    if (!navOpen) return
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    drawerRef.current?.focus()
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setNavOpen(false)
+        menuBtnRef.current?.focus()
+        return
+      }
+      if (e.key !== 'Tab' || !drawerRef.current) return
+      const focusable = drawerRef.current.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      )
+      if (!focusable.length) return
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('keydown', onKeyDown)
+      document.body.style.overflow = previousOverflow
+    }
+  }, [navOpen])
 
   const toggleScheme = () => {
     const next: Scheme = scheme === 'dark' ? 'light' : 'dark'
@@ -490,9 +535,12 @@ export default function App() {
     document.documentElement.setAttribute('data-color-scheme', next)
   }
 
-  /* Select a page: set it active and scroll the content back to the top */
+  /* Select a page: set it active and scroll the content back to the top. On
+     mobile this also closes the drawer — picking a page IS the reason it was
+     opened, so leaving it up would hide the answer behind the question. */
   const selectPage = (id: string) => {
     setActiveId(id)
+    setNavOpen(false)
     mainRef.current?.scrollTo({ top: 0 })
     window.scrollTo({ top: 0 })
   }
@@ -509,8 +557,44 @@ export default function App() {
   return (
     <div className={styles.layout}>
 
-      {/* ── Sidebar ───────────────────────────────────────────── */}
-      <aside className={styles.sidebar}>
+      {/* ── Mobile bar (hidden from 769px up) ─────────────────── */}
+      <div className={styles.mobileBar}>
+        <TopBar
+          onMenuClick={() => setNavOpen(true)}
+          menuButtonRef={menuBtnRef}
+          menuButtonLabel="Open navigation"
+          menuExpanded={navOpen}
+          leading={
+            <img
+              src={scheme === 'dark' ? '/logos/dp-wordmark-white.png' : '/logos/dp-wordmark-black.png'}
+              alt="Digital Pampas Design System"
+              className={styles.mobileBarWordmark}
+            />
+          }
+          trailing={
+            <button
+              className={styles.mobileThemeToggle}
+              onClick={toggleScheme}
+              aria-label={scheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {scheme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+          }
+        />
+      </div>
+
+      {/* Scrim: closes the drawer on tap and dims what is behind it. */}
+      {navOpen && (
+        <div className={styles.scrim} onClick={() => setNavOpen(false)} aria-hidden="true" />
+      )}
+
+      {/* ── Sidebar (drawer on mobile) ────────────────────────── */}
+      <aside
+        ref={drawerRef}
+        tabIndex={-1}
+        className={`${styles.sidebar} ${navOpen ? styles.sidebarOpen : ''}`}
+        aria-label="Design System navigation"
+      >
 
         {/* Logo */}
         <div className={styles.sidebarBrand}>

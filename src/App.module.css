@@ -198,6 +198,10 @@
 .main {
   margin-left: 248px;
   flex: 1;
+  /* Without this a flex item never shrinks below its content's intrinsic width,
+     so any wide child (the component viewer, a code block) widened the whole
+     page instead of scrolling inside itself. */
+  min-width: 0;
   min-height: 100vh;
   padding-block: var(--dp-space-600);
 }
@@ -1114,13 +1118,94 @@
 
 /* ── Responsive ────────────────────────────────────────────── */
 
+/* ── Mobile bar + drawer ───────────────────────────────────────
+   Hidden from 769px up: on desktop the sidebar is always visible, so a top bar
+   would only repeat what is already on screen. */
+/* Fixed, not just hidden-on-desktop: .layout is a flex ROW, so a bar left in the
+   flow would sit BESIDE the content and squeeze it (the page rendered at 90px
+   wide). Out of the flow it spans the viewport and the content keeps its width. */
+.mobileBar {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 120;
+}
+
+.mobileBarWordmark {
+  display: block;
+  max-width: 132px;
+  height: auto;
+  object-fit: contain;
+}
+
+.mobileThemeToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* 44px is the minimum comfortable touch target (WCAG 2.5.8 asks 24px, Apple
+     and Google both ask 44/48). */
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: var(--dp-radius-100);
+  background: transparent;
+  color: var(--dp-color-on-surface);
+  cursor: pointer;
+  transition: background-color var(--dp-sem-motion-interactive);
+}
+
+.mobileThemeToggle:hover {
+  background: var(--dp-color-surface-container-high);
+}
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  background: var(--dp-color-scrim);
+  opacity: 0.6;
+}
+
 @media (max-width: 768px) {
-  .sidebar { display: none; }
+  .mobileBar {
+    display: block;
+  }
+
+  /* The sidebar becomes an off-canvas drawer instead of disappearing: before
+     this, everything below 768px lost the navigation entirely and the showroom
+     was stuck on whatever page had loaded. */
+  .sidebar {
+    top: 0;
+    width: min(86vw, 300px);
+    z-index: 200;
+    transform: translateX(-100%);
+    /* Hidden also to assistive tech and to Tab, not just to the eye. */
+    visibility: hidden;
+    transition:
+      transform var(--dp-sem-motion-layout),
+      visibility var(--dp-sem-motion-layout);
+  }
+
+  .sidebarOpen {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
   .main {
     margin-left: 0;
-    padding-block: var(--dp-space-300);
+    /* Clears the sticky top bar. */
+    padding-block: calc(var(--dp-nav-height) + var(--dp-space-200)) var(--dp-space-300);
   }
+
   .mainInner {
     padding-inline: var(--dp-space-200);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar {
+    transition: none;
   }
 }

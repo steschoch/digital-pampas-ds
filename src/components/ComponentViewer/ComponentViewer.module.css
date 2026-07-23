@@ -737,3 +737,55 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
+
+/* ── Mobile ───────────────────────────────────────────────────
+   The viewer was built as a two-column desk (content + rail) and every tab
+   assumed that width, so under 768px it did not shrink — it pushed the page
+   sideways (a 390px viewport scrolled to 898px). Below the breakpoint every
+   split becomes a single column and the rail moves under the content it
+   annotates. */
+@media (max-width: 768px) {
+  .body {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .main {
+    border-right: none;
+    border-bottom: 1px solid var(--cv-border);
+    /* A grid item, like a flex item, refuses to shrink past its content unless
+       told it may. This single line is what stops the horizontal scroll. */
+    min-width: 0;
+  }
+
+  .aside {
+    border-left: none;
+  }
+
+  .pgLayout,
+  .anatomyLayout,
+  .usageSection,
+  .doDontGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .pgControls,
+  .anatomyVisual {
+    border-right: none;
+    border-bottom: 1px solid var(--cv-border);
+  }
+
+  /* Tabs scroll sideways inside their own bar instead of widening the page. */
+  .tabBar {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .tabBar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tabBtn {
+    flex: none;
+  }
+}
