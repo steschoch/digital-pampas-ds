@@ -72,7 +72,7 @@ Site vs Portal não é opcional: componente usado pelo site vai em Site; compone
 
 ## Estado atual (2026-07-23)
 
-**Versão publicada:** v1.7.0 no GitHub Packages.
+**Versão publicada:** v1.9.0 no GitHub Packages.
 
 **Sessão de 23/07 — `MeterBar` + `MeterList` (Portal, categoria Pattern), NÃO publicado ainda:**
 - Uma métrica por linha (bullet chart compacto): rótulo, valor, trilha com barra e marca da meta, benchmark por extenso. Criado para o redesign dos channel cards do portal (Email/LinkedIn), que empilhavam quatro números de peso igual ao lado de um gauge.
@@ -81,10 +81,10 @@ Site vs Portal não é opcional: componente usado pelo site vai em Site; compone
 - Cor é exceção, não decoração: linha dentro da meta fica neutra (primary) + ✓; só quem erra a meta ganha warning/error.
 - Publicado como **v1.8.0** e já consumido pelo portal (`^1.8.0`, install real, não cópia de `dist/`).
 
-**Sessão de 23/07 (parte 2) — showroom no mobile, NÃO publicado:**
+**Sessão de 23/07 (parte 2) — showroom no mobile (publicado como v1.9.0):**
 - Abaixo de 768px o showroom perdia a navegação inteira (`.sidebar { display: none }` sem substituto): dava para abrir no celular, mas não para sair da página que tivesse carregado. Agora a sidebar vira **drawer off-canvas** e uma barra fixa no topo (o `TopBar` do DS) traz o hambúrguer, o wordmark e o toggle de tema.
 - Drawer se comporta como modal: Esc fecha e devolve o foco ao hambúrguer, Tab fica preso dentro dele, o fundo não rola, o scrim fecha ao toque, e escolher uma página fecha o drawer.
-- `TopBar` ganhou três props aditivas: `menuButtonRef`, `menuButtonLabel`, `menuExpanded`. **Isso muda o pacote publicado → precisa de release (v1.9.0).**
+- `TopBar` ganhou três props aditivas: `menuButtonRef`, `menuButtonLabel`, `menuExpanded` (motivo do release v1.9.0). O portal ainda não as usa; quando for mexer no `AppShell` dele, vale ligar o retorno de foco.
 - `ComponentViewer` nunca teve media query: era um "desk" de duas colunas que empurrava a página de lado (390px de viewport rolando 898px). Abaixo de 768px cada split vira coluna única, o rail desce para baixo do conteúdo e a barra de abas rola dentro de si.
 - **Armadilha aprendida (duas vezes na mesma sessão, o mesmo princípio):** item de flex/grid não encolhe abaixo do conteúdo sem `min-width: 0` — foi o que fez o `.main` esticar a página. E um elemento colocado dentro de um container `display: flex` em row (a barra mobile dentro do `.layout`) fica AO LADO do conteúdo, não acima: a barra precisa ser `position: fixed`.
 - Varredura de 42 páginas do showroom a 390px: nenhuma com rolagem horizontal. Desktop (1440) e tablet (820) sem regressão.
