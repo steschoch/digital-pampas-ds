@@ -1,6 +1,6 @@
 {
   "name": "@steschoch/digital-pampas-ds",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "type": "module",
   "description": "Digital Pampas Design System — tokens and React components. Single source of truth.",
   "repository": {
