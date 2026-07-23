@@ -17,6 +17,12 @@ export interface StatCardProps {
   badge?: ReactNode
   /** Optional slot below (e.g. a Sparkline). */
   children?: ReactNode
+  /**
+   * 'hero' promotes this card to the protagonist metric of a view: bigger
+   * number, roomier box. Use at most ONE per view — the point is that one
+   * figure leads instead of a row of equals. Default: 'default'.
+   */
+  emphasis?: 'default' | 'hero'
   loading?: boolean
   className?: string
 }
@@ -25,12 +31,16 @@ export interface StatCardProps {
  * StatCard — KPI card: label, big value, optional delta (↑/↓ with good/bad
  * color), badge, and a slot (e.g. Sparkline). Renders skeletons when loading.
  */
-export function StatCard({ label, value, delta, badge, children, loading, className }: StatCardProps) {
+export function StatCard({ label, value, delta, badge, children, emphasis = 'default', loading, className }: StatCardProps) {
+  const rootClass = [styles.card, emphasis === 'hero' ? styles.hero : '', className]
+    .filter(Boolean)
+    .join(' ')
+
   if (loading) {
     return (
-      <div className={[styles.card, className].filter(Boolean).join(' ')}>
+      <div className={rootClass}>
         <Skeleton variant="text" width="50%" />
-        <Skeleton variant="rect" width="70%" height={32} />
+        <Skeleton variant="rect" width="70%" height={emphasis === 'hero' ? 48 : 32} />
         <Skeleton variant="text" width="40%" />
       </div>
     )
@@ -39,7 +49,7 @@ export function StatCard({ label, value, delta, badge, children, loading, classN
   const good = delta ? (delta.direction === 'up') === (delta.positiveIsGood ?? true) : false
 
   return (
-    <div className={[styles.card, className].filter(Boolean).join(' ')}>
+    <div className={rootClass}>
       <div className={styles.head}>
         <span className={styles.label}>{label}</span>
         {badge && <span className={styles.badge}>{badge}</span>}

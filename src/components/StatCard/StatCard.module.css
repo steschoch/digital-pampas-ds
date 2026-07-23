@@ -56,3 +56,20 @@
 .slot {
   margin-top: var(--dp-space-50);
 }
+
+/* ── Hero — the protagonist metric of a view ──────────────────────
+   One number leads, the rest support. Deliberately below the page H1
+   (48px) so it dominates its own row without fighting the page title. */
+.hero {
+  padding: var(--dp-space-300);
+  gap: var(--dp-space-100);
+  justify-content: center;
+}
+
+.hero .label {
+  font-size: var(--dp-font-size-62);
+}
+
+.hero .value {
+  font-size: var(--dp-font-size-400);
+}
