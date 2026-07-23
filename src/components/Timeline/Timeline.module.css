@@ -148,6 +148,20 @@
 .animate:not(.playing) .statusText_active,
 .animate:not(.playing) .statusText_delayed { color: var(--tl-muted); }
 
+/* The component sets .playing immediately under reduced motion (skips the
+   scroll wait), but that alone isn't enough: without this, the CSS transition
+   above would still interpolate through the pre-reveal look for its full
+   duration + stagger delay. Killing the transition makes the swap instant. */
+@media (prefers-reduced-motion: reduce) {
+  .animate .node,
+  .animate .connector,
+  .animate .statusText_done,
+  .animate .statusText_active,
+  .animate .statusText_delayed {
+    transition: none;
+  }
+}
+
 /* ── Detailed ── */
 .detail { display: flex; flex-direction: column; gap: var(--dp-space-75); margin-top: var(--dp-space-75); }
 .description { margin: 0; font-family: var(--dp-sem-font-body); font-size: var(--dp-font-size-56); line-height: var(--dp-sem-leading-body); color: var(--tl-muted); }
