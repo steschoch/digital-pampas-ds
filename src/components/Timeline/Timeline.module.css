@@ -107,6 +107,47 @@
 .vertical .connectorDone { background: var(--tl-done); }
 .vertical .content { display: flex; flex-direction: column; gap: var(--dp-space-50); padding-top: 3px; }
 
+/* ── Animated reveal (opt-in via the `animate` prop) ─────────────────
+   Done/active/delayed phases start looking like "upcoming" (dotted, no
+   fill, glyph hidden) and reveal their true status in sequence as the
+   timeline scrolls into view. Pending phases get no override — they
+   already read as "not done yet" from the first frame, so there's
+   nothing to animate there. Plays once; skipped under reduced motion
+   (the component sets .playing immediately in that case). */
+.animate .node {
+  transition:
+    background-color var(--dp-duration-base) var(--dp-easing-default),
+    border-color      var(--dp-duration-base) var(--dp-easing-default),
+    border-style      var(--dp-duration-base) var(--dp-easing-default),
+    color             var(--dp-duration-fast) var(--dp-easing-default),
+    transform         var(--dp-duration-slow) var(--dp-easing-spring);
+  transition-delay: calc(var(--i, 0) * var(--tl-anim-step, 110ms));
+}
+.animate .connector {
+  transition: background-color var(--dp-duration-base) var(--dp-easing-default);
+  transition-delay: calc((var(--i, 0) + 0.5) * var(--tl-anim-step, 110ms));
+}
+.animate .statusText_done,
+.animate .statusText_active,
+.animate .statusText_delayed {
+  transition: color var(--dp-duration-base) var(--dp-easing-default);
+  transition-delay: calc(var(--i, 0) * var(--tl-anim-step, 110ms));
+}
+
+.animate:not(.playing) .node_done,
+.animate:not(.playing) .node_active,
+.animate:not(.playing) .node_delayed {
+  background: none;
+  border: 2px dotted var(--tl-upcoming);
+  color: transparent;
+  animation: none;
+  transform: scale(0.82);
+}
+.animate:not(.playing) .connectorDone { background: var(--tl-line); }
+.animate:not(.playing) .statusText_done,
+.animate:not(.playing) .statusText_active,
+.animate:not(.playing) .statusText_delayed { color: var(--tl-muted); }
+
 /* ── Detailed ── */
 .detail { display: flex; flex-direction: column; gap: var(--dp-space-75); margin-top: var(--dp-space-75); }
 .description { margin: 0; font-family: var(--dp-sem-font-body); font-size: var(--dp-font-size-56); line-height: var(--dp-sem-leading-body); color: var(--tl-muted); }

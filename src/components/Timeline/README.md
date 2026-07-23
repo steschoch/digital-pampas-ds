@@ -47,7 +47,20 @@ Estados **por fase** (prop `status` de cada `TimelinePhase`):
 | `phases` | `TimelinePhase[]` | — (obrigatório) | Fases a exibir (ver forma abaixo). |
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Direção do trilho. |
 | `density` | `'minimal' \| 'compact' \| 'detailed'` | `'compact'` | Quanto detalhe renderizar por fase. |
+| `animate` | `boolean` | `false` | Revela fases done/active/delayed em sequência ao entrar na tela, em vez de aparecerem instantâneas. Toca uma vez. |
 | `className` | `string` | `undefined` | Classe extra no `<ol>`. |
+
+## Animação (`animate`)
+
+Com `animate`, as fases **done/active/delayed** começam com a aparência de "upcoming" (pontilhado, cinza, sem preenchimento) e revelam sua cor real em sequência, da primeira fase até a última, quando o componente entra na viewport. As fases **upcoming** não precisam de nenhuma animação: elas já nascem corretas (pontilhado/cinza), então continuam exatamente como estão do primeiro frame ao último, correta e visivelmente mostrando "o que ainda não foi feito, mas está por fazer".
+
+```tsx
+<Timeline phases={phases} orientation="horizontal" density="compact" animate />
+```
+
+- Toca **uma vez** (via `IntersectionObserver`), não fica repetindo.
+- Sob `prefers-reduced-motion`, o estado final aparece direto, sem a revelação.
+- Sem `animate` (default), o comportamento é idêntico ao de antes desta prop existir: nada muda para quem já usa `Timeline` sem essa flag (`CampaignCard`, `CampaignDetailView`).
 
 **`TimelinePhase`** = `{ id: string; label: string; description?: string; status: PhaseStatus; plannedStart?: string; plannedEnd?: string; startedAt?: string; completedAt?: string; deliverables?: string[] }`
 **`PhaseStatus`** = `'done' | 'active' | 'upcoming' | 'delayed'`
@@ -79,12 +92,13 @@ const phases: TimelinePhase[] = [
 - Renderizado como `<ol>`/`<li>` — a ordem das fases é semântica.
 - O status é **texto** visível (não só cor): cada fase mostra `done`/`active`/`upcoming`/`delayed`. Os glifos "✓" e "!" nos nós são `aria-hidden` (decorativos), assim como conectores.
 - A animação de pulso do nó `active` respeita `prefers-reduced-motion`.
+- A revelação de `animate` também respeita `prefers-reduced-motion`: o estado final aparece sem transição.
 - Não codifique status apenas por cor — mantenha o texto de status habilitado (evite ocultá-lo via CSS custom).
 
 ## Dependências
 
 **Tokens consumidos** (do `Timeline.module.css`):
-`--dp-color-on-primary`, `--dp-color-on-surface`, `--dp-color-on-surface-variant`, `--dp-color-outline`, `--dp-color-outline-variant`, `--dp-color-primary`, `--dp-color-warning`, `--dp-font-size-25`, `--dp-font-size-37`, `--dp-font-size-56`, `--dp-font-size-62`, `--dp-font-weight-bold`, `--dp-font-weight-semibold`, `--dp-sem-font-body`, `--dp-sem-font-code`, `--dp-sem-font-display`, `--dp-sem-leading-body`, `--dp-sem-radius-circle`, `--dp-sem-tracking-caps`, `--dp-space-50`, `--dp-space-75`, `--dp-space-150`, `--dp-space-300`
+`--dp-color-on-primary`, `--dp-color-on-surface`, `--dp-color-on-surface-variant`, `--dp-color-outline`, `--dp-color-outline-variant`, `--dp-color-primary`, `--dp-color-warning`, `--dp-duration-base`, `--dp-duration-fast`, `--dp-duration-slow`, `--dp-easing-default`, `--dp-easing-spring`, `--dp-font-size-25`, `--dp-font-size-37`, `--dp-font-size-56`, `--dp-font-size-62`, `--dp-font-weight-bold`, `--dp-font-weight-semibold`, `--dp-sem-font-body`, `--dp-sem-font-code`, `--dp-sem-font-display`, `--dp-sem-leading-body`, `--dp-sem-radius-circle`, `--dp-sem-tracking-caps`, `--dp-space-50`, `--dp-space-75`, `--dp-space-150`, `--dp-space-300`
 
 **Componentes do DS usados:** nenhum
 
