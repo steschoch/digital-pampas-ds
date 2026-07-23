@@ -149,16 +149,20 @@
 .animate:not(.playing) .statusText_delayed { color: var(--tl-muted); }
 
 /* The component sets .playing immediately under reduced motion (skips the
-   scroll wait), but that alone isn't enough: without this, the CSS transition
-   above would still interpolate through the pre-reveal look for its full
-   duration + stagger delay. Killing the transition makes the swap instant. */
+   scroll wait), but that alone isn't enough: the base rule above still sets
+   a transition-delay per phase (the stagger), and the project-wide reduced-
+   motion rule (globals.css) only zeroes transition-DURATION, not the delay —
+   so each phase would still sit in its pre-reveal look for up to its full
+   stagger delay before snapping. !important on property + delay (matching
+   how the project's own global rule forces duration) makes it instant. */
 @media (prefers-reduced-motion: reduce) {
   .animate .node,
   .animate .connector,
   .animate .statusText_done,
   .animate .statusText_active,
   .animate .statusText_delayed {
-    transition: none;
+    transition-property: none !important;
+    transition-delay: 0s !important;
   }
 }
 
