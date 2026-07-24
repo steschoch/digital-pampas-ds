@@ -72,7 +72,11 @@ Site vs Portal não é opcional: componente usado pelo site vai em Site; compone
 
 ## Estado atual (2026-07-24)
 
-**Versão publicada:** v1.10.0 no GitHub Packages.
+**Versão publicada:** v1.10.1 no GitHub Packages.
+
+**v1.10.1 — dois ajustes pedidos pelo cliente em `HowWeBuildIt`:**
+- Campaign Dashboard (Launch) na ordem final: Emails Sent | Replies em cima, Reply Rate | Meetings embaixo.
+- Travessão removido do preview da fase Sequences ("Curious: are you still…"). **Regra da Ste: travessão (—) é proibido em qualquer texto de produto.** Ao escrever copy em componente do DS, usar vírgula, dois-pontos ou ponto.
 
 **Sessão de 24/07 — `HowWeBuildIt`: demo ao lado da narrativa (v1.10.0):**
 - O card de detalhe de cada fase virou grade de 2 colunas (`.cardText` / `.cardDemo`): narrativa à esquerda, sub-painel de demonstração à direita, espelhando `.panel-left`/`.panel-right` do site atual do cliente. Abaixo de 1024px colapsa para uma coluna.

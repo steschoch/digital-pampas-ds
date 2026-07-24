@@ -160,7 +160,7 @@ function ScorePanel() {
 
 function SequencePanel() {
   const touches: { day: string; channel: string; subject: string; preview: string }[] = [
-    { day: 'Day 1', channel: 'EMAIL', subject: 'Quick question about your sales ops at {{company}}', preview: 'Hi {{first_name}}, Saw you recently hired {{hiring_signal}}. Curious — are you still manually qualifying leads?' },
+    { day: 'Day 1', channel: 'EMAIL', subject: 'Quick question about your sales ops at {{company}}', preview: 'Hi {{first_name}}, Saw you recently hired {{hiring_signal}}. Curious: are you still manually qualifying leads?' },
     { day: 'Day 3', channel: 'LINKEDIN', subject: 'Connection Request + Note', preview: "Hi {{first_name}}, noticed we're both focused on scaling B2B sales. Would love to connect!" },
     { day: 'Day 6', channel: 'EMAIL', subject: 'Re: Quick question about your sales ops', preview: '{{first_name}}, I know {{company}} is focused on {{pain_point}}. Quick 15-min call this week?' },
     { day: 'Day 10', channel: 'EMAIL', subject: '[Case Study] How {{similar_company}} automated their pipeline', preview: '{{first_name}}, {{similar_company}} went from 0 to 10 qualified meetings in 30 days using our system.' },
@@ -187,14 +187,14 @@ function SequencePanel() {
 
 function LaunchPanel() {
   /* 2×2 grid, read left to right:
-       Emails Sent | Reply Rate
-       Replies     | Meetings
-     Array order follows the visual reading order (not the funnel order), so a
-     screen reader walks the grid the same way the eye does. */
+       Emails Sent | Replies
+       Reply Rate  | Meetings
+     Array order is also the visual reading order, so a screen reader walks the
+     grid the same way the eye does. */
   const metrics: { value: string; label: string; accent: 'cyan' | 'coral' }[] = [
     { value: '847', label: 'Emails Sent', accent: 'cyan' },
-    { value: '18%', label: 'Reply Rate', accent: 'cyan' },
     { value: '156', label: 'Replies', accent: 'cyan' },
+    { value: '18%', label: 'Reply Rate', accent: 'cyan' },
     { value: '12', label: 'Meetings', accent: 'coral' },
   ];
   return (
