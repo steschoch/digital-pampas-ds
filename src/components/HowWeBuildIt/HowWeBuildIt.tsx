@@ -186,10 +186,15 @@ function SequencePanel() {
 }
 
 function LaunchPanel() {
+  /* 2×2 grid, read left to right:
+       Emails Sent | Reply Rate
+       Replies     | Meetings
+     Array order follows the visual reading order (not the funnel order), so a
+     screen reader walks the grid the same way the eye does. */
   const metrics: { value: string; label: string; accent: 'cyan' | 'coral' }[] = [
     { value: '847', label: 'Emails Sent', accent: 'cyan' },
-    { value: '156', label: 'Replies', accent: 'cyan' },
     { value: '18%', label: 'Reply Rate', accent: 'cyan' },
+    { value: '156', label: 'Replies', accent: 'cyan' },
     { value: '12', label: 'Meetings', accent: 'coral' },
   ];
   return (
@@ -399,6 +404,18 @@ export function HowWeBuildIt() {
     const a: Accent = ACCENTS[phaseIdx];
     const Pnl = p.panel;
     const pid = `hwbi-panel-${phaseIdx}`;
+    /* Tool + duration pills. On desktop they sit at the top of the demo column,
+       on the same line as the phase number. Below 1024px there is no second
+       column, so they go back to the top of the card next to the title. */
+    const badgesOnDemo = !isMobileLayout;
+    const badges = (
+      <div className={styles.badges}>
+        {p.tools.map((t) => (
+          <span key={t} className={styles.badge}>{t}</span>
+        ))}
+        <span className={`${styles.badge} ${styles.badgeDur}`}>{p.dur}</span>
+      </div>
+    );
     return (
       <div
         id={pid}
@@ -408,40 +425,41 @@ export function HowWeBuildIt() {
         className={`${styles.detailCard} ${styles[`detail-${a}`]}`}
         key={phaseIdx}
       >
-        {/* Top row: phase num + title + badges */}
-        <div className={styles.detailTop}>
-          <div className={styles.detailTopLeft}>
-            <span className={`${styles.phaseNum} ${styles[`color-${a}`]}`}>{p.num}</span>
-            <h3 className={styles.phaseTitle}>{p.title}</h3>
+        {/* Left column (top block below 1024px): narrative */}
+        <div className={styles.cardText}>
+          {/* Top row: phase num + title + badges */}
+          <div className={styles.detailTop}>
+            <div className={styles.detailTopLeft}>
+              <span className={`${styles.phaseNum} ${styles[`color-${a}`]}`}>{p.num}</span>
+              <h3 className={styles.phaseTitle}>{p.title}</h3>
+            </div>
+            {!badgesOnDemo && badges}
           </div>
-          <div className={styles.badges}>
-            {p.tools.map((t) => (
-              <span key={t} className={styles.badge}>{t}</span>
+
+          {/* Bullets */}
+          <ul className={styles.bullets} aria-label="What we do in this phase">
+            {p.bullets.map((b) => (
+              <li key={b} className={styles.bullet}>
+                <span className={`${styles.bulletDot} ${styles[`color-${a}`]}`} aria-hidden="true">
+                  ●
+                </span>
+                <span>{b}</span>
+              </li>
             ))}
-            <span className={`${styles.badge} ${styles.badgeDur}`}>{p.dur}</span>
+          </ul>
+
+          {/* YOU GET box */}
+          <div className={styles.youGetBox}>
+            <span className={styles.youGetLabel}>YOU GET:</span>
+            <p className={styles.youGetText}>{p.youGet}</p>
           </div>
         </div>
 
-        {/* Bullets */}
-        <ul className={styles.bullets} aria-label="What we do in this phase">
-          {p.bullets.map((b) => (
-            <li key={b} className={styles.bullet}>
-              <span className={`${styles.bulletDot} ${styles[`color-${a}`]}`} aria-hidden="true">
-                ●
-              </span>
-              <span>{b}</span>
-            </li>
-          ))}
-        </ul>
-
-        {/* YOU GET box */}
-        <div className={styles.youGetBox}>
-          <span className={styles.youGetLabel}>YOU GET:</span>
-          <p className={styles.youGetText}>{p.youGet}</p>
+        {/* Right column (bottom block below 1024px): live demo */}
+        <div className={styles.cardDemo}>
+          {badgesOnDemo && badges}
+          <Pnl />
         </div>
-
-        {/* Sub-panel */}
-        <Pnl />
       </div>
     );
   };

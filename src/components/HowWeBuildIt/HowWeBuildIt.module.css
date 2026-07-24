@@ -21,6 +21,16 @@
     height: calc(100vh - var(--dp-nav-height));
     overflow: hidden;
     padding-block: var(--dp-space-300); /* 32px — condensed to fit viewport */
+
+    /* With the demo sitting beside the copy the card is much shorter, so center
+       the block: otherwise it leaves a large empty band at the bottom of the
+       sticky viewport. */
+    display: flex;
+    align-items: center;
+  }
+
+  .container {
+    width: 100%;
   }
 }
 
@@ -358,10 +368,48 @@
   padding: var(--dp-space-300);               /* 32px */
   animation: fadeSlideIn 0.35s cubic-bezier(.16, 1, .3, 1) both;
   outline: none;
+
+  /* Narrative and demo side by side; collapses to one column below 1024px */
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: var(--dp-space-250);                   /* 28px between columns */
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .detailCard {
+    grid-template-columns: 1fr;
+    gap: var(--dp-space-150);
+  }
 }
 
 .detailCard:focus-visible {
   box-shadow: 0 0 0 var(--dp-sem-stroke-focus) var(--dp-color-primary);
+}
+
+/* ─── Card columns: narrative left, live demo right ──────────────── */
+/* Mirrors the two-column layout of the phase panels on digitalpampas.com. */
+
+.cardText,
+.cardDemo {
+  min-width: 0;
+}
+
+/* Right column: pills on top (aligned with the phase number), demo below */
+.cardDemo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--dp-space-100);
+}
+
+/* Spacing between the two blocks comes from the card's grid gap, so the
+   stacked-layout margins on these two children are dropped. */
+.cardDemo .subPanel {
+  margin-top: 0;
+}
+
+.cardText .youGetBox {
+  margin-bottom: 0;
 }
 
 /* data-color-scheme="dark" on the element → globals.css handles all tokens automatically */
@@ -649,11 +697,17 @@
 .prospectTable {
   display: flex;
   flex-direction: column;
+
+  /* Identical columns on every row. Each .prospectRow is its own grid, and a
+     bare `fr` track has an automatic min-content floor — so each row sized its
+     tracks from its own text and the header drifted out of alignment.
+     minmax(0, …) removes that floor; the status column gets a fixed width. */
+  --pc-cols: 30px minmax(0, 1.1fr) minmax(0, 1.3fr) minmax(0, 0.9fr) 92px;
 }
 
 .prospectRow {
   display: grid;
-  grid-template-columns: 30px 1.1fr 1.3fr 0.9fr auto;
+  grid-template-columns: var(--pc-cols);
   align-items: center;
   gap: var(--dp-space-75);
   padding: var(--dp-space-50) var(--dp-space-100);
@@ -707,8 +761,16 @@
   color: var(--dp-color-on-surface-variant);
 }
 
+/* Every column left-aligned. STATUS used to be justify-self:end, which pushed
+   the header label right of the "Qualified" pill on the rows below it. */
 .pcStatus {
-  justify-self: end;
+  justify-self: start;
+}
+
+/* The header label takes the pill's own horizontal inset (border + padding), so
+   "STATUS" starts exactly where the "Qualified" text starts. */
+.prospectHead .pcStatus {
+  padding-left: calc(var(--dp-space-50) + var(--dp-sem-stroke-border));
 }
 
 .statusPill {
@@ -796,12 +858,13 @@
   flex: 1;
 }
 
+/* Title and tool chips stacked, as on the client's current site. They used to
+   share one row with space-between, which threw the chips to the far right. */
 .enrichTop {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--dp-space-50);
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--dp-space-37);
 }
 
 .enrichTitle {
@@ -984,7 +1047,7 @@
 
 .launchGrid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);   /* 2×2: emails/reply rate on top, replies/meetings below */
   gap: var(--dp-space-62);
   padding: var(--dp-space-100);
 }
@@ -1136,13 +1199,9 @@
     padding: var(--dp-space-150);      /* 20px */
   }
 
-  .launchGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   /* Tighten the prospect table on very small screens: drop the industry column */
-  .prospectRow {
-    grid-template-columns: 26px 1.2fr 1.4fr auto;
+  .prospectTable {
+    --pc-cols: 26px minmax(0, 1.2fr) minmax(0, 1.4fr) 88px;
   }
 
   .pcIndustry {
@@ -1176,10 +1235,6 @@
     padding: var(--dp-space-75);
     margin-top: var(--dp-space-62);
     margin-bottom: var(--dp-space-50);
-  }
-
-  .subPanel {
-    margin-top: var(--dp-space-62);
   }
 }
 

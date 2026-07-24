@@ -22,8 +22,8 @@ Este componente não possui variantes de prop. Ele tem dois **layouts responsivo
 
 | Layout | Condição | Descrição |
 |---|---|---|
-| desktop | `> 1024px` | Sidebar sticky de abas (`role="tablist"` vertical) + card de detalhe; a fase ativa avança conforme o scroll (350px por fase). |
-| mobile/tablet | `≤ 1024px` | Acordeão vertical (`role="tablist"` com `aria-expanded`); clique abre a fase. |
+| desktop | `> 1024px` | Sidebar sticky de abas (`role="tablist"` vertical) + card de detalhe; a fase ativa avança conforme o scroll (350px por fase). O card de detalhe é uma grade de 2 colunas: narrativa à esquerda (número, título, bullets, "YOU GET") e demonstração à direita (pílulas de ferramenta/duração no topo, alinhadas ao número da fase, e o sub-painel abaixo). |
+| mobile/tablet | `≤ 1024px` | Acordeão vertical (`role="tablist"` com `aria-expanded`); clique abre a fase. O card de detalhe vira uma coluna só e as pílulas voltam para o topo, ao lado do título (`badgesOnDemo`). |
 
 Cada fase tem uma cor de destaque (accent) por índice: cyan, sky, indigo, plum, coral, cyan.
 

@@ -70,9 +70,16 @@ Site vs Portal não é opcional: componente usado pelo site vai em Site; compone
 
 ---
 
-## Estado atual (2026-07-23)
+## Estado atual (2026-07-24)
 
-**Versão publicada:** v1.9.0 no GitHub Packages.
+**Versão publicada:** v1.10.0 no GitHub Packages.
+
+**Sessão de 24/07 — `HowWeBuildIt`: demo ao lado da narrativa (v1.10.0):**
+- O card de detalhe de cada fase virou grade de 2 colunas (`.cardText` / `.cardDemo`): narrativa à esquerda, sub-painel de demonstração à direita, espelhando `.panel-left`/`.panel-right` do site atual do cliente. Abaixo de 1024px colapsa para uma coluna.
+- As pílulas de ferramenta/duração saíram do `.detailTop` e foram para o topo da coluna direita, alinhadas ao número da fase. No mobile não existe segunda coluna, então a flag `badgesOnDemo` as devolve para o topo do card.
+- Campaign Dashboard (fase Launch) em 2×2; o array `metrics` segue a ordem visual de leitura, não a do funil, para DOM e olho percorrerem a grade igual.
+- **Armadilha aprendida (grid por linha + `fr`):** cada `.prospectRow` é um grid próprio, e track em `fr` puro tem piso automático de `min-content`. Resultado: cada linha dimensionava as colunas pelo próprio conteúdo e o cabeçalho da tabela derivava até 22px das linhas de dados. Quando linhas irmãs precisam compartilhar colunas, ou se usa um grid único / `subgrid`, ou se tira o piso com `minmax(0, …)` e se fixa as colunas de conteúdo variável (aqui, `--pc-cols` no `.prospectTable`).
+- Como o card ficou muito mais baixo, a `.section` sticky do desktop passou a centralizar o conteúdo verticalmente.
 
 **Sessão de 23/07 — `MeterBar` + `MeterList` (Portal, categoria Pattern):**
 - Uma métrica por linha (bullet chart compacto): rótulo, valor, trilha com barra e marca da meta, benchmark por extenso. Criado para o redesign dos channel cards do portal (Email/LinkedIn), que empilhavam quatro números de peso igual ao lado de um gauge.
